@@ -5,3 +5,17 @@
 #endif
 
 #include "xsd++/module.h"
+
+static const char* const module_names[] = {
+  "base64",
+  "boolean",
+  "date",
+  "datetime",
+  "decimal",
+  "double",
+  "float",
+  "integer",
+  "string",
+  "time",
+  nullptr
+};

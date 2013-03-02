@@ -5,3 +5,14 @@
 #endif
 
 #include "xsd++/feature.h"
+
+static const char* const feature_names[] = {
+  "ascii",
+#ifndef NDEBUG
+  "debug",
+#endif
+#ifndef DISABLE_UNICODE
+  "unicode",
+#endif
+  nullptr
+};
