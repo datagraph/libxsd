@@ -11,6 +11,7 @@ libxsd___la_SOURCES =     \
   datetime.cc             \
   decimal.cc              \
   double.cc               \
+  extern.cc               \
   feature.cc              \
   float.cc                \
   integer.cc              \
@@ -28,6 +29,7 @@ base_pkginclude_HEADERS = \
   datetime.h              \
   decimal.h               \
   double.h                \
+  extern.h                \
   feature.h               \
   float.h                 \
   integer.h               \
