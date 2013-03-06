@@ -5,3 +5,20 @@
 #endif
 
 #include "xsd++/time.h"
+
+using namespace xsd;
+
+bool
+time::match(const std::string& literal) noexcept {
+  return (void)literal, false; // TODO
+}
+
+bool
+time::validate() const noexcept {
+  return true; // TODO
+}
+
+bool
+time::canonicalize() noexcept {
+  return false; // TODO
+}

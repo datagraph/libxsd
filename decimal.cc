@@ -5,3 +5,20 @@
 #endif
 
 #include "xsd++/decimal.h"
+
+using namespace xsd;
+
+bool
+decimal::match(const std::string& literal) noexcept {
+  return (void)literal, false; // TODO
+}
+
+bool
+decimal::validate() const noexcept {
+  return true; // TODO
+}
+
+bool
+decimal::canonicalize() noexcept {
+  return false; // TODO
+}

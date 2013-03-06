@@ -3,7 +3,20 @@
 #ifndef XSDXX_STRING_H
 #define XSDXX_STRING_H
 
+#include "xsd++/value.h"
+
 namespace xsd {
+  class string : public value {
+    public:
+      static bool match(const std::string& literal) noexcept;
+
+      string(const std::string& literal)
+        : value(literal) {}
+
+      virtual bool validate() const noexcept override;
+
+      virtual bool canonicalize() noexcept override;
+  };
 }
 
 #endif /* XSDXX_STRING_H */

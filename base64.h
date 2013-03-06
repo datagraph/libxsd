@@ -3,7 +3,20 @@
 #ifndef XSDXX_BASE64_H
 #define XSDXX_BASE64_H
 
+#include "xsd++/value.h"
+
 namespace xsd {
+  class base64 : public value {
+    public:
+      static bool match(const std::string& literal) noexcept;
+
+      base64(const std::string& literal)
+        : value(literal) {}
+
+      virtual bool validate() const noexcept override;
+
+      virtual bool canonicalize() noexcept override;
+  };
 }
 
 #endif /* XSDXX_BASE64_H */

@@ -5,3 +5,20 @@
 #endif
 
 #include "xsd++/boolean.h"
+
+using namespace xsd;
+
+bool
+boolean::match(const std::string& literal) noexcept {
+  return (void)literal, false; // TODO
+}
+
+bool
+boolean::validate() const noexcept {
+  return true; // TODO
+}
+
+bool
+boolean::canonicalize() noexcept {
+  return false; // TODO
+}
