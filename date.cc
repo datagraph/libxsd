@@ -19,7 +19,7 @@ date::match(const std::string& literal) noexcept {
 
 bool
 date::validate() const noexcept {
-  return true; // TODO
+  return date::match(_literal);
 }
 
 bool

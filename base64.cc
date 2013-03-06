@@ -19,7 +19,7 @@ base64::match(const std::string& literal) noexcept {
 
 bool
 base64::validate() const noexcept {
-  return true; // TODO
+  return base64::match(_literal);
 }
 
 bool

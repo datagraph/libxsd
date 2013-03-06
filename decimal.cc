@@ -19,7 +19,7 @@ decimal::match(const std::string& literal) noexcept {
 
 bool
 decimal::validate() const noexcept {
-  return true; // TODO
+  return decimal::match(_literal);
 }
 
 bool

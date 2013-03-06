@@ -19,7 +19,7 @@ time::match(const std::string& literal) noexcept {
 
 bool
 time::validate() const noexcept {
-  return true; // TODO
+  return time::match(_literal);
 }
 
 bool

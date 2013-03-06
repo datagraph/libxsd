@@ -19,7 +19,7 @@ double_::match(const std::string& literal) noexcept {
 
 bool
 double_::validate() const noexcept {
-  return true; // TODO
+  return double_::match(_literal);
 }
 
 bool

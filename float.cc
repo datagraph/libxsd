@@ -19,7 +19,7 @@ float_::match(const std::string& literal) noexcept {
 
 bool
 float_::validate() const noexcept {
-  return true; // TODO
+  return float_::match(_literal);
 }
 
 bool

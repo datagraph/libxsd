@@ -19,7 +19,7 @@ integer::match(const std::string& literal) noexcept {
 
 bool
 integer::validate() const noexcept {
-  return true; // TODO
+  return integer::match(_literal);
 }
 
 bool

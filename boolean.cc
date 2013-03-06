@@ -19,7 +19,7 @@ boolean::match(const std::string& literal) noexcept {
 
 bool
 boolean::validate() const noexcept {
-  return true; // TODO
+  return boolean::match(_literal);
 }
 
 bool

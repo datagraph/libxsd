@@ -19,7 +19,7 @@ datetime::match(const std::string& literal) noexcept {
 
 bool
 datetime::validate() const noexcept {
-  return true; // TODO
+  return datetime::match(_literal);
 }
 
 bool
