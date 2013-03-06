@@ -10,7 +10,7 @@ namespace xsd {
     public:
       virtual bool validate() const noexcept = 0;
 
-      virtual bool canonicalize() noexcept = 0;
+      virtual bool canonicalize() = 0;
 
       bool operator==(const value& other) const {
         return _literal == other._literal;
