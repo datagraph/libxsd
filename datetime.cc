@@ -6,11 +6,15 @@
 
 #include "xsd++/datetime.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex datetime_regex(datetime::pattern);
 
 bool
 datetime::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, datetime_regex);
 }
 
 bool

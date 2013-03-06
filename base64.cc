@@ -6,11 +6,15 @@
 
 #include "xsd++/base64.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex base64_regex(base64::pattern);
 
 bool
 base64::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, base64_regex);
 }
 
 bool

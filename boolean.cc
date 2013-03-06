@@ -6,11 +6,15 @@
 
 #include "xsd++/boolean.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex boolean_regex(boolean::pattern);
 
 bool
 boolean::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, boolean_regex);
 }
 
 bool

@@ -6,11 +6,15 @@
 
 #include "xsd++/float.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex float_regex(float_::pattern);
 
 bool
 float_::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, float_regex);
 }
 
 bool

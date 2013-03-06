@@ -6,11 +6,15 @@
 
 #include "xsd++/string.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex string_regex(string::pattern);
 
 bool
 string::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, string_regex);
 }
 
 bool

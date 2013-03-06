@@ -6,11 +6,15 @@
 
 #include "xsd++/decimal.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex decimal_regex(decimal::pattern);
 
 bool
 decimal::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, decimal_regex);
 }
 
 bool

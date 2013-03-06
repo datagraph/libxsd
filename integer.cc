@@ -6,11 +6,15 @@
 
 #include "xsd++/integer.h"
 
+#include <regex> /* for std::regex, std::regex_match() */
+
 using namespace xsd;
+
+static const std::regex integer_regex(integer::pattern);
 
 bool
 integer::match(const std::string& literal) noexcept {
-  return (void)literal, false; // TODO
+  return std::regex_match(literal, integer_regex);
 }
 
 bool
