@@ -8,6 +8,10 @@
 namespace xsd {
   class date : public value {
     public:
+      static constexpr char name[]    = "date";
+      static constexpr char pattern[] = "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$";
+      static constexpr bool captures  = 6;
+
       static bool match(const std::string& literal) noexcept;
 
       date(const std::string& literal)

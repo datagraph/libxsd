@@ -8,6 +8,10 @@
 namespace xsd {
   class float_ : public value {
     public:
+      static constexpr char name[]    = "float";
+      static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
+      static constexpr bool captures  = 6;
+
       static bool match(const std::string& literal) noexcept;
 
       float_(const std::string& literal)

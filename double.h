@@ -8,6 +8,10 @@
 namespace xsd {
   class double_ : public value {
     public:
+      static constexpr char name[]    = "double";
+      static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
+      static constexpr bool captures  = 6;
+
       static bool match(const std::string& literal) noexcept;
 
       double_(const std::string& literal)

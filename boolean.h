@@ -8,6 +8,10 @@
 namespace xsd {
   class boolean : public value {
     public:
+      static constexpr char name[]    = "boolean";
+      static constexpr char pattern[] = "^(true|false|1|0)$";
+      static constexpr bool captures  = 1;
+
       static bool match(const std::string& literal) noexcept;
 
       boolean(const std::string& literal)

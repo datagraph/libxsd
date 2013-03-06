@@ -8,6 +8,10 @@
 namespace xsd {
   class datetime : public value {
     public:
+      static constexpr char name[]    = "dateTime";
+      static constexpr char pattern[] = "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$";
+      static constexpr bool captures  = 10;
+
       static bool match(const std::string& literal) noexcept;
 
       datetime(const std::string& literal)

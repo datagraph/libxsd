@@ -8,6 +8,10 @@
 namespace xsd {
   class string : public value {
     public:
+      static constexpr char name[]    = "string";
+      static constexpr char pattern[] = "^(.*)$";
+      static constexpr bool captures  = 1;
+
       static bool match(const std::string& literal) noexcept;
 
       string(const std::string& literal)

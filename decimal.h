@@ -8,6 +8,10 @@
 namespace xsd {
   class decimal : public value {
     public:
+      static constexpr char name[]    = "decimal";
+      static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$";
+      static constexpr bool captures  = 4;
+
       static bool match(const std::string& literal) noexcept;
 
       decimal(const std::string& literal)

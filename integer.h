@@ -8,6 +8,10 @@
 namespace xsd {
   class integer : public value {
     public:
+      static constexpr char name[]    = "integer";
+      static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
+      static constexpr bool captures  = 3;
+
       static bool match(const std::string& literal) noexcept;
 
       integer(const std::string& literal)

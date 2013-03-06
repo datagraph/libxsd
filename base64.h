@@ -8,6 +8,10 @@
 namespace xsd {
   class base64 : public value {
     public:
+      static constexpr char name[]    = "base64Binary";
+      static constexpr char pattern[] = "^(.*)$"; // TODO
+      static constexpr bool captures  = 1;
+
       static bool match(const std::string& literal) noexcept;
 
       base64(const std::string& literal)
