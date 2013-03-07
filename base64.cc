@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char base64::name[];
+
+constexpr char base64::pattern[];
+
 static const std::regex base64_regex(base64::pattern);
 
 bool

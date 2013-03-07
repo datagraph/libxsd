@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char integer::name[];
+
+constexpr char integer::pattern[];
+
 static const std::regex integer_regex(integer::pattern);
 
 bool

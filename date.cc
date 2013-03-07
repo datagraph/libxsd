@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char date::name[];
+
+constexpr char date::pattern[];
+
 static const std::regex date_regex(date::pattern);
 
 bool

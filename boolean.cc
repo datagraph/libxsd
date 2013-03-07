@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char boolean::name[];
+
+constexpr char boolean::pattern[];
+
 static const std::regex boolean_regex(boolean::pattern);
 
 bool

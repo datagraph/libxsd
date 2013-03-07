@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char double_::name[];
+
+constexpr char double_::pattern[];
+
 static const std::regex double_regex(double_::pattern);
 
 bool

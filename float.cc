@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char float_::name[];
+
+constexpr char float_::pattern[];
+
 static const std::regex float_regex(float_::pattern);
 
 bool

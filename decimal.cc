@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char decimal::name[];
+
+constexpr char decimal::pattern[];
+
 static const std::regex decimal_regex(decimal::pattern);
 
 bool

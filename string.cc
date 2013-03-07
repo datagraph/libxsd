@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char string::name[];
+
+constexpr char string::pattern[];
+
 static const std::regex string_regex(string::pattern);
 
 bool

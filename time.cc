@@ -10,6 +10,10 @@
 
 using namespace xsd;
 
+constexpr char time::name[];
+
+constexpr char time::pattern[];
+
 static const std::regex time_regex(time::pattern);
 
 bool
