@@ -40,19 +40,19 @@ namespace xsd {
         return _literal >= other._literal;
       }
 
-      virtual operator bool() const;
+      virtual explicit operator bool() const;
 
-      virtual operator int() const;
+      virtual explicit operator int() const;
 
-      virtual operator long() const;
+      virtual explicit operator long() const;
 
-      virtual operator long long() const;
+      virtual explicit operator long long() const;
 
-      virtual operator double() const;
+      virtual explicit operator double() const;
 
-      virtual operator float() const;
+      virtual explicit operator float() const;
 
-      virtual operator std::string() const;
+      virtual explicit operator std::string() const;
 
       const std::string& to_string() const {
         return _literal;

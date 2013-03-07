@@ -14,8 +14,11 @@ namespace xsd {
 
       static bool match(const std::string& literal) noexcept;
 
-      boolean(bool literal)
+      explicit boolean(bool literal)
         : value(literal ? "true" : "false") {}
+
+      boolean(const char* literal)
+        : value(literal) {}
 
       boolean(const std::string& literal)
         : value(literal) {}
@@ -24,7 +27,7 @@ namespace xsd {
 
       virtual bool canonicalize() override;
 
-      virtual operator bool() const;
+      virtual explicit operator bool() const;
   };
 }
 
