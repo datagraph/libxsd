@@ -5,10 +5,10 @@
 
 #include <string> /* for std::to_string() */
 
-#include "xsd++/value.h"
+#include "xsd++/decimal.h"
 
 namespace xsd {
-  class integer : public value {
+  class integer : public decimal {
     public:
       static constexpr char name[]    = "integer";
       static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
@@ -17,25 +17,25 @@ namespace xsd {
       static bool match(const std::string& literal) noexcept;
 
       integer(int literal)
-        : value(std::to_string(literal)) {}
+        : decimal(std::to_string(literal)) {}
 
       integer(unsigned int literal)
-        : value(std::to_string(literal)) {}
+        : decimal(std::to_string(literal)) {}
 
       integer(long literal)
-        : value(std::to_string(literal)) {}
+        : decimal(std::to_string(literal)) {}
 
       integer(unsigned long literal)
-        : value(std::to_string(literal)) {}
+        : decimal(std::to_string(literal)) {}
 
       integer(long long literal)
-        : value(std::to_string(literal)) {}
+        : decimal(std::to_string(literal)) {}
 
       integer(unsigned long long literal)
-        : value(std::to_string(literal)) {}
+        : decimal(std::to_string(literal)) {}
 
       integer(const std::string& literal)
-        : value(literal) {}
+        : decimal(literal) {}
 
       virtual bool validate() const noexcept override;
 
