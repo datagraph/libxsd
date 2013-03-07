@@ -8,6 +8,10 @@
 namespace xsd {
   class value {
     public:
+      bool valid() const noexcept {
+        return validate();
+      }
+
       virtual bool validate() const noexcept = 0;
 
       virtual bool canonicalize() = 0;
