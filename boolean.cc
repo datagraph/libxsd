@@ -26,3 +26,8 @@ bool
 boolean::canonicalize() noexcept {
   return false; // TODO
 }
+
+boolean::operator bool() const {
+  return _literal.compare("true") == 0 ||
+         _literal.compare("1") == 0;
+}

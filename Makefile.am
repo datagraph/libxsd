@@ -18,6 +18,7 @@ libxsd___la_SOURCES =     \
   module.cc               \
   string.cc               \
   time.cc                 \
+  value.cc                \
   version.cc
 
 base_pkgincludedir = $(includedir)/xsd++
@@ -36,4 +37,5 @@ base_pkginclude_HEADERS = \
   module.h                \
   string.h                \
   time.h                  \
+  value.h                 \
   version.h

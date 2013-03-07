@@ -23,6 +23,8 @@ namespace xsd {
       virtual bool validate() const noexcept override;
 
       virtual bool canonicalize() noexcept override;
+
+      virtual operator bool() const;
   };
 }
 
