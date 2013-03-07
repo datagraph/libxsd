@@ -27,8 +27,26 @@ boolean::validate() const noexcept {
 }
 
 bool
-boolean::canonicalize() noexcept {
-  return false; // TODO
+boolean::canonicalize() {
+  if (_literal.compare("true") == 0) {
+    return false; /* already in canonical form */
+  }
+
+  if (_literal.compare("false") == 0) {
+    return false; /* already in canonical form */
+  }
+
+  if (_literal.compare("1") == 0) {
+    _literal.assign("true"); /* can throw std::bad_alloc */
+    return true; /* now in canonical form */
+  }
+
+  if (_literal.compare("0") == 0) {
+    _literal.assign("false"); /* can throw std::bad_alloc */
+    return true; /* now in canonical form */
+  }
+
+  return false; /* invalid literal */
 }
 
 boolean::operator bool() const {
