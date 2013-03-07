@@ -6,7 +6,7 @@
 
 #include "xsd++/float.h"
 
-#include <regex> /* for std::regex, std::regex_match() */
+#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
 
 using namespace xsd;
 
