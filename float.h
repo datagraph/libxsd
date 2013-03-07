@@ -3,6 +3,8 @@
 #ifndef XSDXX_FLOAT_H
 #define XSDXX_FLOAT_H
 
+#include <string> /* for std::to_string() */
+
 #include "xsd++/value.h"
 
 namespace xsd {
@@ -13,6 +15,15 @@ namespace xsd {
       static constexpr bool captures  = 6;
 
       static bool match(const std::string& literal) noexcept;
+
+      float_(float literal)
+        : value(std::to_string(literal)) {}
+
+      float_(double literal)
+        : value(std::to_string(static_cast<float>(literal))) {}
+
+      float_(long double literal)
+        : value(std::to_string(static_cast<float>(literal))) {}
 
       float_(const std::string& literal)
         : value(literal) {}

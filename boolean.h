@@ -14,6 +14,9 @@ namespace xsd {
 
       static bool match(const std::string& literal) noexcept;
 
+      boolean(bool literal)
+        : value(literal ? "true" : "false") {}
+
       boolean(const std::string& literal)
         : value(literal) {}
 

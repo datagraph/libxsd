@@ -3,6 +3,8 @@
 #ifndef XSDXX_DECIMAL_H
 #define XSDXX_DECIMAL_H
 
+#include <string> /* for std::to_string() */
+
 #include "xsd++/value.h"
 
 namespace xsd {
@@ -13,6 +15,24 @@ namespace xsd {
       static constexpr bool captures  = 4;
 
       static bool match(const std::string& literal) noexcept;
+
+      decimal(int literal)
+        : value(std::to_string(literal)) {}
+
+      decimal(unsigned int literal)
+        : value(std::to_string(literal)) {}
+
+      decimal(long literal)
+        : value(std::to_string(literal)) {}
+
+      decimal(unsigned long literal)
+        : value(std::to_string(literal)) {}
+
+      decimal(long long literal)
+        : value(std::to_string(literal)) {}
+
+      decimal(unsigned long long literal)
+        : value(std::to_string(literal)) {}
 
       decimal(const std::string& literal)
         : value(literal) {}
