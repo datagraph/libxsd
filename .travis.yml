@@ -2,6 +2,9 @@ language: cpp
 compiler:
   - clang
   - gcc
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libboost-regex-dev libboost-test-dev
 before_script:
   - ./autogen.sh
 script:
