@@ -68,9 +68,9 @@ AS_IF([test "x$enable_unicode" == "xno"],
 
 dnl Check for libraries:
 # libboost (libboost-dev on Ubuntu, boost on Mac OS X + MacPorts)
-dnl AX_BOOST_BASE([1.50])
-dnl AX_BOOST_REGEX
-dnl AX_BOOST_UNIT_TEST_FRAMEWORK
+AX_BOOST_BASE([1.50])
+AX_BOOST_REGEX
+AX_BOOST_UNIT_TEST_FRAMEWORK
 
 dnl Check for header files:
 
