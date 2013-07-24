@@ -26,7 +26,8 @@ Installation on Unix
 ::
 
    $ ./autogen.sh
-   $ ./configure
+   $ ./configure                        # on Linux
+   $ ./configure --with-stdlib=libc++   # on FreeBSD / Mac OS X
    $ make
    $ sudo make install
    $ sudo ldconfig                      # on Linux
