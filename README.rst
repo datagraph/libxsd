@@ -20,6 +20,15 @@ Build Prerequisites
 .. _Automake: http://www.gnu.org/software/automake/
 .. _Libtool:  http://www.gnu.org/software/libtool/
 
+Build Dependencies
+------------------
+
+* Boost.Regex_ (>= 1.48)
+* Boost.Test_ (>= 1.48)
+
+.. _Boost.Regex: http://www.boost.org/libs/regex/
+.. _Boost.Test:  http://www.boost.org/libs/test/
+
 Installation on Unix
 --------------------
 
