@@ -1,10 +1,6 @@
-AM_CPPFLAGS     = -I$(top_srcdir)/lib -I$(top_srcdir)/src -iquote $(srcdir) $(BOOST_CPPFLAGS)
-AM_CXXFLAGS     = -Wall -Wextra -pipe
-AM_LDFLAGS      = $(BOOST_LDFLAGS) $(BOOST_REGEX_LIB)
-LDADD           = libxsd++.la
 lib_LTLIBRARIES = libxsd++.la
 
-libxsd___la_SOURCES =   \
+libxsd___la_SOURCES =     \
   base64.cc               \
   boolean.cc              \
   date.cc                 \
