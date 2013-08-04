@@ -24,7 +24,7 @@ Build Dependencies
 ------------------
 
 * Boost.Regex_ (>= 1.48)
-* Boost.Test_ (>= 1.48)
+* Boost.Test_ (>= 1.48) for ``make check`` unit tests only
 
 .. _Boost.Regex: http://www.boost.org/libs/regex/
 .. _Boost.Test:  http://www.boost.org/libs/test/
