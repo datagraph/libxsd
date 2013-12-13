@@ -14,6 +14,7 @@ namespace xsd {
 
 #include "xsd++/base64.h"
 #include "xsd++/boolean.h"
+#include "xsd++/const.h"
 #include "xsd++/date.h"
 #include "xsd++/datetime.h"
 #include "xsd++/decimal.h"

@@ -22,6 +22,7 @@ base_pkgincludedir = $(includedir)/xsd++
 base_pkginclude_HEADERS = \
   base64.h                \
   boolean.h               \
+  const.h                 \
   date.h                  \
   datetime.h              \
   decimal.h               \
