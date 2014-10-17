@@ -1,13 +1,17 @@
+********
 libxsd++
-========
+********
 
-.. image:: https://travis-ci.org/datagraph/libxsd.png?branch=master
+.. image:: https://api.travis-ci.org/datagraph/libxsd.svg?branch=master
    :target: https://travis-ci.org/datagraph/libxsd
-   :align: right
    :alt: Travis CI build status
 
+.. image:: https://scan.coverity.com/projects/3277/badge.svg
+   :target: https://scan.coverity.com/projects/3277
+   :alt: Coverity Scan build status
+
 Build Prerequisites
--------------------
+===================
 
 * Clang_ (>= 3.0) or GCC_ (>= 4.7)
 * Autoconf_ (>= 2.68)
@@ -21,14 +25,14 @@ Build Prerequisites
 .. _Libtool:  http://www.gnu.org/software/libtool/
 
 Build Dependencies
-------------------
+==================
 
 * Boost.Regex_ (>= 1.48)
 
 .. _Boost.Regex: http://www.boost.org/libs/regex/
 
 Installation on Unix
---------------------
+====================
 
 ::
 
@@ -40,10 +44,12 @@ Installation on Unix
    $ sudo ldconfig                      # on Linux
 
 Elsewhere
----------
+=========
 
-Find the project at: GitHub_, Bitbucket_, and `Travis CI`_.
+Find the project at: GitHub_, Bitbucket_, `Travis CI`_, and `Coverity
+Scan`_.
 
-.. _GitHub:      http://github.com/datagraph/libxsd
-.. _Bitbucket:   http://bitbucket.org/datagraph/libxsd
-.. _Travis CI:   http://travis-ci.org/datagraph/libxsd
+.. _GitHub:        http://github.com/datagraph/libxsd
+.. _Bitbucket:     http://bitbucket.org/datagraph/libxsd
+.. _Travis CI:     http://travis-ci.org/datagraph/libxsd
+.. _Coverity Scan: http://scan.coverity.com/projects/3277

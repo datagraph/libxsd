@@ -13,7 +13,21 @@ before_install:
 before_script:
   - ./autogen.sh
 script:
-  - ./configure && make && make check
+  - if [ "$COVERITY_SCAN_BRANCH" != 1 ]; then ./configure && make && make check; fi
 branches:
   only:
     - master
+    - coverity
+
+# https://scan.coverity.com/projects/3277
+env:
+  global:
+  - secure: "J9r7Z/NajCaikAFaEYzD1F+hgE5zJ1XnmLaEUhlufO/HC3c2AEeOePnePJTfxa0gcl9VUb6HnsLA32pTXrNiJEUjwcW4Caq3U/QJP3jOUDFhGAFeSuzJlrJus1WRA3/eZpZrLfX+Zk7AmqVXQSCcsAL4h0XKiu/nUaUxcKQpUXM="
+addons:
+  coverity_scan:
+    project:
+      name: datagraph/libxsd
+    notification_email: arto@bendiken.net
+    build_command_prepend: cov-configure --comptype gcc --compiler $CC && ./configure
+    build_command: make
+    branch_pattern: coverity
