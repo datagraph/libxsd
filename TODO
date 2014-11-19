@@ -1,1 +1,9 @@
+Near-Term Tasks
+===============
+
+- Implement the xsd:dateTime, xsd:date, xsd:time, and xsd:duration types.
+
+Nice to Have
+============
+
 - Remove the dependency on Boost.Regex once libstc++ supports std::regex.
