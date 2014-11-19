@@ -5,19 +5,20 @@ AM_LDFLAGS  += $(TEST_LDFLAGS)
 LDADD = $(top_srcdir)/src/xsd++/libxsd++.la
 
 check_PROGRAMS = \
-  check_base64   \
-  check_boolean  \
-  check_date     \
-  check_datetime \
-  check_decimal  \
-  check_double   \
-  check_feature  \
-  check_float    \
-  check_integer  \
-  check_module   \
-  check_string   \
-  check_time     \
-  check_version
+  check-base64   \
+  check-boolean  \
+  check-date     \
+  check-datetime \
+  check-decimal  \
+  check-double   \
+  check-duration \
+  check-feature  \
+  check-float    \
+  check-integer  \
+  check-module   \
+  check-string   \
+  check-time     \
+  check-version
 
 TESTS = $(check_PROGRAMS)
 
