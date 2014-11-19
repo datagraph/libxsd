@@ -29,34 +29,38 @@ Header File             Class Name              XSD Datatype
 <xsd++/time.h>          ``xsd::time``           `xsd:time`_
 ======================= ======================= ================================
 
-.. _xsd:base64Binary:  http://www.w3.org/TR/xmlschema11-2/#base64Binary
-.. _xsd:boolean:       http://www.w3.org/TR/xmlschema11-2/#boolean
-.. _xsd:date:          http://www.w3.org/TR/xmlschema11-2/#date
-.. _xsd:dateTime:      http://www.w3.org/TR/xmlschema11-2/#dateTime
-.. _xsd:decimal:       http://www.w3.org/TR/xmlschema11-2/#decimal
-.. _xsd:double:        http://www.w3.org/TR/xmlschema11-2/#double
-.. _xsd:duration:      http://www.w3.org/TR/xmlschema11-2/#duration
-.. _xsd:float:         http://www.w3.org/TR/xmlschema11-2/#float
-.. _xsd:integer:       http://www.w3.org/TR/xmlschema11-2/#integer
-.. _xsd:string:        http://www.w3.org/TR/xmlschema11-2/#string
-.. _xsd:time:          http://www.w3.org/TR/xmlschema11-2/#time
+.. _xsd:base64Binary:   http://www.w3.org/TR/xmlschema11-2/#base64Binary
+.. _xsd:boolean:        http://www.w3.org/TR/xmlschema11-2/#boolean
+.. _xsd:date:           http://www.w3.org/TR/xmlschema11-2/#date
+.. _xsd:dateTime:       http://www.w3.org/TR/xmlschema11-2/#dateTime
+.. _xsd:decimal:        http://www.w3.org/TR/xmlschema11-2/#decimal
+.. _xsd:double:         http://www.w3.org/TR/xmlschema11-2/#double
+.. _xsd:duration:       http://www.w3.org/TR/xmlschema11-2/#duration
+.. _xsd:float:          http://www.w3.org/TR/xmlschema11-2/#float
+.. _xsd:integer:        http://www.w3.org/TR/xmlschema11-2/#integer
+.. _xsd:string:         http://www.w3.org/TR/xmlschema11-2/#string
+.. _xsd:time:           http://www.w3.org/TR/xmlschema11-2/#time
 
 .. rubric:: Footnotes
 
-.. [1] Includes also the derived datatypes.
+.. [1] Includes also the derived `xsd:dayTimeDuration`_ and
+       `xsd:yearMonthDuration`_ datatypes.
 
 .. [2] Includes also the derived `xsd:long`_, `xsd:int`_, `xsd:short`_, `xsd:byte`_,
        `xsd:unsignedLong`_, `xsd:unsignedInt`_, `xsd:unsignedShort`_,
        `xsd:unsignedByte`_ datatypes.
 
-.. _xsd:long:          http://www.w3.org/TR/xmlschema11-2/#long
-.. _xsd:int:           http://www.w3.org/TR/xmlschema11-2/#int
-.. _xsd:short:         http://www.w3.org/TR/xmlschema11-2/#short
-.. _xsd:byte:          http://www.w3.org/TR/xmlschema11-2/#byte
-.. _xsd:unsignedLong:  http://www.w3.org/TR/xmlschema11-2/#unsignedLong
-.. _xsd:unsignedInt:   http://www.w3.org/TR/xmlschema11-2/#unsignedInt
-.. _xsd:unsignedShort: http://www.w3.org/TR/xmlschema11-2/#unsignedShort
-.. _xsd:unsignedByte:  http://www.w3.org/TR/xmlschema11-2/#unsignedByte
+.. _xsd:dayTimeDuration:   http://www.w3.org/TR/xmlschema11-2/#dayTimeDuration
+.. _xsd:yearMonthDuration: http://www.w3.org/TR/xmlschema11-2/#yearMonthDuration
+
+.. _xsd:long:           http://www.w3.org/TR/xmlschema11-2/#long
+.. _xsd:int:            http://www.w3.org/TR/xmlschema11-2/#int
+.. _xsd:short:          http://www.w3.org/TR/xmlschema11-2/#short
+.. _xsd:byte:           http://www.w3.org/TR/xmlschema11-2/#byte
+.. _xsd:unsignedLong:   http://www.w3.org/TR/xmlschema11-2/#unsignedLong
+.. _xsd:unsignedInt:    http://www.w3.org/TR/xmlschema11-2/#unsignedInt
+.. _xsd:unsignedShort:  http://www.w3.org/TR/xmlschema11-2/#unsignedShort
+.. _xsd:unsignedByte:   http://www.w3.org/TR/xmlschema11-2/#unsignedByte
 
 References
 ----------
