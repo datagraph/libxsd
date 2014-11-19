@@ -1,6 +1,8 @@
-**********************************************
-libxsd++: XML Schema Datatypes (XSD) for C++14
-**********************************************
+***********************
+libxsd++: XSD for C++14
+***********************
+
+``libxsd++`` is an XML Schema Datatypes (XSD) library for C++14.
 
 .. image:: https://api.travis-ci.org/datagraph/libxsd.svg?branch=master
    :target: https://travis-ci.org/datagraph/libxsd
@@ -9,8 +11,6 @@ libxsd++: XML Schema Datatypes (XSD) for C++14
 .. image:: https://scan.coverity.com/projects/3277/badge.svg
    :target: https://scan.coverity.com/projects/3277
    :alt: Coverity Scan build status
-
-``libxsd++`` is an XML Schema Datatypes (XSD) library for C++14.
 
 Features
 ========
