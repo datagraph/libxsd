@@ -58,6 +58,18 @@ Header File             Class Name              XSD Datatype
 .. _xsd:unsignedShort: http://www.w3.org/TR/xmlschema11-2/#unsignedShort
 .. _xsd:unsignedByte:  http://www.w3.org/TR/xmlschema11-2/#unsignedByte
 
+References
+----------
+
+* `XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes
+  <http://www.w3.org/TR/xmlschema11-2/>`__ (2012-04-05)
+* `XML Schema Part 2: Datatypes Second Edition
+  <http://www.w3.org/TR/xmlschema-2/>`__ (2004-10-28)
+* `XPath and XQuery Functions and Operators 3.0
+  <http://www.w3.org/TR/xpath-functions-30/>`__ (2014-04-08)
+* `XQuery 1.0 and XPath 2.0 Data Model (XDM) (Second Edition)
+  <http://www.w3.org/TR/xpath-datamodel/>`__ (2010-12-14)
+
 Build Prerequisites
 ===================
 
