@@ -1,6 +1,6 @@
-********
-libxsd++
-********
+**********************************************
+libxsd++: XML Schema Datatypes (XSD) for C++14
+**********************************************
 
 .. image:: https://api.travis-ci.org/datagraph/libxsd.svg?branch=master
    :target: https://travis-ci.org/datagraph/libxsd
@@ -9,6 +9,8 @@ libxsd++
 .. image:: https://scan.coverity.com/projects/3277/badge.svg
    :target: https://scan.coverity.com/projects/3277
    :alt: Coverity Scan build status
+
+``libxsd++`` is an XML Schema Datatypes (XSD) library for C++14.
 
 Features
 ========
@@ -95,17 +97,20 @@ Build Dependencies
 
 .. _Boost.Regex: http://www.boost.org/libs/regex/
 
-Installation on Unix
-====================
+Installation
+============
 
-::
+Installing on Unix
+------------------
 
-   $ ./autogen.sh
+Configuring, building, and installing the library (by default, into
+``/usr/local``) are all performed with the standard incantations::
+
+   $ ./autogen.sh                       # for a development checkout only
    $ ./configure                        # on Linux
    $ ./configure --with-stdlib=libc++   # on FreeBSD / Mac OS X
    $ make
    $ sudo make install
-   $ sudo ldconfig                      # on Linux
 
 Elsewhere
 =========
@@ -117,3 +122,14 @@ Scan`_.
 .. _Bitbucket:     http://bitbucket.org/datagraph/libxsd
 .. _Travis CI:     http://travis-ci.org/datagraph/libxsd
 .. _Coverity Scan: http://scan.coverity.com/projects/3277
+
+Author
+======
+
+* `Arto Bendiken <https://github.com/bendiken>`_ - http://ar.to/
+
+License
+=======
+
+This is free and unencumbered public domain software. For more information,
+see http://unlicense.org/ or the accompanying ``UNLICENSE`` file.
