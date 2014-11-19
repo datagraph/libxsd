@@ -112,6 +112,30 @@ Configuring, building, and installing the library (by default, into
    $ make
    $ sudo make install
 
+Configuration
+=============
+
+Configuring a Static Build
+--------------------------
+
+By default on most platforms that support both, the library will be built
+both as a static library (``libxsd++.a``) as well as a dynamic shared
+library (``libxsd++.so`` on most Unix systems, though ``libxsd++.dylib`` on
+Darwin).
+
+If you don't require a shared library, configure the build accordingly::
+
+   $ ./configure --disable-shared
+
+Configuring a Minimal Build
+---------------------------
+
+The library is thoroughly modular. Specific header files and their
+underlying function implementations can be omitted using the familiar
+``./configure --disable-FEATURE`` facility provided by Autoconf.
+
+To review the list of features, see the output of ``./configure --help``.
+
 Elsewhere
 =========
 
