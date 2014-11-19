@@ -13,21 +13,21 @@ libxsd++
 Features
 ========
 
-======================= ========================================================
-Header                  XSD Datatype
-======================= ========================================================
-<xsd++/base64.h>        `xsd:base64Binary`_
-<xsd++/boolean.h>       `xsd:boolean`_
-<xsd++/date.h>          `xsd:date`_
-<xsd++/datetime.h>      `xsd:dateTime`_
-<xsd++/decimal.h>       `xsd:decimal`_
-<xsd++/double.h>        `xsd:double`_
-<xsd++/duration.h>      `xsd:duration`_ [1]_
-<xsd++/float.h>         `xsd:float`_
-<xsd++/integer.h>       `xsd:integer`_ [2]_
-<xsd++/string.h>        `xsd:string`_
-<xsd++/time.h>          `xsd:time`_
-======================= ========================================================
+======================= ======================= ================================
+Header File             Class Name              XSD Datatype
+======================= ======================= ================================
+<xsd++/base64.h>        ``xsd::base64``         `xsd:base64Binary`_
+<xsd++/boolean.h>       ``xsd::boolean``        `xsd:boolean`_
+<xsd++/date.h>          ``xsd::date``           `xsd:date`_
+<xsd++/datetime.h>      ``xsd::datetime``       `xsd:dateTime`_
+<xsd++/decimal.h>       ``xsd::decimal``        `xsd:decimal`_
+<xsd++/double.h>        ``xsd::double``         `xsd:double`_
+<xsd++/duration.h>      ``xsd::duration``       `xsd:duration`_ [1]_
+<xsd++/float.h>         ``xsd::float``          `xsd:float`_
+<xsd++/integer.h>       ``xsd::integer``        `xsd:integer`_ [2]_
+<xsd++/string.h>        ``xsd::string``         `xsd:string`_
+<xsd++/time.h>          ``xsd::time``           `xsd:time`_
+======================= ======================= ================================
 
 .. _xsd:base64Binary:  http://www.w3.org/TR/xmlschema11-2/#base64Binary
 .. _xsd:boolean:       http://www.w3.org/TR/xmlschema11-2/#boolean
