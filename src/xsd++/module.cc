@@ -13,6 +13,7 @@ static const char* const module_names[] = {
   "datetime",
   "decimal",
   "double",
+  "duration",
   "float",
   "integer",
   "string",

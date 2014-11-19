@@ -19,6 +19,7 @@ namespace xsd {
 #include "xsd++/datetime.h"
 #include "xsd++/decimal.h"
 #include "xsd++/double.h"
+#include "xsd++/duration.h"
 #include "xsd++/feature.h"
 #include "xsd++/float.h"
 #include "xsd++/integer.h"
