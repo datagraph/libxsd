@@ -17,19 +17,30 @@
 #include "string.h"   /* for xsd::string   */
 #include "time.h"     /* for xsd::time     */
 
-#include <cassert>    /* for assert() */
-#include <cstring>    /* for strdup() */
+#include <cassert>    /* for assert()  */
+#include <cerrno>     /* for E*, errno */
+#include <cstring>    /* for strdup()  */
+#include <new>        /* for std::bad_alloc */
+#include <stdexcept>  /* for std::invalid_argumen */
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
 static bool
 canonicalize(char** literal) {
-  T value{*literal};
-  if (value.canonicalize()) {
-    free(*literal);
-    *literal = strdup(value.c_str());
-    return true;
+  try {
+    T value{*literal};
+    if (value.canonicalize()) {
+      free(*literal);
+      *literal = strdup(value.c_str());
+      return true;
+    }
+  }
+  catch (const std::bad_alloc& error) {
+    errno = ENOMEM; /* Out of memory */
+  }
+  catch (const std::invalid_argument& error) {
+    errno = EINVAL; /* Invalid argument */
   }
   return false;
 }

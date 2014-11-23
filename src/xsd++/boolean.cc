@@ -7,6 +7,8 @@
 #include "boolean.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
+#include <stdexcept> /* for std::invalid_argument */
+
 using namespace xsd;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +49,7 @@ boolean::canonicalize() {
     return true; /* now in canonical form */
   }
 
-  return false; /* invalid literal */
+  throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
 }
 
 boolean::operator bool() const {
