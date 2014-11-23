@@ -3,9 +3,10 @@
 #ifndef XSDXX_INTEGER_H
 #define XSDXX_INTEGER_H
 
-#include <string> /* for std::to_string() */
+#include <cstdint> /* for INTMAX_*, std::intmax_t */
+#include <string>  /* for std::to_string() */
 
-#include "xsd++/decimal.h"
+#include "decimal.h"
 
 namespace xsd {
   class integer : public decimal {
@@ -40,6 +41,10 @@ namespace xsd {
       virtual bool validate() const noexcept override;
 
       virtual bool canonicalize() noexcept override;
+
+      std::intmax_t as_integer(
+        std::intmax_t min_value = INTMAX_MIN,
+        std::intmax_t max_value = INTMAX_MAX) const;
   };
 }
 
