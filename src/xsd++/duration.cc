@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/duration.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "duration.h"
+#include "regex.h"    /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char duration::name[];
 
 constexpr char duration::pattern[];
 
-static const std::regex duration_regex(duration::pattern);
+static const std::regex duration_regex{duration::pattern};
 
 bool
 duration::match(const std::string& literal) noexcept {

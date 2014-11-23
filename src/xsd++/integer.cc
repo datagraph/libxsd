@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/integer.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "integer.h"
+#include "regex.h"   /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char integer::name[];
 
 constexpr char integer::pattern[];
 
-static const std::regex integer_regex(integer::pattern);
+static const std::regex integer_regex{integer::pattern};
 
 bool
 integer::match(const std::string& literal) noexcept {

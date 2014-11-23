@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/boolean.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "boolean.h"
+#include "regex.h"   /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char boolean::name[];
 
 constexpr char boolean::pattern[];
 
-static const std::regex boolean_regex(boolean::pattern);
+static const std::regex boolean_regex{boolean::pattern};
 
 bool
 boolean::match(const std::string& literal) noexcept {

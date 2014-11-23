@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/base64.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "base64.h"
+#include "regex.h"  /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char base64::name[];
 
 constexpr char base64::pattern[];
 
-static const std::regex base64_regex(base64::pattern);
+static const std::regex base64_regex{base64::pattern};
 
 bool
 base64::match(const std::string& literal) noexcept {

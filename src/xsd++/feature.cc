@@ -4,7 +4,9 @@
 #include <config.h>
 #endif
 
-#include "xsd++/feature.h"
+#include "feature.h"
+
+////////////////////////////////////////////////////////////////////////////////
 
 static const char* const feature_names[] = {
   "ascii",

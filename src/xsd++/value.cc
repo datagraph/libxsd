@@ -4,11 +4,13 @@
 #include <config.h>
 #endif
 
-#include "xsd++/value.h"
+#include "value.h"
 
 #include <typeinfo> /* for std::bad_cast */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 value::operator bool() const {
   throw std::bad_cast();

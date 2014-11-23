@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/date.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "date.h"
+#include "regex.h" /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char date::name[];
 
 constexpr char date::pattern[];
 
-static const std::regex date_regex(date::pattern);
+static const std::regex date_regex{date::pattern};
 
 bool
 date::match(const std::string& literal) noexcept {

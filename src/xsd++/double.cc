@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/double.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "double.h"
+#include "regex.h"  /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char double_::name[];
 
 constexpr char double_::pattern[];
 
-static const std::regex double_regex(double_::pattern);
+static const std::regex double_regex{double_::pattern};
 
 bool
 double_::match(const std::string& literal) noexcept {

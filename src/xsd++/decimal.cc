@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/decimal.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "decimal.h"
+#include "regex.h"   /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char decimal::name[];
 
 constexpr char decimal::pattern[];
 
-static const std::regex decimal_regex(decimal::pattern);
+static const std::regex decimal_regex{decimal::pattern};
 
 bool
 decimal::match(const std::string& literal) noexcept {

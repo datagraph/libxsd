@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/float.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "float.h"
+#include "regex.h" /* for std::regex, std::regex_match() */
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char float_::name[];
 
 constexpr char float_::pattern[];
 
-static const std::regex float_regex(float_::pattern);
+static const std::regex float_regex{float_::pattern};
 
 bool
 float_::match(const std::string& literal) noexcept {

@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/string.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "regex.h"  /* for std::regex, std::regex_match() */
+#include "string.h"
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char string::name[];
 
 constexpr char string::pattern[];
 
-static const std::regex string_regex(string::pattern);
+static const std::regex string_regex{string::pattern};
 
 bool
 string::match(const std::string& literal) noexcept {

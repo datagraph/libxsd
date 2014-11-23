@@ -4,17 +4,18 @@
 #include <config.h>
 #endif
 
-#include "xsd++/time.h"
-
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include "regex.h" /* for std::regex, std::regex_match() */
+#include "time.h"
 
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char time::name[];
 
 constexpr char time::pattern[];
 
-static const std::regex time_regex(time::pattern);
+static const std::regex time_regex{time::pattern};
 
 bool
 time::match(const std::string& literal) noexcept {
