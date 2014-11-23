@@ -51,6 +51,11 @@ xsd_base64_canonicalize(char** literal) {
   return canonicalize<xsd::base64>(literal);
 }
 
+const char*
+xsd_base64_value(const char* literal) {
+  return literal;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
@@ -66,6 +71,11 @@ xsd_boolean_canonicalize(char** literal) {
   assert(*literal != nullptr);
 
   return canonicalize<xsd::boolean>(literal);
+}
+
+bool
+xsd_boolean_value(const char* literal) {
+  return static_cast<void>(literal), false; // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +95,11 @@ xsd_date_canonicalize(char** literal) {
   return canonicalize<xsd::date>(literal);
 }
 
+int64_t
+xsd_date_value(const char* literal) {
+  return static_cast<void>(literal), 0; // TODO
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
@@ -100,6 +115,11 @@ xsd_datetime_canonicalize(char** literal) {
   assert(*literal != nullptr);
 
   return canonicalize<xsd::datetime>(literal);
+}
+
+int64_t
+xsd_datetime_value(const char* literal) {
+  return static_cast<void>(literal), 0; // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +139,11 @@ xsd_decimal_canonicalize(char** literal) {
   return canonicalize<xsd::decimal>(literal);
 }
 
+double
+xsd_decimal_value(const char* literal) {
+  return static_cast<void>(literal), 0; // TODO
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
@@ -134,6 +159,11 @@ xsd_double_canonicalize(char** literal) {
   assert(*literal != nullptr);
 
   return canonicalize<xsd::double_>(literal);
+}
+
+double
+xsd_double_value(const char* literal) {
+  return static_cast<void>(literal), 0; // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +200,11 @@ xsd_float_canonicalize(char** literal) {
   return canonicalize<xsd::float_>(literal);
 }
 
+float
+xsd_float_value(const char* literal) {
+  return static_cast<void>(literal), 0; // TODO
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
@@ -185,6 +220,11 @@ xsd_integer_canonicalize(char** literal) {
   assert(*literal != nullptr);
 
   return canonicalize<xsd::integer>(literal);
+}
+
+intmax_t
+xsd_integer_value(const char* literal, intmax_t min_value, intmax_t max_value) {
+  return static_cast<void>(literal), static_cast<void>(min_value), static_cast<void>(max_value), 0; // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -204,6 +244,11 @@ xsd_string_canonicalize(char** literal) {
   return canonicalize<xsd::string>(literal);
 }
 
+const char*
+xsd_string_value(const char* literal) {
+  return static_cast<void>(literal), nullptr; // TODO
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
@@ -219,4 +264,9 @@ xsd_time_canonicalize(char** literal) {
   assert(*literal != nullptr);
 
   return canonicalize<xsd::time>(literal);
+}
+
+int64_t
+xsd_time_value(const char* literal) {
+  return static_cast<void>(literal), 0; // TODO
 }
