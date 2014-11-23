@@ -58,6 +58,10 @@ namespace xsd {
         return _literal;
       }
 
+      const char* c_str() const noexcept {
+        return _literal.c_str();
+      }
+
     protected:
       std::string _literal;
 
