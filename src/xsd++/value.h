@@ -6,70 +6,72 @@
 #include <string> /* for std::string */
 
 namespace xsd {
-  class value {
-    public:
-      bool valid() const noexcept {
-        return validate();
-      }
-
-      virtual bool validate() const noexcept = 0;
-
-      virtual bool canonicalize() = 0;
-
-      bool operator==(const value& other) const {
-        return _literal == other._literal;
-      }
-
-      bool operator!=(const value& other) const {
-        return _literal != other._literal;
-      }
-
-      bool operator<(const value& other) const {
-        return _literal < other._literal;
-      }
-
-      bool operator<=(const value& other) const {
-        return _literal <= other._literal;
-      }
-
-      bool operator>(const value& other) const {
-        return _literal > other._literal;
-      }
-
-      bool operator>=(const value& other) const {
-        return _literal >= other._literal;
-      }
-
-      virtual explicit operator bool() const;
-
-      virtual explicit operator int() const;
-
-      virtual explicit operator long() const;
-
-      virtual explicit operator long long() const;
-
-      virtual explicit operator double() const;
-
-      virtual explicit operator float() const;
-
-      virtual explicit operator std::string() const;
-
-      const std::string& to_string() const {
-        return _literal;
-      }
-
-      const char* c_str() const noexcept {
-        return _literal.c_str();
-      }
-
-    protected:
-      std::string _literal;
-
-      value(const std::string& literal)
-        : _literal(literal) {}
-
-      virtual ~value() = default;
-  };
+  class value;
 }
+
+class xsd::value {
+protected:
+  std::string _literal;
+
+  value(const std::string& literal)
+    : _literal{literal} {}
+
+  virtual ~value() = default;
+
+public:
+  bool valid() const noexcept {
+    return validate();
+  }
+
+  virtual bool validate() const noexcept = 0;
+
+  virtual bool canonicalize() = 0;
+
+  bool operator==(const value& other) const {
+    return _literal == other._literal;
+  }
+
+  bool operator!=(const value& other) const {
+    return _literal != other._literal;
+  }
+
+  bool operator<(const value& other) const {
+    return _literal < other._literal;
+  }
+
+  bool operator<=(const value& other) const {
+    return _literal <= other._literal;
+  }
+
+  bool operator>(const value& other) const {
+    return _literal > other._literal;
+  }
+
+  bool operator>=(const value& other) const {
+    return _literal >= other._literal;
+  }
+
+  virtual explicit operator bool() const;
+
+  virtual explicit operator int() const;
+
+  virtual explicit operator long() const;
+
+  virtual explicit operator long long() const;
+
+  virtual explicit operator double() const;
+
+  virtual explicit operator float() const;
+
+  virtual explicit operator std::string() const;
+
+  const std::string& to_string() const {
+    return _literal;
+  }
+
+  const char* c_str() const noexcept {
+    return _literal.c_str();
+  }
+};
 
 #endif /* XSDXX_VALUE_H */
