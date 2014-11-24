@@ -13,8 +13,8 @@
 #include <cerrno>    /* for errno */
 #include <cinttypes> /* for std::strtoimax() */
 
+using namespace std::regex_constants;
 using namespace xsd;
-using std::regex_constants::match_default;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -26,7 +26,7 @@ static const std::regex integer_regex{integer::pattern};
 
 bool
 integer::match(const std::string& literal) noexcept {
-  return std::regex_match(literal, integer_regex);
+  return std::regex_match(literal, integer_regex, match_not_null);
 }
 
 bool
@@ -37,7 +37,7 @@ integer::validate() const noexcept {
 bool
 integer::canonicalize() noexcept {
   std::cmatch matches;
-  if (!std::regex_match(_literal.c_str(), matches, integer_regex, match_default)) {
+  if (!std::regex_match(_literal.c_str(), matches, integer_regex, match_not_null)) {
     throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
   }
 

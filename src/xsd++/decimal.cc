@@ -11,8 +11,8 @@
 #include <algorithm> /* for std::copy() */
 #include <cassert>   /* for assert() */
 
+using namespace std::regex_constants;
 using namespace xsd;
-using std::regex_constants::match_default;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -24,7 +24,7 @@ static const std::regex decimal_regex{decimal::pattern};
 
 bool
 decimal::match(const std::string& literal) noexcept {
-  return std::regex_match(literal, decimal_regex);
+  return !literal.empty() && std::regex_match(literal, decimal_regex, match_not_null);
 }
 
 bool
@@ -35,7 +35,7 @@ decimal::validate() const noexcept {
 bool
 decimal::canonicalize() noexcept {
   std::cmatch matches;
-  if (!std::regex_match(_literal.c_str(), matches, decimal_regex, match_default)) {
+  if (_literal.empty() || !std::regex_match(_literal.c_str(), matches, decimal_regex, match_not_null)) {
     throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
   }
 
