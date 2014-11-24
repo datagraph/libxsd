@@ -4,7 +4,7 @@
 #include <config.h>
 #endif
 
-#include "const.h"
+#include "const.h"   /* for XSD_INTEGER_CAPTURES */
 #include "integer.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
