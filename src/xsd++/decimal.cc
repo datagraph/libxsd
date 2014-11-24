@@ -35,8 +35,8 @@ decimal::validate() const noexcept {
 bool
 decimal::canonicalize() noexcept {
   std::cmatch matches;
-  if (_literal.empty() || !std::regex_match(_literal.c_str(), matches, decimal_regex, match_not_null)) {
-    throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
+  if (_literal.empty() || !std::regex_match(c_str(), matches, decimal_regex, match_not_null)) {
+    throw std::invalid_argument{c_str()}; /* invalid literal */
   }
 
   assert(matches.size() == XSD_DECIMAL_CAPTURES);

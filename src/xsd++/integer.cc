@@ -37,8 +37,8 @@ integer::validate() const noexcept {
 bool
 integer::canonicalize() noexcept {
   std::cmatch matches;
-  if (!std::regex_match(_literal.c_str(), matches, integer_regex, match_not_null)) {
-    throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
+  if (!std::regex_match(c_str(), matches, integer_regex, match_not_null)) {
+    throw std::invalid_argument{c_str()}; /* invalid literal */
   }
 
   assert(matches.size() == XSD_INTEGER_CAPTURES);
@@ -73,18 +73,18 @@ std::intmax_t
 integer::as_integer(const std::intmax_t min_value,
                     const std::intmax_t max_value) const {
   errno = 0;
-  const auto value = std::strtoimax(_literal.c_str(), nullptr, 10);
+  const auto value = std::strtoimax(c_str(), nullptr, 10);
 
   if (errno == EINVAL) {
     throw std::bad_cast{};
   }
 
   if ((errno == ERANGE && value == INTMAX_MIN) || value < min_value) {
-    throw std::underflow_error{_literal.c_str()};
+    throw std::underflow_error{c_str()};
   }
 
   if ((errno == ERANGE && value == INTMAX_MAX) || value > max_value) {
-    throw std::overflow_error{_literal.c_str()};
+    throw std::overflow_error{c_str()};
   }
 
   return value;

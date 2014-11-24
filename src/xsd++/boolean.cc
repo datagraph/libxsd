@@ -49,7 +49,7 @@ boolean::canonicalize() {
     return true; /* now in canonical form */
   }
 
-  throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
+  throw std::invalid_argument{c_str()}; /* invalid literal */
 }
 
 boolean::operator bool() const {
