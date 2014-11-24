@@ -9,6 +9,7 @@
 
 #include <stdexcept> /* for std::invalid_argument */
 
+using namespace std::regex_constants;
 using namespace xsd;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +22,7 @@ static const std::regex boolean_regex{boolean::pattern};
 
 bool
 boolean::match(const std::string& literal) noexcept {
-  return std::regex_match(literal, boolean_regex);
+  return std::regex_match(literal, boolean_regex, match_not_null);
 }
 
 bool
