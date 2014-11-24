@@ -18,8 +18,10 @@
 namespace std {
   using ::boost::cmatch;
   using ::boost::regex;
-  using ::boost::regex_constants;
   using ::boost::regex_match;
+  namespace regex_constants {
+    using namespace ::boost::regex_constants;
+  }
 }
 
 #else /* !BOOST_GNU_STDLIB */
