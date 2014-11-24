@@ -4,13 +4,17 @@
 #include <config.h>
 #endif
 
+#include "const.h"
 #include "integer.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
+#include <algorithm> /* for std::copy() */
+#include <cassert>   /* for assert() */
 #include <cerrno>    /* for errno */
 #include <cinttypes> /* for std::strtoimax() */
 
 using namespace xsd;
+using std::regex_constants::match_default;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +36,37 @@ integer::validate() const noexcept {
 
 bool
 integer::canonicalize() noexcept {
-  return false; // TODO
+  std::cmatch matches;
+  if (!std::regex_match(_literal.c_str(), matches, integer_regex, match_default)) {
+    throw std::invalid_argument{_literal.c_str()}; /* invalid literal */
+  }
+
+  assert(matches.size() == XSD_INTEGER_CAPTURES);
+
+  char buffer[256] = "";
+  char* output = buffer;
+
+  /* 3.3.13.2 'The preceding optional "+" sign is prohibited' */
+  if (matches[1].length()) {
+    const char sign = *matches[1].first;
+    if (sign == '-') {
+      *output++ = sign;
+    }
+  }
+
+  /* 3.3.13.2 'Leading zeroes are prohibited' */
+  {
+    output = std::copy(matches[2].first, matches[2].second, output);
+  }
+
+  *output++ = '\0';
+
+  if (_literal.compare(buffer) != 0) {
+    _literal.assign(buffer);
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
 }
 
 std::intmax_t
