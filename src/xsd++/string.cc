@@ -24,10 +24,10 @@ string::match(const std::string& literal) noexcept {
 
 bool
 string::validate() const noexcept {
-  return string::match(_literal);
+  return string::match(_literal); // TODO: validate ASCII/UTF-8 encoding
 }
 
 bool
 string::canonicalize() noexcept {
-  return false; // TODO
+  return false; /* strings can't be canonicalized */
 }
