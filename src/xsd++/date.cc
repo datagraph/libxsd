@@ -8,7 +8,7 @@
 #include "date.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
-#include <algorithm> /* for std::copy() */
+#include <algorithm> /* for std::copy(), std::copy_n() */
 #include <cassert>   /* for assert() */
 #include <cstdio>    /* for std::sprintf() */
 #include <cstdlib>   /* for std::atoi() */
