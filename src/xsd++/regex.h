@@ -16,13 +16,14 @@
 #include <boost/regex.hpp>
 
 namespace std {
+  using ::boost::cmatch;
   using ::boost::regex;
   using ::boost::regex_match;
 }
 
 #else /* !BOOST_GNU_STDLIB */
 
-#include <regex> /* for std::regex, std::regex_match() */
+#include <regex> /* for std::cmatch, std::regex, std::regex_match() */
 
 #endif /* !BOOST_GNU_STDLIB */
 
