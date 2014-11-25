@@ -32,11 +32,15 @@ public:
   static bool match(const char* literal) noexcept;
 
   string(const std::string& literal)
-    : value{literal} {}
+    : xsd::value{literal} {}
 
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;
+
+  value_type value() const;
+
+  value_type value(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_STRING_H */

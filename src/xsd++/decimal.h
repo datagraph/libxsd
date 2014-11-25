@@ -36,29 +36,33 @@ public:
   static bool match(const char* literal) noexcept;
 
   decimal(int literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   decimal(unsigned int literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   decimal(long literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   decimal(unsigned long literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   decimal(long long literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   decimal(unsigned long long literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   decimal(const std::string& literal)
-    : value{literal} {}
+    : xsd::value{literal} {}
 
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;
+
+  value_type value() const;
+
+  value_type value(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_DECIMAL_H */

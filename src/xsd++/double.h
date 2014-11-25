@@ -34,20 +34,24 @@ public:
   static bool match(const char* literal) noexcept;
 
   double_(float literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   double_(double literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   double_(long double literal)
-    : value{std::to_string(static_cast<double>(literal))} {}
+    : xsd::value{std::to_string(static_cast<double>(literal))} {}
 
   double_(const std::string& literal)
-    : value{literal} {}
+    : xsd::value{literal} {}
 
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;
+
+  value_type value() const;
+
+  value_type value(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_DOUBLE_H */

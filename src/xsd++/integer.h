@@ -59,9 +59,13 @@ public:
 
   virtual bool canonicalize() noexcept override;
 
-  std::intmax_t as_integer(
-    std::intmax_t min_value = INTMAX_MIN,
-    std::intmax_t max_value = INTMAX_MAX) const;
+  value_type as_integer(
+    value_type min_value = INTMAX_MIN,
+    value_type max_value = INTMAX_MAX) const;
+
+  value_type value() const;
+
+  value_type value(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_INTEGER_H */
