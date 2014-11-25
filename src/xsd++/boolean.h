@@ -32,19 +32,23 @@ public:
   static bool match(const char* literal) noexcept;
 
   explicit boolean(bool literal)
-    : value{literal ? "true" : "false"} {}
+    : xsd::value{literal ? "true" : "false"} {}
 
   boolean(const char* literal)
-    : value{literal} {}
+    : xsd::value{literal} {}
 
   boolean(const std::string& literal)
-    : value{literal} {}
+    : xsd::value{literal} {}
 
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() override;
 
   virtual explicit operator bool() const override;
+
+  value_type value() const;
+
+  value_type value(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_BOOLEAN_H */
