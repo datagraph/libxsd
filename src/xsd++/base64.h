@@ -11,6 +11,8 @@ namespace xsd {
 
 class xsd::base64 : public xsd::value {
 public:
+  using value_type = std::string;
+
   static constexpr char name[]    = "base64Binary";
   static constexpr char pattern[] = "^(.*)$"; // TODO
   static constexpr bool captures  = 1;

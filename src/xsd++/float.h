@@ -5,6 +5,8 @@
 
 #include "value.h"
 
+#include <string> /* for std::to_string() */
+
 namespace xsd {
   class float_;
 }

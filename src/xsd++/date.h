@@ -5,12 +5,16 @@
 
 #include "value.h"
 
+#include <cstdint> /* for std::int64_t */
+
 namespace xsd {
   class date;
 }
 
 class xsd::date : public xsd::value {
 public:
+  using value_type = std::int64_t;
+
   static constexpr char name[]    = "date";
   static constexpr char pattern[] = "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$";
   static constexpr bool captures  = 6;

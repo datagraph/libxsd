@@ -5,7 +5,9 @@
 
 #include "value.h"
 
-#include <string> /* for std::to_string() */
+#include <cstdint> /* for std::intmax_t */
+#include <string>  /* for std::to_string() */
+#include <utility> /* for std::pair */
 
 namespace xsd {
   class decimal;
@@ -13,6 +15,8 @@ namespace xsd {
 
 class xsd::decimal : public xsd::value {
 public:
+  using value_type = std::pair<std::intmax_t, std::intmax_t>;
+
   static constexpr char name[]    = "decimal";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$";
   static constexpr bool captures  = 4;

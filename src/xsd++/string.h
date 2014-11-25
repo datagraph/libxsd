@@ -11,6 +11,8 @@ namespace xsd {
 
 class xsd::string : public xsd::value {
 public:
+  using value_type = std::string;
+
   static constexpr char name[]    = "string";
   static constexpr char pattern[] = "^(.*)$";
   static constexpr bool captures  = 1;

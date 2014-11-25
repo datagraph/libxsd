@@ -11,6 +11,8 @@ namespace xsd {
 
 class xsd::boolean : public xsd::value {
 public:
+  using value_type = bool;
+
   static constexpr char name[]    = "boolean";
   static constexpr char pattern[] = "^(true|false|1|0)$";
   static constexpr bool captures  = 1;

@@ -5,12 +5,16 @@
 
 #include "value.h"
 
+#include <cstdint> /* for std::int64_t */
+
 namespace xsd {
   class duration;
 }
 
 class xsd::duration : public xsd::value {
 public:
+  using value_type = std::int64_t;
+
   static constexpr char name[]    = "duration";
   static constexpr char pattern[] = ".*$"; // TODO
   static constexpr bool captures  = 0;

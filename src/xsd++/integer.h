@@ -14,6 +14,8 @@ namespace xsd {
 
 class xsd::integer : public xsd::decimal {
 public:
+  using value_type = std::intmax_t;
+
   static constexpr char name[]    = "integer";
   static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
   static constexpr bool captures  = 3;
