@@ -5,19 +5,31 @@
 
 #include "value.h"
 
-#include <string> /* for std::to_string() */
-
 namespace xsd {
   class float_;
 }
 
 class xsd::float_ : public xsd::value {
 public:
+  using value_type = float;
+
   static constexpr char name[]    = "float";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
   static constexpr bool captures  = 6;
 
-  static bool match(const std::string& literal) noexcept;
+  static float parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
+
+  static float parse(const char* literal);
+
+  static float parse(const char* literal, std::error_condition& error) noexcept;
+
+  static bool match(const std::string& literal) noexcept {
+    return match(literal.c_str());
+  }
+
+  static bool match(const char* literal) noexcept;
 
   float_(float literal)
     : value{std::to_string(literal)} {}

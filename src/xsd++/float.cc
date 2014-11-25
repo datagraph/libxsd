@@ -11,6 +11,7 @@
 #include <cerrno>  /* for ERANGE, errno */
 #include <cstdlib> /* for std::strtof() */
 
+using namespace std::regex_constants;
 using namespace xsd;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,9 +22,51 @@ constexpr char float_::pattern[];
 
 static const std::regex float_regex{float_::pattern};
 
+float
+float_::parse(const char* literal) {
+  std::error_condition error;
+  const auto value = parse(literal, error);
+
+  if (error) {
+    if (error == std::errc::invalid_argument) {
+      throw std::invalid_argument{literal};
+    }
+    if (error == std::errc::result_out_of_range) {
+      if (value == 0.0f) {
+        throw std::underflow_error{literal};
+      }
+      else {
+        throw std::overflow_error{literal};
+      }
+    }
+  }
+
+  return value;
+}
+
+float
+float_::parse(const char* literal,
+              std::error_condition& error) noexcept {
+  if (!match(literal)) {
+    error = std::errc::invalid_argument;
+    return 0.0f;
+  }
+
+  const char* endptr = nullptr;
+  errno = 0;
+  const float value = std::strtof(literal, (char**)&endptr);
+
+  if (errno == ERANGE) {
+    error = std::errc::result_out_of_range;
+    return value;
+  }
+
+  return value;
+}
+
 bool
-float_::match(const std::string& literal) noexcept {
-  return std::regex_match(literal, float_regex);
+float_::match(const char* literal) noexcept {
+  return std::regex_match(literal, float_regex, match_not_null);
 }
 
 bool
@@ -43,49 +86,16 @@ float_::operator double() const {
 float_::operator float() const {
   std::error_condition error;
   const auto value = as_float(error);
-
   if (error) throw std::bad_cast{};
-
   return value;
 }
 
 float
 float_::as_float() const {
-  std::error_condition error;
-  const auto value = as_float(error);
-
-  if (error) {
-    if (error == std::errc::invalid_argument) {
-      throw std::invalid_argument{c_str()};
-    }
-    if (error == std::errc::result_out_of_range) {
-      if (value == 0.0f) {
-        throw std::underflow_error{c_str()};
-      }
-      else {
-        throw std::overflow_error{c_str()};
-      }
-    }
-  }
-
-  return value;
+  return parse(c_str());
 }
 
 float
 float_::as_float(std::error_condition& error) const noexcept {
-  if (!validate()) {
-    error = std::errc::invalid_argument;
-    return 0.0f;
-  }
-
-  const char* endptr = nullptr;
-  errno = 0;
-  const float value = std::strtof(c_str(), (char**)&endptr);
-
-  if (errno == ERANGE) {
-    error = std::errc::result_out_of_range;
-    return value;
-  }
-
-  return value;
+  return parse(c_str(), error);
 }
