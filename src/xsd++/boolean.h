@@ -30,7 +30,7 @@ public:
 
   virtual bool canonicalize() override;
 
-  virtual explicit operator bool() const;
+  virtual explicit operator bool() const override;
 };
 
 #endif /* XSDXX_BOOLEAN_H */

@@ -34,6 +34,14 @@ public:
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;
+
+  virtual explicit operator double() const override;
+
+  virtual explicit operator float() const override;
+
+  float as_float() const;
+
+  float as_float(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_FLOAT_H */

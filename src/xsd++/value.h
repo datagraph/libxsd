@@ -3,7 +3,8 @@
 #ifndef XSDXX_VALUE_H
 #define XSDXX_VALUE_H
 
-#include <string> /* for std::string */
+#include <string>       /* for std::string */
+#include <system_error> /* for std::error_condition */
 
 namespace xsd {
   class value;

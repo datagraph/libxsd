@@ -55,6 +55,7 @@ boolean::canonicalize() {
 
 boolean::operator bool() const {
   if (!validate()) throw std::bad_cast();
+
   return _literal.compare("true") == 0 ||
          _literal.compare("1") == 0;
 }
