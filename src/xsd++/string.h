@@ -34,6 +34,9 @@ public:
   string(const std::string& literal)
     : xsd::value{literal} {}
 
+  string(const char* literal)
+    : xsd::value{literal} {}
+
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;

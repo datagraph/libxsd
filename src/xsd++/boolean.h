@@ -34,10 +34,10 @@ public:
   explicit boolean(bool literal)
     : xsd::value{literal ? "true" : "false"} {}
 
-  boolean(const char* literal)
+  boolean(const std::string& literal)
     : xsd::value{literal} {}
 
-  boolean(const std::string& literal)
+  boolean(const char* literal)
     : xsd::value{literal} {}
 
   virtual bool validate() const noexcept override;

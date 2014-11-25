@@ -17,6 +17,9 @@ protected:
   value(const std::string& literal)
     : _literal{literal} {}
 
+  value(const char* literal)
+    : _literal{literal} {}
+
   virtual ~value() = default;
 
 public:

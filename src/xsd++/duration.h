@@ -36,6 +36,9 @@ public:
   duration(const std::string& literal)
     : xsd::value{literal} {}
 
+  duration(const char* literal)
+    : xsd::value{literal} {}
+
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;

@@ -60,6 +60,9 @@ public:
   integer(const std::string& literal)
     : decimal{literal} {}
 
+  integer(const char* literal)
+    : decimal{literal} {}
+
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;

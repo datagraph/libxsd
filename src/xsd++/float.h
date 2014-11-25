@@ -45,6 +45,9 @@ public:
   float_(const std::string& literal)
     : xsd::value{literal} {}
 
+  float_(const char* literal)
+    : xsd::value{literal} {}
+
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;

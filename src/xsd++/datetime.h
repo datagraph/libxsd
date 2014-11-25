@@ -36,6 +36,9 @@ public:
   datetime(const std::string& literal)
     : xsd::value{literal} {}
 
+  datetime(const char* literal)
+    : xsd::value{literal} {}
+
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;

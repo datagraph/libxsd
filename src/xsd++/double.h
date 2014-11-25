@@ -45,9 +45,16 @@ public:
   double_(const std::string& literal)
     : xsd::value{literal} {}
 
+  double_(const char* literal)
+    : xsd::value{literal} {}
+
   virtual bool validate() const noexcept override;
 
   virtual bool canonicalize() noexcept override;
+
+  virtual explicit operator double() const override;
+
+  virtual explicit operator float() const override;
 
   value_type value() const;
 
