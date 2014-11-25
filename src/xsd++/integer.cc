@@ -24,6 +24,65 @@ constexpr char integer::pattern[];
 
 static const std::regex integer_regex{integer::pattern};
 
+integer::value_type
+integer::parse(const char* literal) {
+  std::error_condition error;
+  const auto value = parse(literal, error);
+
+  if (error) {
+    if (error == std::errc::invalid_argument) {
+      throw std::invalid_argument{literal};
+    }
+    if (error == std::errc::result_out_of_range) {
+      if (value == INTMAX_MIN) {
+        throw std::underflow_error{literal};
+      }
+      else {
+        throw std::overflow_error{literal};
+      }
+    }
+  }
+
+  return value;
+}
+
+integer::value_type
+integer::parse(const char* literal,
+               std::error_condition& error) noexcept {
+  return parse(literal, INTMAX_MIN, INTMAX_MAX, error);
+}
+
+integer::value_type
+integer::parse(const char* literal,
+               const integer::value_type min_value,
+               const integer::value_type max_value,
+               std::error_condition& error) noexcept {
+  if (!match(literal)) {
+    error = std::errc::invalid_argument;
+    return 0;
+  }
+
+  errno = 0;
+  auto value = std::strtoimax(literal, nullptr, 10);
+
+  if (errno == EINVAL) {
+    error = std::errc::invalid_argument;
+  }
+  else if (errno == ERANGE) {
+    error = std::errc::result_out_of_range;
+  }
+  else if (value < min_value) {
+    error = std::errc::result_out_of_range;
+    value = INTMAX_MIN;
+  }
+  else if (value > max_value) {
+    error = std::errc::result_out_of_range;
+    value = INTMAX_MAX;
+  }
+
+  return value;
+}
+
 bool
 integer::match(const char* literal) noexcept {
   return std::regex_match(literal, integer_regex, match_not_null);
@@ -69,23 +128,19 @@ integer::canonicalize() noexcept {
   return false; /* already in canonical form */
 }
 
-std::intmax_t
-integer::as_integer(const std::intmax_t min_value,
-                    const std::intmax_t max_value) const {
-  errno = 0;
-  const auto value = std::strtoimax(c_str(), nullptr, 10);
+integer::operator long long() const {
+  std::error_condition error;
+  const auto result = value(error);
+  if (error) throw std::bad_cast{};
+  return result;
+}
 
-  if (errno == EINVAL) {
-    throw std::bad_cast{};
-  }
+integer::value_type
+integer::value() const {
+  return parse(c_str());
+}
 
-  if ((errno == ERANGE && value == INTMAX_MIN) || value < min_value) {
-    throw std::underflow_error{c_str()};
-  }
-
-  if ((errno == ERANGE && value == INTMAX_MAX) || value > max_value) {
-    throw std::overflow_error{c_str()};
-  }
-
-  return value;
+integer::value_type
+integer::value(std::error_condition& error) const noexcept {
+  return parse(c_str(), error);
 }

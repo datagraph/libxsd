@@ -5,7 +5,7 @@
 
 #include "decimal.h"
 
-#include <cstdint> /* for INTMAX_*, std::intmax_t */
+#include <cstdint> /* for std::intmax_t */
 #include <string>  /* for std::to_string() */
 
 namespace xsd {
@@ -27,6 +27,11 @@ public:
   static value_type parse(const char* literal);
 
   static value_type parse(const char* literal, std::error_condition& error) noexcept;
+
+  static value_type parse(const char* literal,
+    value_type min_value,
+    value_type max_value,
+    std::error_condition& error) noexcept;
 
   static bool match(const std::string& literal) noexcept {
     return match(literal.c_str());
@@ -59,9 +64,7 @@ public:
 
   virtual bool canonicalize() noexcept override;
 
-  value_type as_integer(
-    value_type min_value = INTMAX_MIN,
-    value_type max_value = INTMAX_MAX) const;
+  virtual explicit operator long long() const override;
 
   value_type value() const;
 

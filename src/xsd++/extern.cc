@@ -268,21 +268,10 @@ xsd_integer_value(const char* literal,
                   const std::intmax_t max_value) {
   assert(literal != nullptr);
 
-  try {
-    return xsd::integer{literal}.as_integer(min_value, max_value);
-  }
-  catch (const std::underflow_error& error) {
-    errno = ERANGE;
-    return min_value;
-  }
-  catch (const std::overflow_error& error) {
-    errno = ERANGE;
-    return max_value;
-  }
-  catch (const std::bad_cast& error) {
-    errno = EINVAL; /* Invalid argument */
-    return 0;
-  }
+  std::error_condition error;
+  const auto value = xsd::integer::parse(literal, min_value, max_value, error);
+  if (error) errno = error.value();
+  return value;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
