@@ -23,8 +23,8 @@ constexpr char decimal::pattern[];
 static const std::regex decimal_regex{decimal::pattern};
 
 bool
-decimal::match(const std::string& literal) noexcept {
-  return !literal.empty() && std::regex_match(literal, decimal_regex, match_not_null);
+decimal::match(const char* literal) noexcept {
+  return *literal != '\0' && std::regex_match(literal, decimal_regex, match_not_null);
 }
 
 bool

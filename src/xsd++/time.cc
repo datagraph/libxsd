@@ -25,7 +25,7 @@ constexpr char time::pattern[];
 static const std::regex time_regex{time::pattern};
 
 bool
-time::match(const std::string& literal) noexcept {
+time::match(const char* literal) noexcept {
   return std::regex_match(literal, time_regex, match_not_null);
 }
 

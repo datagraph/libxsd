@@ -25,7 +25,7 @@ constexpr char integer::pattern[];
 static const std::regex integer_regex{integer::pattern};
 
 bool
-integer::match(const std::string& literal) noexcept {
+integer::match(const char* literal) noexcept {
   return std::regex_match(literal, integer_regex, match_not_null);
 }
 

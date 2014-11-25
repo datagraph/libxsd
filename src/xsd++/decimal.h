@@ -21,7 +21,19 @@ public:
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$";
   static constexpr bool captures  = 4;
 
-  static bool match(const std::string& literal) noexcept;
+  static value_type parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
+
+  static value_type parse(const char* literal);
+
+  static value_type parse(const char* literal, std::error_condition& error) noexcept;
+
+  static bool match(const std::string& literal) noexcept {
+    return match(literal.c_str());
+  }
+
+  static bool match(const char* literal) noexcept;
 
   decimal(int literal)
     : value{std::to_string(literal)} {}

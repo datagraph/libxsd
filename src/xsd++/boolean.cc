@@ -21,7 +21,7 @@ constexpr char boolean::pattern[];
 static const std::regex boolean_regex{boolean::pattern};
 
 bool
-boolean::match(const std::string& literal) noexcept {
+boolean::match(const char* literal) noexcept {
   return std::regex_match(literal, boolean_regex, match_not_null);
 }
 

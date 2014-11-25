@@ -25,7 +25,7 @@ constexpr char datetime::pattern[];
 static const std::regex datetime_regex{datetime::pattern};
 
 bool
-datetime::match(const std::string& literal) noexcept {
+datetime::match(const char* literal) noexcept {
   return std::regex_match(literal, datetime_regex, match_not_null);
 }
 

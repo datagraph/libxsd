@@ -7,6 +7,7 @@
 #include "regex.h"  /* for std::regex, std::regex_match() */
 #include "string.h"
 
+using namespace std::regex_constants;
 using namespace xsd;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -18,8 +19,8 @@ constexpr char string::pattern[];
 static const std::regex string_regex{string::pattern};
 
 bool
-string::match(const std::string& literal) noexcept {
-  return std::regex_match(literal, string_regex);
+string::match(const char* literal) noexcept {
+  return std::regex_match(literal, string_regex, match_default);
 }
 
 bool

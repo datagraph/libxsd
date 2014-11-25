@@ -25,7 +25,7 @@ constexpr char date::pattern[];
 static const std::regex date_regex{date::pattern};
 
 bool
-date::match(const std::string& literal) noexcept {
+date::match(const char* literal) noexcept {
   return std::regex_match(literal, date_regex, match_not_null);
 }
 

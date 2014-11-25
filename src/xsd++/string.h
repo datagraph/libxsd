@@ -17,7 +17,19 @@ public:
   static constexpr char pattern[] = "^(.*)$";
   static constexpr bool captures  = 1;
 
-  static bool match(const std::string& literal) noexcept;
+  static value_type parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
+
+  static value_type parse(const char* literal);
+
+  static value_type parse(const char* literal, std::error_condition& error) noexcept;
+
+  static bool match(const std::string& literal) noexcept {
+    return match(literal.c_str());
+  }
+
+  static bool match(const char* literal) noexcept;
 
   string(const std::string& literal)
     : value{literal} {}
