@@ -85,17 +85,17 @@ float_::operator double() const {
 
 float_::operator float() const {
   std::error_condition error;
-  const auto value = as_float(error);
+  const auto result = value(error);
   if (error) throw std::bad_cast{};
-  return value;
+  return result;
 }
 
 float
-float_::as_float() const {
+float_::value() const {
   return parse(c_str());
 }
 
 float
-float_::as_float(std::error_condition& error) const noexcept {
+float_::value(std::error_condition& error) const noexcept {
   return parse(c_str(), error);
 }

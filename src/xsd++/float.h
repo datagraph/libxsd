@@ -34,16 +34,16 @@ public:
   static bool match(const char* literal) noexcept;
 
   float_(float literal)
-    : value{std::to_string(literal)} {}
+    : xsd::value{std::to_string(literal)} {}
 
   float_(double literal)
-    : value{std::to_string(static_cast<float>(literal))} {}
+    : xsd::value{std::to_string(static_cast<float>(literal))} {}
 
   float_(long double literal)
-    : value{std::to_string(static_cast<float>(literal))} {}
+    : xsd::value{std::to_string(static_cast<float>(literal))} {}
 
   float_(const std::string& literal)
-    : value{literal} {}
+    : xsd::value{literal} {}
 
   virtual bool validate() const noexcept override;
 
@@ -53,9 +53,9 @@ public:
 
   virtual explicit operator float() const override;
 
-  float as_float() const;
+  value_type value() const;
 
-  float as_float(std::error_condition& error) const noexcept;
+  value_type value(std::error_condition& error) const noexcept;
 };
 
 #endif /* XSDXX_FLOAT_H */
