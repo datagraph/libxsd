@@ -10,6 +10,7 @@
 
 #include <algorithm> /* for std::copy() */
 #include <cassert>   /* for assert() */
+#include <cerrno>    /* for errno */
 #include <cinttypes> /* for std::strtoimax() */
 
 using namespace std::regex_constants;

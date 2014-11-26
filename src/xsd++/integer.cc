@@ -24,6 +24,35 @@ constexpr char integer::pattern[];
 
 static const std::regex integer_regex{integer::pattern};
 
+////////////////////////////////////////////////////////////////////////////////
+
+static bool
+parse_literal(const char* literal,
+              bool& sign,
+              std::string& integer) {
+  std::cmatch matches;
+  if (!std::regex_match(literal, matches, integer_regex, match_not_null)) {
+    return false; /* invalid literal */
+  }
+
+  assert(matches.size() == XSD_INTEGER_CAPTURES);
+
+  /* 3.3.13.2 'The preceding optional "+" sign is prohibited' */
+  if (matches[1].length()) {
+    switch (*matches[1].first) {
+      case '-': sign = false; break;
+      case '+': sign = true; break;
+    }
+  }
+
+  /* 3.3.13.2 'Leading zeroes are prohibited' */
+  integer.append(matches[2].first, matches[2].second);
+
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 integer::value_type
 integer::parse(const char* literal) {
   std::error_condition error;
@@ -57,19 +86,22 @@ integer::parse(const char* literal,
                const integer::value_type min_value,
                const integer::value_type max_value,
                std::error_condition& error) noexcept {
-  if (!match(literal)) {
-    error = std::errc::invalid_argument;
-    return 0;
+  bool sign{true};
+  std::string integer;
+
+  if (!parse_literal(literal, sign, integer)) {
+   error = std::errc::invalid_argument;
+   return {};
   }
 
   errno = 0;
-  auto value = std::strtoimax(literal, nullptr, 10);
-
-  if (errno == EINVAL) {
-    error = std::errc::invalid_argument;
+  auto value = std::strtoimax(integer.c_str(), nullptr, 10);
+  if (sign == false) {
+    value = -value;
   }
-  else if (errno == ERANGE) {
-    error = std::errc::result_out_of_range;
+
+  if (errno) {
+    error.assign(errno, std::generic_category());
   }
   else if (value < min_value) {
     error = std::errc::result_out_of_range;
@@ -95,28 +127,21 @@ integer::validate() const noexcept {
 
 bool
 integer::canonicalize() noexcept {
-  std::cmatch matches;
-  if (!std::regex_match(c_str(), matches, integer_regex, match_not_null)) {
+  bool sign{true};
+  std::string integer;
+
+  if (!parse_literal(c_str(), sign, integer)) {
     throw std::invalid_argument{c_str()}; /* invalid literal */
   }
-
-  assert(matches.size() == XSD_INTEGER_CAPTURES);
 
   char buffer[256] = "";
   char* output = buffer;
 
   /* 3.3.13.2 'The preceding optional "+" sign is prohibited' */
-  if (matches[1].length()) {
-    const char sign = *matches[1].first;
-    if (sign == '-') {
-      *output++ = sign;
-    }
-  }
+  if (sign == false) *output++ = '-';
 
   /* 3.3.13.2 'Leading zeroes are prohibited' */
-  {
-    output = std::copy(matches[2].first, matches[2].second, output);
-  }
+  output = std::copy(integer.cbegin(), integer.cend(), output);
 
   *output++ = '\0';
 
