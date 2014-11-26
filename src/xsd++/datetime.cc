@@ -163,7 +163,7 @@ datetime::parse(const char* literal) {
 datetime::value_type
 datetime::parse(const char* literal,
                std::error_condition& error) noexcept {
-  model time;
+  model time{};
 
   if (!parse_literal(literal, time)) {
     error = std::errc::invalid_argument;
@@ -203,7 +203,7 @@ datetime::validate() const noexcept {
 
 bool
 datetime::canonicalize() noexcept {
-  model time;
+  model time{};
 
   if (!parse_literal(c_str(), time)) {
     throw std::invalid_argument{c_str()}; /* invalid literal */
