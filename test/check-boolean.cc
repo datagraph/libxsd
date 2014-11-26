@@ -73,7 +73,7 @@ TEST_CASE("canonicalize_1") {
 
 TEST_CASE("canonicalize_invalid") {
   xsd::boolean value("");
-  REQUIRE(value.canonicalize() == false);
+  REQUIRE_THROWS_AS(value.canonicalize(), std::invalid_argument);
 }
 
 TEST_CASE("cast_to_bool") {
