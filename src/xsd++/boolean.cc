@@ -4,53 +4,91 @@
 #include <config.h>
 #endif
 
-#include "xsd++/boolean.h"
+#include "boolean.h"
+#include "regex.h"   /* for std::regex, std::regex_match() */
 
-#include "xsd++/regex.h" /* for std::regex, std::regex_match() */
+#include <stdexcept> /* for std::invalid_argument */
 
+using namespace std::regex_constants;
 using namespace xsd;
+
+////////////////////////////////////////////////////////////////////////////////
 
 constexpr char boolean::name[];
 
 constexpr char boolean::pattern[];
 
-static const std::regex boolean_regex(boolean::pattern);
+static const std::regex boolean_regex{boolean::pattern};
+
+////////////////////////////////////////////////////////////////////////////////
 
 bool
-boolean::match(const std::string& literal) noexcept {
-  return std::regex_match(literal, boolean_regex);
+boolean::validate(const char* literal) noexcept {
+  return boolean::match(literal);
 }
 
 bool
-boolean::validate() const noexcept {
-  return boolean::match(_literal);
+boolean::match(const char* literal) noexcept {
+  return std::regex_match(literal, boolean_regex, match_not_null);
 }
 
 bool
-boolean::canonicalize() {
-  if (_literal.compare("true") == 0) {
+boolean::canonicalize(std::string& literal) {
+  if (literal.compare("true") == 0) {
     return false; /* already in canonical form */
   }
 
-  if (_literal.compare("false") == 0) {
+  if (literal.compare("false") == 0) {
     return false; /* already in canonical form */
   }
 
-  if (_literal.compare("1") == 0) {
-    _literal.assign("true"); /* can throw std::bad_alloc */
+  if (literal.compare("1") == 0) {
+    literal.assign("true"); /* can throw std::bad_alloc */
     return true; /* now in canonical form */
   }
 
-  if (_literal.compare("0") == 0) {
-    _literal.assign("false"); /* can throw std::bad_alloc */
+  if (literal.compare("0") == 0) {
+    literal.assign("false"); /* can throw std::bad_alloc */
     return true; /* now in canonical form */
   }
 
-  return false; /* invalid literal */
+  throw std::invalid_argument{literal}; /* invalid literal */
 }
 
-boolean::operator bool() const {
-  if (!validate()) throw std::bad_cast();
-  return _literal.compare("true") == 0 ||
-         _literal.compare("1") == 0;
+boolean
+boolean::parse(const char* literal) {
+  std::error_condition error;
+  const auto value = parse(literal, error);
+
+  if (error) {
+    if (error == std::errc::invalid_argument) {
+      throw std::invalid_argument{literal};
+    }
+  }
+
+  return boolean{value};
+}
+
+boolean
+boolean::parse(const char* literal,
+               std::error_condition& error) noexcept {
+  if (!match(literal)) {
+    error = std::errc::invalid_argument;
+    return boolean{false};
+  }
+
+  return boolean{std::strcmp(literal, "true") == 0 ||
+                 std::strcmp(literal, "1") == 0};
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+boolean::normalize() noexcept {
+  return false; /* already in normal form */
+}
+
+std::string
+boolean::literal() const {
+  return {value() ? "true" : "false"};
 }

@@ -1,31 +1,30 @@
 /* This is free and unencumbered software released into the public domain. */
 
-#ifndef XSDXX_INTEGER_H
-#define XSDXX_INTEGER_H
+#ifndef XSDXX_DURATION_H
+#define XSDXX_DURATION_H
 
 #include "value.h"
 
-#include <cstdint> /* for std::intmax_t */
-#include <string>  /* for std::to_string() */
+#include <cstdint> /* for std::int64_t */
 
 namespace xsd {
-  class integer;
+  class duration;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class xsd::integer : public xsd::value {
+class xsd::duration : public xsd::value {
 public:
-  using value_type = std::intmax_t;
+  using value_type = std::int64_t;
   using model_type = value_type;
 
 protected:
   value_type _value{};
 
 public:
-  static constexpr char name[]    = "integer";
-  static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
-  static constexpr bool captures  = 3;
+  static constexpr char name[]    = "duration";
+  static constexpr char pattern[] = ".*$"; // TODO
+  static constexpr bool captures  = 0;
 
   /**
    * @copydoc xsd::value::validate(std::string&)
@@ -53,29 +52,20 @@ public:
 
   static bool canonicalize(std::string& literal);
 
-  static integer parse(const std::string& literal) {
+  static duration parse(const std::string& literal) {
     return parse(literal.c_str());
   }
 
-  static integer parse(const char* literal);
+  static duration parse(const char* literal);
 
-  static integer parse(const char* literal, std::error_condition& error) noexcept;
+  static duration parse(const char* literal, std::error_condition& error) noexcept;
 
-  static integer parse(const char* literal,
-    value_type min_value,
-    value_type max_value,
-    std::error_condition& error) noexcept;
+  duration() noexcept = default;
 
-  integer() noexcept = default;
-
-  integer(const value_type value) noexcept
+  duration(const value_type value) noexcept
     : _value{value} {}
 
   virtual bool normalize() noexcept override;
-
-  virtual explicit operator long long() const override {
-    return value();
-  }
 
   virtual std::string literal() const override;
 
@@ -83,11 +73,9 @@ public:
     return _value;
   }
 
-  model_type model() const noexcept {
-    return _value;
-  }
+  model_type model() const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif /* XSDXX_INTEGER_H */
+#endif /* XSDXX_DURATION_H */

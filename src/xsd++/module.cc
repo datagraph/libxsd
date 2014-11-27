@@ -4,7 +4,9 @@
 #include <config.h>
 #endif
 
-#include "xsd++/module.h"
+#include "module.h"
+
+////////////////////////////////////////////////////////////////////////////////
 
 static const char* const module_names[] = {
   "base64",
@@ -13,6 +15,7 @@ static const char* const module_names[] = {
   "datetime",
   "decimal",
   "double",
+  "duration",
   "float",
   "integer",
   "string",

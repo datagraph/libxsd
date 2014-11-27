@@ -6,8 +6,8 @@
 
 #include "catch.hpp"
 
-#include <xsd++/datetime.h> /* for xsd::datetime */
+#include <xsd++/duration.h> /* for xsd::duration */
 
-TEST_CASE("test_datetime") {
+TEST_CASE("test_duration") {
   // TODO
 }
