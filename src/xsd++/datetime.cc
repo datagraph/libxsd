@@ -8,11 +8,13 @@
 #include "datetime.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
-#include <algorithm> /* for std::copy(), std::copy_n() */
+#include "utility/integer.h"
+
+#include <algorithm> /* for std::copy() */
 #include <array>     /* for std::array */
 #include <cassert>   /* for assert() */
-#include <cstdio>    /* for std::sprintf() */
-#include <cstdlib>   /* for std::abs(), std::atoi() */
+#include <cstdio>    /* for std::snprintf(), td::sprintf() */
+#include <cstdlib>   /* for std::abs(), std::atol() */
 #include <cstring>   /* for std::strchr() */
 
 #define _BSD_SOURCE
@@ -50,20 +52,9 @@ namespace {
   };
 }
 
-template<typename T>
-static T parse_integer(const std::csub_match& match,
-                       const std::size_t offset = 0) {
-  assert(offset <= match.length());
-
-  const auto length = match.length() - offset;
-
-  char buffer[length + 1];
-  std::copy_n(match.first + offset, length, buffer);
-  buffer[length] = '\0';
-
-  return static_cast<T>(std::atoi(buffer));
-}
-
+/**
+ * @see http://www.w3.org/TR/xmlschema11-2/#nt-dateTimeRep
+ */
 static bool
 parse_literal(const char* literal,
               model& time) {
@@ -225,7 +216,7 @@ datetime::canonicalize() noexcept {
     std::snprintf(buffer, sizeof(buffer), "%u", time.microsecond);
     auto trailing_zero = std::strchr(buffer, '0');
     if (trailing_zero) *trailing_zero = '\0';
-    output += std::sprintf(output, ".%06d", std::atoi(buffer));
+    output += std::sprintf(output, ".%06ld", std::atol(buffer));
   }
 
   /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
