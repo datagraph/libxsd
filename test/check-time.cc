@@ -8,6 +8,10 @@
 
 #include <xsd++/time.h> /* for xsd::time */
 
-TEST_CASE("test_time") {
-  // TODO
+TEST_CASE("without_tz") {
+  REQUIRE(xsd::time::parse("00:00:00") == 0);
+}
+
+TEST_CASE("with_tz") {
+  REQUIRE(xsd::time::parse("00:00:00Z") == 0);
 }

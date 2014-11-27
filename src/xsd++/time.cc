@@ -8,10 +8,19 @@
 #include "regex.h"   /* for std::regex, std::regex_match() */
 #include "time.h"
 
-#include <algorithm> /* for std::copy(), std::copy_n() */
+#include "utility/integer.h"
+
+#include <algorithm> /* for std::copy() */
+#include <array>     /* for std::array */
 #include <cassert>   /* for assert() */
-#include <cstdio>    /* for std::sprintf() */
-#include <cstdlib>   /* for std::atoi() */
+#include <cstdio>    /* for std::snprintf(), td::sprintf() */
+#include <cstdlib>   /* for std::abs(), std::atol() */
+#include <cstring>   /* for std::strchr() */
+
+#ifndef _BSD_SOURCE
+#define _BSD_SOURCE
+#endif
+#include <ctime>     /* for struct tm, timegm() */
 
 using namespace std::regex_constants;
 using namespace xsd;
@@ -23,6 +32,142 @@ constexpr char time::name[];
 constexpr char time::pattern[];
 
 static const std::regex time_regex{time::pattern};
+
+static const std::regex timezone_regex{"([-+])([0-9]{2}):([0-9]{2})"};
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace {
+  /**
+   * @see http://www.w3.org/TR/xmlschema11-2/#dt-dt-7PropMod
+   */
+  struct model final {
+    unsigned short hour;
+    unsigned short minute;
+    unsigned short second;
+    unsigned int microsecond;
+    bool tz;
+    signed short tz_hour;
+    unsigned short tz_minute;
+  };
+}
+
+/**
+ * @see http://www.w3.org/TR/xmlschema11-2/#nt-timeRep
+ */
+static bool
+parse_literal(const char* literal,
+              model& time) {
+
+  std::cmatch matches;
+  if (!std::regex_match(literal, matches, time_regex, match_not_null)) {
+    return false; /* invalid literal */
+  }
+
+  assert(matches.size() == XSD_TIME_CAPTURES);
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-hrFrag */
+  time.hour = parse_integer<decltype(time.hour)>(matches[1]);
+  if (time.hour > 24) {
+    return false; /* invalid literal */
+  }
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-miFrag */
+  time.minute = parse_integer<decltype(time.minute)>(matches[2]);
+  if (time.minute > 59) {
+    return false; /* invalid literal */
+  }
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-seFrag */
+  time.second = parse_integer<decltype(time.second)>(matches[3]);
+  if (time.second > 59) {
+    return false; /* invalid literal */
+  }
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-seFrag */
+  if (matches[4].length()) {
+    time.microsecond = parse_integer<decltype(time.microsecond)>(matches[4], 1);
+    while (time.microsecond >= 1000000) {
+      time.microsecond /= 10;
+    }
+  }
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
+  if (!matches[5].length()) {
+    time.tz = false;
+    time.tz_hour = 0;
+    time.tz_minute = 0;
+  }
+  else {
+    time.tz = true;
+    const std::string match{matches[5].first, matches[5].second};
+    if (match.compare("Z") == 0 || match.compare("-00:00") == 0 || match.compare("+00:00") == 0) {
+      time.tz_hour = 0;
+      time.tz_minute = 0;
+    }
+    else {
+      std::cmatch matches;
+      std::regex_match(match.c_str(), matches, timezone_regex, match_not_null);
+      assert(matches.size() == 3);
+      const bool sign = !matches[1].length() || !(*matches[1].first == '-');
+      time.tz_hour = parse_integer<decltype(time.tz_hour)>(matches[2]);
+      time.tz_minute = parse_integer<decltype(time.tz_minute)>(matches[3]);
+      if (sign == false) time.tz_hour = -time.tz_hour;
+    }
+  }
+
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+time::value_type
+time::parse(const char* literal) {
+  std::error_condition error;
+  const auto value = parse(literal, error);
+
+  if (error) {
+    if (error == std::errc::invalid_argument) {
+      throw std::invalid_argument{literal};
+    }
+    if (error == std::errc::result_out_of_range) {
+      throw std::overflow_error{literal};
+    }
+  }
+
+  return value;
+}
+
+time::value_type
+time::parse(const char* literal,
+            std::error_condition& error) noexcept {
+  model time{};
+
+  if (!parse_literal(literal, time)) {
+    error = std::errc::invalid_argument;
+    return {};
+  }
+
+  time.hour = (time.hour - time.tz_hour) % 24;
+  time.minute = (time.minute - time.tz_minute) % 60;
+
+  struct tm tm = {
+    .tm_year = 70,
+    .tm_mon  = 0,
+    .tm_mday = 1,
+    .tm_hour = time.hour,
+    .tm_min  = time.minute,
+    .tm_sec  = time.second,
+  };
+
+  const auto epoch_time = timegm(&tm);
+  if (epoch_time == static_cast<time_t>(-1)) {
+    error = std::errc::invalid_argument;
+    return {};
+  }
+
+  return epoch_time * 1000000 + time.microsecond;
+}
 
 bool
 time::match(const char* literal) noexcept {
@@ -36,82 +181,52 @@ time::validate() const noexcept {
 
 bool
 time::canonicalize() noexcept {
-  static auto match_to_int = [](const std::csub_match& match) -> unsigned int {
-    const auto length = match.length();
-    char buffer[length + 1];
-    std::copy_n(match.first, length, buffer);
-    buffer[length] = '\0';
-    return std::atoi(buffer);
-  };
+  model time{};
 
-  std::cmatch matches;
-  if (!std::regex_match(c_str(), matches, time_regex, match_not_null)) {
+  if (!parse_literal(c_str(), time)) {
     throw std::invalid_argument{c_str()}; /* invalid literal */
   }
 
-  assert(matches.size() == XSD_TIME_CAPTURES);
+  time.hour = (time.hour - time.tz_hour) % 24;
+  time.minute = (time.minute - time.tz_minute) % 60;
 
-  char buffer[256] = "";
-  char* output = buffer;
+  std::array<char, 256> buffer;
+  char* output = buffer.data();
 
-  /* TZ */
-  int tz_hour = 0, tz_min = 0;
-  if (matches[5].length()) {
-    const std::string match{matches[5].first, matches[5].second};
-    const int sign = (match[0] == '-') ? -1 : 1;
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-timeRep */
+  output += std::sprintf(output, "%02hu:%02hu:%02hu",
+    time.hour, time.minute, time.second);
 
-    if (match.compare("Z") != 0 || match.compare("-00:00") != 0 || match.compare("+00:00") != 0) {
-      tz_hour = sign * std::atoi(match.c_str() + 1);
-      tz_min  = sign * std::atoi(match.c_str() + 4);
-    }
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-seFrag */
+  if (time.microsecond) {
+    char buffer[16];
+    std::snprintf(buffer, sizeof(buffer), "%u", time.microsecond);
+    auto trailing_zero = std::strchr(buffer, '0');
+    if (trailing_zero) *trailing_zero = '\0';
+    output += std::sprintf(output, ".%06ld", std::atol(buffer));
   }
 
-  /* "hh" */
-  {
-    const unsigned int hour = match_to_int(matches[1]);
-    if (hour >= 24) {
-      throw std::invalid_argument{c_str()}; /* invalid literal */
-    }
-    output += std::sprintf(output, "%02u", (hour - tz_hour) % 24);
-  }
-
-  /* "mm" */
-  {
-    const unsigned int min = match_to_int(matches[2]);
-    if (min >= 60) {
-      throw std::invalid_argument{c_str()}; /* invalid literal */
-    }
-    output += std::sprintf(output, ":%02u", (min - tz_min) % 60);
-  }
-
-  /* "ss" */
-  {
-    const unsigned int sec = match_to_int(matches[3]);
-    if (sec >= 60) {
-      throw std::invalid_argument{c_str()}; /* invalid literal */
-    }
-    output += std::sprintf(output, ":%02u", sec);
-  }
-
-  /* ".sss" */
-  if (matches[4].length()) {
-    const std::string match{matches[4].first, matches[4].second};
-    // TODO: trim off any trailing zeroes.
-    const unsigned int msec = std::atoi(match.c_str() + 1);
-    output += std::sprintf(output, ".%u", msec);
-  }
-
-  /* TZ */
-  if (matches[5].length()) {
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
+  if (time.tz) {
     *output++ = 'Z';
   }
 
   *output++ = '\0';
 
-  if (_literal.compare(buffer) != 0) {
-    _literal.assign(buffer);
+  if (_literal.compare(buffer.data()) != 0) {
+    _literal.assign(buffer.data());
     return true; /* now in canonical form */
   }
 
   return false; /* already in canonical form */
+}
+
+time::value_type
+time::value() const {
+  return parse(c_str());
+}
+
+time::value_type
+time::value(std::error_condition& error) const noexcept {
+  return parse(c_str(), error);
 }
