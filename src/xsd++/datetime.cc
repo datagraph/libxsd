@@ -17,7 +17,9 @@
 #include <cstdlib>   /* for std::abs(), std::atol() */
 #include <cstring>   /* for std::strchr() */
 
+#ifndef _BSD_SOURCE
 #define _BSD_SOURCE
+#endif
 #include <ctime>     /* for struct tm, timegm() */
 
 using namespace std::regex_constants;
@@ -47,6 +49,7 @@ namespace {
     unsigned short minute;
     unsigned short second;
     unsigned int microsecond;
+    bool tz;
     signed short tz_hour;
     unsigned short tz_minute;
   };
@@ -112,7 +115,13 @@ parse_literal(const char* literal,
   }
 
   /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
-  if (matches[9].length()) {
+  if (!matches[9].length()) {
+    time.tz = false;
+    time.tz_hour = 0;
+    time.tz_minute = 0;
+  }
+  else {
+    time.tz = true;
     const std::string match{matches[9].first, matches[9].second};
     if (match.compare("Z") == 0 || match.compare("-00:00") == 0 || match.compare("+00:00") == 0) {
       time.tz_hour = 0;
@@ -220,7 +229,9 @@ datetime::canonicalize() noexcept {
   }
 
   /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
-  *output++ = 'Z';
+  if (time.tz) {
+    *output++ = 'Z';
+  }
 
   *output++ = '\0';
 

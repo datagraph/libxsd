@@ -16,7 +16,9 @@
 #include <cstdio>    /* for std::snprintf(), td::sprintf() */
 #include <cstdlib>   /* for std::abs() */
 
+#ifndef _BSD_SOURCE
 #define _BSD_SOURCE
+#endif
 #include <ctime>     /* for struct tm, timegm() */
 
 using namespace std::regex_constants;
@@ -42,6 +44,7 @@ namespace {
     signed int year;
     unsigned short month;
     unsigned short day;
+    bool tz;
     signed short tz_hour;
     unsigned short tz_minute;
   };
@@ -81,7 +84,13 @@ parse_literal(const char* literal,
   }
 
   /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
-  if (matches[5].length()) {
+  if (!matches[5].length()) {
+    time.tz = false;
+    time.tz_hour = 0;
+    time.tz_minute = 0;
+  }
+  else {
+    time.tz = true;
     const std::string match{matches[5].first, matches[5].second};
     if (match.compare("Z") == 0 || match.compare("-00:00") == 0 || match.compare("+00:00") == 0) {
       time.tz_hour = 0;
@@ -171,7 +180,9 @@ date::canonicalize() noexcept {
     time.year, time.month, time.day);
 
   /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
-  *output++ = 'Z'; // FIXME
+  if (time.tz) {
+    *output++ = 'Z'; // FIXME
+  }
 
   *output++ = '\0';
 
