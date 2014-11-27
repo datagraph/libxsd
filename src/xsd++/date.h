@@ -11,9 +11,23 @@ namespace xsd {
   class date;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::date : public xsd::value {
 public:
   using value_type = std::int64_t;
+
+  /**
+   * @see http://www.w3.org/TR/xmlschema11-2/#dt-dt-7PropMod
+   */
+  struct model_type final {
+    signed int year;
+    unsigned short month;
+    unsigned short day;
+    bool tz;
+    signed short tz_hour;
+    unsigned short tz_minute;
+  };
 
   static constexpr char name[]    = "date";
   static constexpr char pattern[] = "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$";
@@ -47,5 +61,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_DATE_H */

@@ -11,9 +11,12 @@ namespace xsd {
   class duration;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::duration : public xsd::value {
 public:
   using value_type = std::int64_t;
+  using model_type = value_type;
 
   static constexpr char name[]    = "duration";
   static constexpr char pattern[] = ".*$"; // TODO
@@ -47,5 +50,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_DURATION_H */

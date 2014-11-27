@@ -12,9 +12,12 @@ namespace xsd {
   class integer;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::integer : public xsd::decimal {
 public:
   using value_type = std::intmax_t;
+  using model_type = value_type;
 
   static constexpr char name[]    = "integer";
   static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
@@ -73,5 +76,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_INTEGER_H */

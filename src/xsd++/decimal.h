@@ -13,9 +13,12 @@ namespace xsd {
   class decimal;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::decimal : public xsd::value {
 public:
   using value_type = std::pair<std::intmax_t, std::intmax_t>;
+  using model_type = value_type;
 
   static constexpr char name[]    = "decimal";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$";
@@ -67,5 +70,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_DECIMAL_H */

@@ -9,9 +9,12 @@ namespace xsd {
   class base64;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::base64 : public xsd::value {
 public:
   using value_type = std::string;
+  using model_type = value_type;
 
   static constexpr char name[]    = "base64Binary";
   static constexpr char pattern[] = "^(.*)$"; // TODO
@@ -45,5 +48,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_BASE64_H */

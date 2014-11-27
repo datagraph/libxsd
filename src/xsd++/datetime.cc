@@ -37,30 +37,12 @@ static const std::regex timezone_regex{"([-+])([0-9]{2}):([0-9]{2})"};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace {
-  /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#dt-dt-7PropMod
-   */
-  struct model final {
-    signed int year;
-    unsigned short month;
-    unsigned short day;
-    unsigned short hour;
-    unsigned short minute;
-    unsigned short second;
-    unsigned int microsecond;
-    bool tz;
-    signed short tz_hour;
-    unsigned short tz_minute;
-  };
-}
-
 /**
  * @see http://www.w3.org/TR/xmlschema11-2/#nt-dateTimeRep
  */
 static bool
 parse_literal(const char* literal,
-              model& time) {
+              xsd::datetime::model_type& time) {
 
   std::cmatch matches;
   if (!std::regex_match(literal, matches, datetime_regex, match_not_null)) {
@@ -163,7 +145,7 @@ datetime::parse(const char* literal) {
 datetime::value_type
 datetime::parse(const char* literal,
                std::error_condition& error) noexcept {
-  model time{};
+  model_type time{};
 
   if (!parse_literal(literal, time)) {
     error = std::errc::invalid_argument;
@@ -203,7 +185,7 @@ datetime::validate() const noexcept {
 
 bool
 datetime::canonicalize() noexcept {
-  model time{};
+  model_type time{};
 
   if (!parse_literal(c_str(), time)) {
     throw std::invalid_argument{c_str()}; /* invalid literal */

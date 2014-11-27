@@ -11,9 +11,12 @@ namespace xsd {
   class double_;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::double_ : public xsd::value {
 public:
   using value_type = double;
+  using model_type = value_type;
 
   static constexpr char name[]    = "double";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
@@ -60,5 +63,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_DOUBLE_H */

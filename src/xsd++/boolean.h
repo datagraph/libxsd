@@ -9,9 +9,12 @@ namespace xsd {
   class boolean;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::boolean : public xsd::value {
 public:
   using value_type = bool;
+  using model_type = value_type;
 
   static constexpr char name[]    = "boolean";
   static constexpr char pattern[] = "^(true|false|1|0)$";
@@ -50,5 +53,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_BOOLEAN_H */

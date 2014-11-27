@@ -9,9 +9,12 @@ namespace xsd {
   class string;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::string : public xsd::value {
 public:
   using value_type = std::string;
+  using model_type = value_type;
 
   static constexpr char name[]    = "string";
   static constexpr char pattern[] = "^(.*)$";
@@ -45,5 +48,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_STRING_H */

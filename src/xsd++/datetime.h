@@ -11,9 +11,27 @@ namespace xsd {
   class datetime;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::datetime : public xsd::value {
 public:
   using value_type = std::int64_t;
+
+  /**
+   * @see http://www.w3.org/TR/xmlschema11-2/#dt-dt-7PropMod
+   */
+  struct model_type final {
+    signed int year;
+    unsigned short month;
+    unsigned short day;
+    unsigned short hour;
+    unsigned short minute;
+    unsigned short second;
+    unsigned int microsecond;
+    bool tz;
+    signed short tz_hour;
+    unsigned short tz_minute;
+  };
 
   static constexpr char name[]    = "dateTime";
   static constexpr char pattern[] = "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$";
@@ -47,5 +65,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_DATETIME_H */

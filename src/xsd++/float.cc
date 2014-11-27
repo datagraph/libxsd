@@ -22,6 +22,8 @@ constexpr char float_::pattern[];
 
 static const std::regex float_regex{float_::pattern};
 
+////////////////////////////////////////////////////////////////////////////////
+
 float
 float_::parse(const char* literal) {
   std::error_condition error;

@@ -11,9 +11,12 @@ namespace xsd {
   class float_;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 class xsd::float_ : public xsd::value {
 public:
   using value_type = float;
+  using model_type = value_type;
 
   static constexpr char name[]    = "float";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
@@ -60,5 +63,7 @@ public:
 
   value_type value(std::error_condition& error) const noexcept;
 };
+
+////////////////////////////////////////////////////////////////////////////////
 
 #endif /* XSDXX_FLOAT_H */
