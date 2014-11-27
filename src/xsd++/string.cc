@@ -18,17 +18,44 @@ constexpr char string::pattern[];
 
 static const std::regex string_regex{string::pattern};
 
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+string::validate(const char* literal) noexcept {
+  return string::match(literal); // TODO: validate ASCII/UTF-8 encoding
+}
+
 bool
 string::match(const char* literal) noexcept {
   return std::regex_match(literal, string_regex, match_default);
 }
 
 bool
-string::validate() const noexcept {
-  return string::match(_literal); // TODO: validate ASCII/UTF-8 encoding
+string::canonicalize(std::string& literal) {
+  static_cast<void>(literal);
+  return false; /* strings can't be canonicalized */
 }
 
+string
+string::parse(const char* literal) {
+  return string{literal};
+}
+
+string
+string::parse(const char* literal,
+              std::error_condition& error) noexcept {
+  static_cast<void>(error);
+  return string{literal};
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 bool
-string::canonicalize() noexcept {
-  return false; /* strings can't be canonicalized */
+string::normalize() noexcept {
+  return false; /* already in normal form */
+}
+
+std::string
+string::literal() const {
+  return value();
 }

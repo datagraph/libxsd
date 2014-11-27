@@ -18,50 +18,78 @@ public:
   using value_type = double;
   using model_type = value_type;
 
+protected:
+  value_type _value{};
+
+public:
   static constexpr char name[]    = "double";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
   static constexpr bool captures  = 6;
 
-  static value_type parse(const std::string& literal) {
-    return parse(literal.c_str());
+  /**
+   * @copydoc xsd::value::validate(std::string&)
+   */
+  static bool validate(const std::string& literal) noexcept {
+    return validate(literal.c_str());
   }
 
-  static value_type parse(const char* literal);
+  /**
+   * @copydoc xsd::value::validate(const char*)
+   */
+  static bool validate(const char* literal) noexcept;
 
-  static value_type parse(const char* literal, std::error_condition& error) noexcept;
-
+  /**
+   * @copydoc xsd::value::match(std::string&)
+   */
   static bool match(const std::string& literal) noexcept {
     return match(literal.c_str());
   }
 
+  /**
+   * @copydoc xsd::value::match(const char*)
+   */
   static bool match(const char* literal) noexcept;
 
-  double_(float literal)
-    : xsd::value{std::to_string(literal)} {}
+  static bool canonicalize(std::string& literal);
 
-  double_(double literal)
-    : xsd::value{std::to_string(literal)} {}
+  static double_ parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
 
-  double_(long double literal)
-    : xsd::value{std::to_string(static_cast<double>(literal))} {}
+  static double_ parse(const char* literal);
 
-  double_(const std::string& literal)
-    : xsd::value{literal} {}
+  static double_ parse(const char* literal, std::error_condition& error) noexcept;
 
-  double_(const char* literal)
-    : xsd::value{literal} {}
+  double_() noexcept = default;
 
-  virtual bool validate() const noexcept override;
+  double_(const float value) noexcept
+    : _value{value} {}
 
-  virtual bool canonicalize() noexcept override;
+  double_(const double value) noexcept
+    : _value{value} {}
 
-  virtual explicit operator double() const override;
+  double_(const long double value) noexcept
+    : _value{static_cast<double>(value)} {}
 
-  virtual explicit operator float() const override;
+  virtual bool normalize() noexcept override;
 
-  value_type value() const;
+  virtual explicit operator double() const override {
+    return value();
+  }
 
-  value_type value(std::error_condition& error) const noexcept;
+  virtual explicit operator float() const override {
+    return operator double(); /* loss of precision */
+  }
+
+  virtual std::string literal() const override;
+
+  value_type value() const noexcept {
+    return _value;
+  }
+
+  model_type model() const noexcept {
+    return _value;
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

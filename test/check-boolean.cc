@@ -29,63 +29,50 @@ TEST_CASE("match_1") {
 }
 
 TEST_CASE("construct_from_value") {
-  REQUIRE(xsd::boolean(false).to_string() == "false");
-  REQUIRE(xsd::boolean(true).to_string() == "true");
-}
-
-TEST_CASE("construct_from_string") {
-  REQUIRE(xsd::boolean("false").to_string() == "false");
-  REQUIRE(xsd::boolean("true").to_string() == "true");
-  REQUIRE(xsd::boolean("0").to_string() == "0");
-  REQUIRE(xsd::boolean("1").to_string() == "1");
+  REQUIRE(xsd::boolean(false).literal() == "false");
+  REQUIRE(xsd::boolean(true).literal() == "true");
 }
 
 TEST_CASE("validate") {
-  REQUIRE(xsd::boolean("false").validate());
-  REQUIRE(xsd::boolean("true").validate());
-  REQUIRE(xsd::boolean("0").validate());
-  REQUIRE(xsd::boolean("1").validate());
+  REQUIRE(xsd::boolean::validate("false"));
+  REQUIRE(xsd::boolean::validate("true"));
+  REQUIRE(xsd::boolean::validate("0"));
+  REQUIRE(xsd::boolean::validate("1"));
 }
 
 TEST_CASE("canonicalize_false") {
-  xsd::boolean value("false");
-  REQUIRE(value.canonicalize() == false);
-  REQUIRE(value.to_string() == "false");
+  std::string literal{"false"};
+  REQUIRE(xsd::boolean::canonicalize(literal) == false);
 }
 
 TEST_CASE("canonicalize_true") {
-  xsd::boolean value("true");
-  REQUIRE(value.canonicalize() == false);
-  REQUIRE(value.to_string() == "true");
+  std::string literal{"true"};
+  REQUIRE(xsd::boolean::canonicalize(literal) == false);
 }
 
 TEST_CASE("canonicalize_0") {
-  xsd::boolean value("0");
-  REQUIRE(value.canonicalize() == true);
-  REQUIRE(value.to_string() == "false");
+  std::string literal{"0"};
+  REQUIRE(xsd::boolean::canonicalize(literal) == true);
+  REQUIRE(literal == "false");
 }
 
 TEST_CASE("canonicalize_1") {
-  xsd::boolean value("1");
-  REQUIRE(value.canonicalize() == true);
-  REQUIRE(value.to_string() == "true");
+  std::string literal{"1"};
+  REQUIRE(xsd::boolean::canonicalize(literal) == true);
+  REQUIRE(literal == "true");
 }
 
 TEST_CASE("canonicalize_invalid") {
-  xsd::boolean value("");
-  REQUIRE_THROWS_AS(value.canonicalize(), std::invalid_argument);
+  std::string literal{""};
+  REQUIRE_THROWS_AS(xsd::boolean::canonicalize(literal), std::invalid_argument);
 }
 
 TEST_CASE("cast_to_bool") {
   REQUIRE((bool)xsd::boolean(false) == false);
   REQUIRE((bool)xsd::boolean(true) == true);
-  REQUIRE((bool)xsd::boolean("false") == false);
-  REQUIRE((bool)xsd::boolean("true") == true);
-  REQUIRE((bool)xsd::boolean("0") == false);
-  REQUIRE((bool)xsd::boolean("1") == true);
-  REQUIRE_THROWS_AS((bool)xsd::boolean(""), std::bad_cast);
 }
 
+#if 0
 TEST_CASE("cast_to_int") {
   REQUIRE_THROWS_AS((int)xsd::boolean(false), std::bad_cast);
   REQUIRE_THROWS_AS((int)xsd::boolean(true), std::bad_cast);
@@ -111,7 +98,7 @@ TEST_CASE("cast_to_float") {
   REQUIRE_THROWS_AS((float)xsd::boolean(true), std::bad_cast);
 }
 
-TEST_CASE("cast_to_string") {
+TEST_CASE("cast_literal") {
   REQUIRE((std::string)xsd::boolean(false) == "false");
   REQUIRE((std::string)xsd::boolean(true) == "true");
   REQUIRE((std::string)xsd::boolean("false") == "false");
@@ -119,3 +106,4 @@ TEST_CASE("cast_to_string") {
   REQUIRE((std::string)xsd::boolean("0") == "0");
   REQUIRE((std::string)xsd::boolean("1") == "1");
 }
+#endif

@@ -98,7 +98,47 @@ parse_literal(const char* literal,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-date::value_type
+bool
+date::validate(const char* literal) noexcept {
+  return date::match(literal);
+}
+
+bool
+date::match(const char* literal) noexcept {
+  return std::regex_match(literal, date_regex, match_not_null);
+}
+
+bool
+date::canonicalize(std::string& literal) {
+  model_type time{};
+
+  if (!parse_literal(literal.c_str(), time)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
+  }
+
+  std::array<char, 256> buffer;
+  char* output = buffer.data();
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-dateRep */
+  output += std::sprintf(output, "%04d-%02hu-%02hu",
+    time.year, time.month, time.day);
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
+  if (time.tz) {
+    *output++ = 'Z'; // FIXME
+  }
+
+  *output++ = '\0';
+
+  if (literal.compare(buffer.data()) != 0) {
+    literal.assign(buffer.data());
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
+}
+
+date
 date::parse(const char* literal) {
   std::error_condition error;
   const auto value = parse(literal, error);
@@ -112,10 +152,10 @@ date::parse(const char* literal) {
     }
   }
 
-  return value;
+  return {value};
 }
 
-date::value_type
+date
 date::parse(const char* literal,
             std::error_condition& error) noexcept {
   model_type time{};
@@ -140,52 +180,19 @@ date::parse(const char* literal,
   return epoch_time * 1000000;
 }
 
-bool
-date::match(const char* literal) noexcept {
-  return std::regex_match(literal, date_regex, match_not_null);
-}
+////////////////////////////////////////////////////////////////////////////////
 
 bool
-date::validate() const noexcept {
-  return date::match(_literal);
+date::normalize() noexcept {
+  return false; /* already in normal form */
 }
 
-bool
-date::canonicalize() noexcept {
-  model_type time{};
-
-  if (!parse_literal(c_str(), time)) {
-    throw std::invalid_argument{c_str()}; /* invalid literal */
-  }
-
-  std::array<char, 256> buffer;
-  char* output = buffer.data();
-
-  /* http://www.w3.org/TR/xmlschema11-2/#nt-dateRep */
-  output += std::sprintf(output, "%04d-%02hu-%02hu",
-    time.year, time.month, time.day);
-
-  /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
-  if (time.tz) {
-    *output++ = 'Z'; // FIXME
-  }
-
-  *output++ = '\0';
-
-  if (_literal.compare(buffer.data()) != 0) {
-    _literal.assign(buffer.data());
-    return true; /* now in canonical form */
-  }
-
-  return false; /* already in canonical form */
+std::string
+date::literal() const {
+  return ""; // TODO
 }
 
-date::value_type
-date::value() const {
-  return parse(c_str());
-}
-
-date::value_type
-date::value(std::error_condition& error) const noexcept {
-  return parse(c_str(), error);
+date::model_type
+date::model() const {
+  return {}; // TODO
 }

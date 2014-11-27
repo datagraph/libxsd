@@ -24,17 +24,32 @@ static const std::regex float_regex{float_::pattern};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float
+bool
+float_::validate(const char* literal) noexcept {
+  return float_::match(literal);
+}
+
+bool
+float_::match(const char* literal) noexcept {
+  return std::regex_match(literal, float_regex, match_not_null);
+}
+
+bool
+float_::canonicalize(std::string& literal) {
+  return false; // TODO
+}
+
+float_
 float_::parse(const char* literal) {
   std::error_condition error;
-  const auto value = parse(literal, error);
+  const auto result = parse(literal, error);
 
   if (error) {
     if (error == std::errc::invalid_argument) {
       throw std::invalid_argument{literal};
     }
     if (error == std::errc::result_out_of_range) {
-      if (value == 0.0f) {
+      if (result.value() == 0.0f) {
         throw std::underflow_error{literal};
       }
       else {
@@ -43,10 +58,10 @@ float_::parse(const char* literal) {
     }
   }
 
-  return value;
+  return result;
 }
 
-float
+float_
 float_::parse(const char* literal,
               std::error_condition& error) noexcept {
   if (!match(literal)) {
@@ -66,38 +81,14 @@ float_::parse(const char* literal,
   return value;
 }
 
-bool
-float_::match(const char* literal) noexcept {
-  return std::regex_match(literal, float_regex, match_not_null);
-}
+////////////////////////////////////////////////////////////////////////////////
 
 bool
-float_::validate() const noexcept {
-  return float_::match(_literal);
+float_::normalize() noexcept {
+  return false; /* already in normal form */
 }
 
-bool
-float_::canonicalize() noexcept {
-  return false; // TODO
-}
-
-float_::operator double() const {
-  return operator float();
-}
-
-float_::operator float() const {
-  std::error_condition error;
-  const auto result = value(error);
-  if (error) throw std::bad_cast{};
-  return result;
-}
-
-float
-float_::value() const {
-  return parse(c_str());
-}
-
-float
-float_::value(std::error_condition& error) const noexcept {
-  return parse(c_str(), error);
+std::string
+float_::literal() const {
+  return std::to_string(value());
 }

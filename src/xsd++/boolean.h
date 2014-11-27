@@ -16,42 +16,68 @@ public:
   using value_type = bool;
   using model_type = value_type;
 
+protected:
+  value_type _value{};
+
+public:
   static constexpr char name[]    = "boolean";
   static constexpr char pattern[] = "^(true|false|1|0)$";
   static constexpr bool captures  = 1;
 
-  static value_type parse(const std::string& literal) {
-    return parse(literal.c_str());
+  /**
+   * @copydoc xsd::value::validate(std::string&)
+   */
+  static bool validate(const std::string& literal) noexcept {
+    return validate(literal.c_str());
   }
 
-  static value_type parse(const char* literal);
+  /**
+   * @copydoc xsd::value::validate(const char*)
+   */
+  static bool validate(const char* literal) noexcept;
 
-  static value_type parse(const char* literal, std::error_condition& error) noexcept;
-
+  /**
+   * @copydoc xsd::value::match(std::string&)
+   */
   static bool match(const std::string& literal) noexcept {
     return match(literal.c_str());
   }
 
+  /**
+   * @copydoc xsd::value::match(const char*)
+   */
   static bool match(const char* literal) noexcept;
 
-  explicit boolean(bool literal)
-    : xsd::value{literal ? "true" : "false"} {}
+  static bool canonicalize(std::string& literal);
 
-  boolean(const std::string& literal)
-    : xsd::value{literal} {}
+  static boolean parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
 
-  boolean(const char* literal)
-    : xsd::value{literal} {}
+  static boolean parse(const char* literal);
 
-  virtual bool validate() const noexcept override;
+  static boolean parse(const char* literal, std::error_condition& error) noexcept;
 
-  virtual bool canonicalize() override;
+  boolean() noexcept = default;
 
-  virtual explicit operator bool() const override;
+  explicit boolean(const bool value) noexcept
+    : _value{value} {}
 
-  value_type value() const;
+  virtual bool normalize() noexcept override;
 
-  value_type value(std::error_condition& error) const noexcept;
+  virtual explicit operator bool() const override {
+    return value();
+  }
+
+  virtual std::string literal() const override;
+
+  value_type value() const noexcept {
+    return _value;
+  }
+
+  model_type model() const noexcept {
+    return _value;
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

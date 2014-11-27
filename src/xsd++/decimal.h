@@ -17,58 +17,78 @@ namespace xsd {
 
 class xsd::decimal : public xsd::value {
 public:
-  using value_type = std::pair<std::intmax_t, std::intmax_t>;
-  using model_type = value_type;
+  struct model_type final {
+    std::intmax_t integer;
+    std::intmax_t fraction;
+  };
+  using value_type = model_type;
 
+protected:
+  value_type _value{};
+
+public:
   static constexpr char name[]    = "decimal";
   static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$";
   static constexpr bool captures  = 4;
 
-  static value_type parse(const std::string& literal) {
-    return parse(literal.c_str());
+  /**
+   * @copydoc xsd::value::validate(std::string&)
+   */
+  static bool validate(const std::string& literal) noexcept {
+    return validate(literal.c_str());
   }
 
-  static value_type parse(const char* literal);
+  /**
+   * @copydoc xsd::value::validate(const char*)
+   */
+  static bool validate(const char* literal) noexcept;
 
-  static value_type parse(const char* literal, std::error_condition& error) noexcept;
-
+  /**
+   * @copydoc xsd::value::match(std::string&)
+   */
   static bool match(const std::string& literal) noexcept {
     return match(literal.c_str());
   }
 
+  static bool canonicalize(std::string& literal);
+
+  static decimal parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
+
+  static decimal parse(const char* literal);
+
+  static decimal parse(const char* literal, std::error_condition& error) noexcept;
+
+  /**
+   * @copydoc xsd::value::match(const char*)
+   */
   static bool match(const char* literal) noexcept;
 
-  decimal(int literal)
-    : xsd::value{std::to_string(literal)} {}
+  decimal() noexcept = default;
 
-  decimal(unsigned int literal)
-    : xsd::value{std::to_string(literal)} {}
+  decimal(const value_type value) noexcept
+    : _value{value.integer, value.fraction} {}
 
-  decimal(long literal)
-    : xsd::value{std::to_string(literal)} {}
+  virtual bool normalize() noexcept override;
 
-  decimal(unsigned long literal)
-    : xsd::value{std::to_string(literal)} {}
+  virtual explicit operator double() const override {
+    return 0.0; // TODO
+  }
 
-  decimal(long long literal)
-    : xsd::value{std::to_string(literal)} {}
+  virtual explicit operator float() const override {
+    return 0.0f; // TODO
+  }
 
-  decimal(unsigned long long literal)
-    : xsd::value{std::to_string(literal)} {}
+  virtual std::string literal() const override;
 
-  decimal(const std::string& literal)
-    : xsd::value{literal} {}
+  const value_type& value() const noexcept {
+    return _value;
+  }
 
-  decimal(const char* literal)
-    : xsd::value{literal} {}
-
-  virtual bool validate() const noexcept override;
-
-  virtual bool canonicalize() noexcept override;
-
-  value_type value() const;
-
-  value_type value(std::error_condition& error) const noexcept;
+  const model_type& model() const noexcept {
+    return _value;
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

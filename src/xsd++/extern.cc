@@ -30,10 +30,10 @@ template<typename T>
 static bool
 canonicalize(char** literal) {
   try {
-    T value{*literal};
-    if (value.canonicalize()) {
+    std::string buffer{*literal};
+    if (T::canonicalize(buffer)) {
       free(*literal);
-      *literal = strdup(value.c_str());
+      *literal = strdup(buffer.c_str());
       return true;
     }
   }
@@ -50,7 +50,7 @@ template<typename T, typename U>
 static T
 safe_cast(const char* literal) {
   try {
-    return static_cast<T>(U{literal});
+    return static_cast<T>(U::parse(literal));
   }
   catch (const std::bad_cast& error) {
     errno = EINVAL; /* Invalid argument */
@@ -64,7 +64,7 @@ bool
 xsd_base64_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::base64{literal}.validate();
+  return xsd::base64::validate(literal);
 }
 
 bool
@@ -88,7 +88,7 @@ bool
 xsd_boolean_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::boolean{literal}.validate();
+  return xsd::boolean::validate(literal);
 }
 
 bool
@@ -112,7 +112,7 @@ bool
 xsd_date_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::date{literal}.validate();
+  return xsd::date::validate(literal);
 }
 
 bool
@@ -136,7 +136,7 @@ bool
 xsd_datetime_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::datetime{literal}.validate();
+  return xsd::datetime::validate(literal);
 }
 
 bool
@@ -160,7 +160,7 @@ bool
 xsd_decimal_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::decimal{literal}.validate();
+  return xsd::decimal::validate(literal);
 }
 
 bool
@@ -184,7 +184,7 @@ bool
 xsd_double_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::double_{literal}.validate();
+  return xsd::double_::validate(literal);
 }
 
 bool
@@ -208,7 +208,7 @@ bool
 xsd_duration_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::duration{literal}.validate();
+  return xsd::duration::validate(literal);
 }
 
 bool
@@ -227,7 +227,7 @@ bool
 xsd_float_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::float_{literal}.validate();
+  return xsd::float_::validate(literal);
 }
 
 bool
@@ -251,7 +251,7 @@ bool
 xsd_integer_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::integer{literal}.validate();
+  return xsd::integer::validate(literal);
 }
 
 bool
@@ -269,7 +269,7 @@ xsd_integer_value(const char* literal,
   assert(literal != nullptr);
 
   std::error_condition error;
-  const auto value = xsd::integer::parse(literal, min_value, max_value, error);
+  const auto value = xsd::integer::parse(literal, min_value, max_value, error).value();
   if (error) errno = error.value();
   return value;
 }
@@ -280,7 +280,7 @@ bool
 xsd_string_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::string{literal}.validate();
+  return xsd::string::validate(literal);
 }
 
 bool
@@ -304,7 +304,7 @@ bool
 xsd_time_validate(const char* const literal) {
   assert(literal != nullptr);
 
-  return xsd::time{literal}.validate();
+  return xsd::time::validate(literal);
 }
 
 bool

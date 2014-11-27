@@ -125,7 +125,59 @@ parse_literal(const char* literal,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-datetime::value_type
+bool
+datetime::validate(const char* literal) noexcept {
+  return datetime::match(literal);
+}
+
+bool
+datetime::match(const char* literal) noexcept {
+  return std::regex_match(literal, datetime_regex, match_not_null);
+}
+
+bool
+datetime::canonicalize(std::string& literal) {
+  model_type time{};
+
+  if (!parse_literal(literal.c_str(), time)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
+  }
+
+  time.hour = (time.hour - time.tz_hour) % 24;
+  time.minute = (time.minute - time.tz_minute) % 60;
+
+  std::array<char, 256> buffer;
+  char* output = buffer.data();
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-dateTimeRep */
+  output += std::sprintf(output, "%04d-%02hu-%02huT%02hu:%02hu:%02hu",
+    time.year, time.month, time.day, time.hour, time.minute, time.second);
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-seFrag */
+  if (time.microsecond) {
+    char buffer[16];
+    std::snprintf(buffer, sizeof(buffer), "%u", time.microsecond);
+    auto trailing_zero = std::strchr(buffer, '0');
+    if (trailing_zero) *trailing_zero = '\0';
+    output += std::sprintf(output, ".%06ld", std::atol(buffer));
+  }
+
+  /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
+  if (time.tz) {
+    *output++ = 'Z';
+  }
+
+  *output++ = '\0';
+
+  if (literal.compare(buffer.data()) != 0) {
+    literal.assign(buffer.data());
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
+}
+
+datetime
 datetime::parse(const char* literal) {
   std::error_condition error;
   const auto value = parse(literal, error);
@@ -142,7 +194,7 @@ datetime::parse(const char* literal) {
   return value;
 }
 
-datetime::value_type
+datetime
 datetime::parse(const char* literal,
                std::error_condition& error) noexcept {
   model_type time{};
@@ -173,64 +225,19 @@ datetime::parse(const char* literal,
   return epoch_time * 1000000 + time.microsecond;
 }
 
-bool
-datetime::match(const char* literal) noexcept {
-  return std::regex_match(literal, datetime_regex, match_not_null);
-}
+////////////////////////////////////////////////////////////////////////////////
 
 bool
-datetime::validate() const noexcept {
-  return datetime::match(_literal);
+datetime::normalize() noexcept {
+  return false; /* already in normal form */
 }
 
-bool
-datetime::canonicalize() noexcept {
-  model_type time{};
-
-  if (!parse_literal(c_str(), time)) {
-    throw std::invalid_argument{c_str()}; /* invalid literal */
-  }
-
-  time.hour = (time.hour - time.tz_hour) % 24;
-  time.minute = (time.minute - time.tz_minute) % 60;
-
-  std::array<char, 256> buffer;
-  char* output = buffer.data();
-
-  /* http://www.w3.org/TR/xmlschema11-2/#nt-dateTimeRep */
-  output += std::sprintf(output, "%04d-%02hu-%02huT%02hu:%02hu:%02hu",
-    time.year, time.month, time.day, time.hour, time.minute, time.second);
-
-  /* http://www.w3.org/TR/xmlschema11-2/#nt-seFrag */
-  if (time.microsecond) {
-    char buffer[16];
-    std::snprintf(buffer, sizeof(buffer), "%u", time.microsecond);
-    auto trailing_zero = std::strchr(buffer, '0');
-    if (trailing_zero) *trailing_zero = '\0';
-    output += std::sprintf(output, ".%06ld", std::atol(buffer));
-  }
-
-  /* http://www.w3.org/TR/xmlschema11-2/#nt-tzFrag */
-  if (time.tz) {
-    *output++ = 'Z';
-  }
-
-  *output++ = '\0';
-
-  if (_literal.compare(buffer.data()) != 0) {
-    _literal.assign(buffer.data());
-    return true; /* now in canonical form */
-  }
-
-  return false; /* already in canonical form */
+std::string
+datetime::literal() const {
+  return ""; // TODO
 }
 
-datetime::value_type
-datetime::value() const {
-  return parse(c_str());
-}
-
-datetime::value_type
-datetime::value(std::error_condition& error) const noexcept {
-  return parse(c_str(), error);
+datetime::model_type
+datetime::model() const {
+  return {}; // TODO
 }

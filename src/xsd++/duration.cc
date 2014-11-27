@@ -18,17 +18,48 @@ constexpr char duration::pattern[];
 
 static const std::regex duration_regex{duration::pattern};
 
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+duration::validate(const char* literal) noexcept {
+  return duration::match(literal);
+}
+
 bool
 duration::match(const char* literal) noexcept {
   return std::regex_match(literal, duration_regex, match_not_null);
 }
 
 bool
-duration::validate() const noexcept {
-  return duration::match(_literal);
+duration::canonicalize(std::string& literal) {
+  return false; // TODO
 }
 
+duration
+duration::parse(const char* literal) {
+  return duration{}; // TODO
+}
+
+duration
+duration::parse(const char* literal,
+                std::error_condition& error) noexcept {
+  static_cast<void>(error);
+  return duration{}; // TODO
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 bool
-duration::canonicalize() noexcept {
-  return false; // TODO
+duration::normalize() noexcept {
+  return false; /* already in normal form */
+}
+
+std::string
+duration::literal() const {
+  return ""; // TODO
+}
+
+duration::model_type
+duration::model() const {
+  return {}; // TODO
 }

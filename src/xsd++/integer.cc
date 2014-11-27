@@ -53,17 +53,55 @@ parse_literal(const char* literal,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-integer::value_type
+bool
+integer::validate(const char* literal) noexcept {
+  return integer::match(literal);
+}
+
+bool
+integer::match(const char* literal) noexcept {
+  return std::regex_match(literal, integer_regex, match_not_null);
+}
+
+bool
+integer::canonicalize(std::string& literal) {
+  bool sign{true};
+  std::string integer;
+
+  if (!parse_literal(literal.c_str(), sign, integer)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
+  }
+
+  char buffer[256] = "";
+  char* output = buffer;
+
+  /* 3.3.13.2 'The preceding optional "+" sign is prohibited' */
+  if (sign == false) *output++ = '-';
+
+  /* 3.3.13.2 'Leading zeroes are prohibited' */
+  output = std::copy(integer.cbegin(), integer.cend(), output);
+
+  *output++ = '\0';
+
+  if (literal.compare(buffer) != 0) {
+    literal.assign(buffer);
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
+}
+
+integer
 integer::parse(const char* literal) {
   std::error_condition error;
-  const auto value = parse(literal, error);
+  const auto result = parse(literal, error);
 
   if (error) {
     if (error == std::errc::invalid_argument) {
       throw std::invalid_argument{literal};
     }
     if (error == std::errc::result_out_of_range) {
-      if (value == INTMAX_MIN) {
+      if (result.value() == INTMAX_MIN) {
         throw std::underflow_error{literal};
       }
       else {
@@ -72,16 +110,16 @@ integer::parse(const char* literal) {
     }
   }
 
-  return value;
+  return result;
 }
 
-integer::value_type
+integer
 integer::parse(const char* literal,
                std::error_condition& error) noexcept {
   return parse(literal, INTMAX_MIN, INTMAX_MAX, error);
 }
 
-integer::value_type
+integer
 integer::parse(const char* literal,
                const integer::value_type min_value,
                const integer::value_type max_value,
@@ -115,57 +153,14 @@ integer::parse(const char* literal,
   return value;
 }
 
-bool
-integer::match(const char* literal) noexcept {
-  return std::regex_match(literal, integer_regex, match_not_null);
-}
+////////////////////////////////////////////////////////////////////////////////
 
 bool
-integer::validate() const noexcept {
-  return integer::match(_literal);
+integer::normalize() noexcept {
+  return false; /* already in normal form */
 }
 
-bool
-integer::canonicalize() noexcept {
-  bool sign{true};
-  std::string integer;
-
-  if (!parse_literal(c_str(), sign, integer)) {
-    throw std::invalid_argument{c_str()}; /* invalid literal */
-  }
-
-  char buffer[256] = "";
-  char* output = buffer;
-
-  /* 3.3.13.2 'The preceding optional "+" sign is prohibited' */
-  if (sign == false) *output++ = '-';
-
-  /* 3.3.13.2 'Leading zeroes are prohibited' */
-  output = std::copy(integer.cbegin(), integer.cend(), output);
-
-  *output++ = '\0';
-
-  if (_literal.compare(buffer) != 0) {
-    _literal.assign(buffer);
-    return true; /* now in canonical form */
-  }
-
-  return false; /* already in canonical form */
-}
-
-integer::operator long long() const {
-  std::error_condition error;
-  const auto result = value(error);
-  if (error) throw std::bad_cast{};
-  return result;
-}
-
-integer::value_type
-integer::value() const {
-  return parse(c_str());
-}
-
-integer::value_type
-integer::value(std::error_condition& error) const noexcept {
-  return parse(c_str(), error);
+std::string
+integer::literal() const {
+  return std::to_string(value());
 }

@@ -1,6 +1,6 @@
-***********************
-libxsd++: XSD for C++14
-***********************
+*******************************
+libxsd++: XSD library for C++14
+*******************************
 
 ``libxsd++`` is an XML Schema Datatypes (XSD) library for C++14.
 

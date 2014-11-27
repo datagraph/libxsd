@@ -22,17 +22,34 @@ constexpr char double_::pattern[];
 
 static const std::regex double_regex{double_::pattern};
 
-double
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+double_::validate(const char* literal) noexcept {
+  return double_::match(literal);
+}
+
+bool
+double_::match(const char* literal) noexcept {
+  return std::regex_match(literal, double_regex, match_not_null);
+}
+
+bool
+double_::canonicalize(std::string& literal) {
+  return false; // TODO
+}
+
+double_
 double_::parse(const char* literal) {
   std::error_condition error;
-  const auto value = parse(literal, error);
+  const auto result = parse(literal, error);
 
   if (error) {
     if (error == std::errc::invalid_argument) {
       throw std::invalid_argument{literal};
     }
     if (error == std::errc::result_out_of_range) {
-      if (value == 0.0) {
+      if (result.value() == 0.0) {
         throw std::underflow_error{literal};
       }
       else {
@@ -41,10 +58,10 @@ double_::parse(const char* literal) {
     }
   }
 
-  return value;
+  return result;
 }
 
-double
+double_
 double_::parse(const char* literal,
                std::error_condition& error) noexcept {
   if (!match(literal)) {
@@ -64,38 +81,14 @@ double_::parse(const char* literal,
   return value;
 }
 
-bool
-double_::match(const char* literal) noexcept {
-  return std::regex_match(literal, double_regex, match_not_null);
-}
+////////////////////////////////////////////////////////////////////////////////
 
 bool
-double_::validate() const noexcept {
-  return double_::match(_literal);
+double_::normalize() noexcept {
+  return false; /* already in normal form */
 }
 
-bool
-double_::canonicalize() noexcept {
-  return false; // TODO
-}
-
-double_::operator double() const {
-  std::error_condition error;
-  const auto result = value(error);
-  if (error) throw std::bad_cast{};
-  return result;
-}
-
-double_::operator float() const {
-  return operator double(); /* loss of precision */
-}
-
-double
-double_::value() const {
-  return parse(c_str());
-}
-
-double
-double_::value(std::error_condition& error) const noexcept {
-  return parse(c_str(), error);
+std::string
+double_::literal() const {
+  return std::to_string(value());
 }

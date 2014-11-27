@@ -13,29 +13,29 @@ using namespace xsd;
 ////////////////////////////////////////////////////////////////////////////////
 
 value::operator bool() const {
-  throw std::bad_cast();
+  throw std::bad_cast{};
 }
 
 value::operator int() const {
-  throw std::bad_cast();
+  throw std::bad_cast{};
 }
 
 value::operator long() const {
-  throw std::bad_cast();
+  throw std::bad_cast{};
 }
 
 value::operator long long() const {
-  throw std::bad_cast();
+  throw std::bad_cast{};
 }
 
 value::operator double() const {
-  throw std::bad_cast();
+  throw std::bad_cast{};
 }
 
 value::operator float() const {
-  throw std::bad_cast();
+  throw std::bad_cast{};
 }
 
 value::operator std::string() const {
-  return _literal;
+  return literal();
 }

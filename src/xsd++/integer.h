@@ -3,7 +3,7 @@
 #ifndef XSDXX_INTEGER_H
 #define XSDXX_INTEGER_H
 
-#include "decimal.h"
+#include "value.h"
 
 #include <cstdint> /* for std::intmax_t */
 #include <string>  /* for std::to_string() */
@@ -14,67 +14,78 @@ namespace xsd {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class xsd::integer : public xsd::decimal {
+class xsd::integer : public xsd::value {
 public:
   using value_type = std::intmax_t;
   using model_type = value_type;
 
+protected:
+  value_type _value{};
+
+public:
   static constexpr char name[]    = "integer";
   static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
   static constexpr bool captures  = 3;
 
-  static value_type parse(const std::string& literal) {
-    return parse(literal.c_str());
+  /**
+   * @copydoc xsd::value::validate(std::string&)
+   */
+  static bool validate(const std::string& literal) noexcept {
+    return validate(literal.c_str());
   }
 
-  static value_type parse(const char* literal);
+  /**
+   * @copydoc xsd::value::validate(const char*)
+   */
+  static bool validate(const char* literal) noexcept;
 
-  static value_type parse(const char* literal, std::error_condition& error) noexcept;
-
-  static value_type parse(const char* literal,
-    value_type min_value,
-    value_type max_value,
-    std::error_condition& error) noexcept;
-
+  /**
+   * @copydoc xsd::value::match(std::string&)
+   */
   static bool match(const std::string& literal) noexcept {
     return match(literal.c_str());
   }
 
+  /**
+   * @copydoc xsd::value::match(const char*)
+   */
   static bool match(const char* literal) noexcept;
 
-  integer(int literal)
-    : decimal{std::to_string(literal)} {}
+  static bool canonicalize(std::string& literal);
 
-  integer(unsigned int literal)
-    : decimal{std::to_string(literal)} {}
+  static integer parse(const std::string& literal) {
+    return parse(literal.c_str());
+  }
 
-  integer(long literal)
-    : decimal{std::to_string(literal)} {}
+  static integer parse(const char* literal);
 
-  integer(unsigned long literal)
-    : decimal{std::to_string(literal)} {}
+  static integer parse(const char* literal, std::error_condition& error) noexcept;
 
-  integer(long long literal)
-    : decimal{std::to_string(literal)} {}
+  static integer parse(const char* literal,
+    value_type min_value,
+    value_type max_value,
+    std::error_condition& error) noexcept;
 
-  integer(unsigned long long literal)
-    : decimal{std::to_string(literal)} {}
+  integer() noexcept = default;
 
-  integer(const std::string& literal)
-    : decimal{literal} {}
+  integer(const value_type value) noexcept
+    : _value{value} {}
 
-  integer(const char* literal)
-    : decimal{literal} {}
+  virtual bool normalize() noexcept override;
 
-  virtual bool validate() const noexcept override;
+  virtual explicit operator long long() const override {
+    return value();
+  }
 
-  virtual bool canonicalize() noexcept override;
+  virtual std::string literal() const override;
 
-  virtual explicit operator long long() const override;
+  value_type value() const noexcept {
+    return _value;
+  }
 
-  value_type value() const;
-
-  value_type value(std::error_condition& error) const noexcept;
+  model_type model() const noexcept {
+    return _value;
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

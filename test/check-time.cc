@@ -9,9 +9,9 @@
 #include <xsd++/time.h> /* for xsd::time */
 
 TEST_CASE("without_tz") {
-  REQUIRE(xsd::time::parse("00:00:00") == 0);
+  REQUIRE(xsd::time::parse("00:00:00").value() == 0);
 }
 
 TEST_CASE("with_tz") {
-  REQUIRE(xsd::time::parse("00:00:00Z") == 0);
+  REQUIRE(xsd::time::parse("00:00:00Z").value() == 0);
 }

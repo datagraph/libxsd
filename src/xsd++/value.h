@@ -14,47 +14,27 @@ namespace xsd {
 
 class xsd::value {
 protected:
-  std::string _literal;
-
-  value(const std::string& literal)
-    : _literal{literal} {}
-
-  value(const char* literal)
-    : _literal{literal} {}
-
+  /**
+   * Destructor.
+   */
   virtual ~value() = default;
 
 public:
-  bool valid() const noexcept {
-    return validate();
-  }
+  /**
+   * @param literal
+   */
+  static bool match(const std::string& literal) noexcept;
 
-  virtual bool validate() const noexcept = 0;
+  /**
+   * @copydoc xsd::value::match(std::string&)
+   */
+  static bool match(const char* literal) noexcept;
 
-  virtual bool canonicalize() = 0;
-
-  bool operator==(const value& other) const {
-    return _literal == other._literal;
-  }
-
-  bool operator!=(const value& other) const {
-    return _literal != other._literal;
-  }
-
-  bool operator<(const value& other) const {
-    return _literal < other._literal;
-  }
-
-  bool operator<=(const value& other) const {
-    return _literal <= other._literal;
-  }
-
-  bool operator>(const value& other) const {
-    return _literal > other._literal;
-  }
-
-  bool operator>=(const value& other) const {
-    return _literal >= other._literal;
+  /**
+   * ...
+   */
+  virtual bool normalize() noexcept {
+    return false; /* already in normalized form */
   }
 
   virtual explicit operator bool() const;
@@ -71,13 +51,7 @@ public:
 
   virtual explicit operator std::string() const;
 
-  const std::string& to_string() const {
-    return _literal;
-  }
-
-  const char* c_str() const noexcept {
-    return _literal.c_str();
-  }
+  virtual std::string literal() const = 0;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

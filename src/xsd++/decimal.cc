@@ -71,55 +71,9 @@ parse_literal(const char* literal,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-decimal::value_type
-decimal::parse(const char* literal) {
-  std::error_condition error;
-  const auto value = parse(literal, error);
-
-  if (error) {
-    if (error == std::errc::invalid_argument) {
-      throw std::invalid_argument{literal};
-    }
-    if (error == std::errc::result_out_of_range) {
-      throw std::overflow_error{literal};
-    }
-  }
-
-  return value;
-}
-
-decimal::value_type
-decimal::parse(const char* literal,
-               std::error_condition& error) noexcept {
-  bool sign{true};
-  std::string integer, fraction;
-
-  if (!parse_literal(literal, sign, integer, fraction)) {
-    error = std::errc::invalid_argument;
-    return {};
-  }
-
-  decimal::value_type result;
-
-  errno = 0;
-  result.first = std::strtoimax(integer.c_str(), nullptr, 10);
-  if (errno) {
-    error.assign(errno, std::generic_category());
-    return {};
-  }
-
-  errno = 0;
-  result.second = std::strtoimax(fraction.c_str(), nullptr, 10);
-  if (errno) {
-    error.assign(errno, std::generic_category());
-    return {};
-  }
-
-  if (sign == false) {
-    result.first = -result.first;
-  }
-
-  return result;
+bool
+decimal::validate(const char* literal) noexcept {
+  return decimal::match(literal);
 }
 
 bool
@@ -128,17 +82,12 @@ decimal::match(const char* literal) noexcept {
 }
 
 bool
-decimal::validate() const noexcept {
-  return decimal::match(_literal);
-}
-
-bool
-decimal::canonicalize() noexcept {
+decimal::canonicalize(std::string& literal) {
   bool sign{true};
   std::string integer, fraction;
 
-  if (!parse_literal(c_str(), sign, integer, fraction)) {
-    throw std::invalid_argument{c_str()}; /* invalid literal */
+  if (!parse_literal(literal.c_str(), sign, integer, fraction)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
   }
 
   char buffer[256] = "";
@@ -162,20 +111,73 @@ decimal::canonicalize() noexcept {
 
   *output++ = '\0';
 
-  if (_literal.compare(buffer) != 0) {
-    _literal.assign(buffer);
+  if (literal.compare(buffer) != 0) {
+    literal.assign(buffer);
     return true; /* now in canonical form */
   }
 
   return false; /* already in canonical form */
 }
 
-decimal::value_type
-decimal::value() const {
-  return parse(c_str());
+decimal
+decimal::parse(const char* literal) {
+  std::error_condition error;
+  const auto value = parse(literal, error);
+
+  if (error) {
+    if (error == std::errc::invalid_argument) {
+      throw std::invalid_argument{literal};
+    }
+    if (error == std::errc::result_out_of_range) {
+      throw std::overflow_error{literal};
+    }
+  }
+
+  return value;
 }
 
-decimal::value_type
-decimal::value(std::error_condition& error) const noexcept {
-  return parse(c_str(), error);
+decimal
+decimal::parse(const char* literal,
+               std::error_condition& error) noexcept {
+  bool sign{true};
+  std::string integer, fraction;
+
+  if (!parse_literal(literal, sign, integer, fraction)) {
+    error = std::errc::invalid_argument;
+    return {};
+  }
+
+  decimal::value_type result;
+
+  errno = 0;
+  result.integer = std::strtoimax(integer.c_str(), nullptr, 10);
+  if (errno) {
+    error.assign(errno, std::generic_category());
+    return {};
+  }
+
+  errno = 0;
+  result.fraction = std::strtoimax(fraction.c_str(), nullptr, 10);
+  if (errno) {
+    error.assign(errno, std::generic_category());
+    return {};
+  }
+
+  if (sign == false) {
+    result.integer = -result.integer;
+  }
+
+  return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+decimal::normalize() noexcept {
+  return false; /* already in normal form */
+}
+
+std::string
+decimal::literal() const {
+  return ""; // TODO
 }
