@@ -53,6 +53,10 @@ AC_ARG_WITH([stdlib],
 AS_IF([test "x$with_stdlib" != "xsystem"],
   [CXXFLAGS="$CXXFLAGS -stdlib=$with_stdlib"
    LDFLAGS="$LDFLAGS -stdlib=$with_stdlib"])
+# --with-icu/--without-icu
+AC_ARG_WITH([icu],
+  [AS_HELP_STRING([--with-icu], [support extended date/time ranges using ICU4C @<:@default=check@:>@])],
+  [], [with_icu=check])
 # --enable-debug/--disable-debug
 AC_ARG_ENABLE([debug],
   [AS_HELP_STRING([--enable-debug], [build with debugging support [default=no]])],
@@ -71,7 +75,11 @@ dnl Check for libraries:
 # libboost (libboost-dev on Ubuntu, boost on Mac OS X + MacPorts)
 AX_BOOST_BASE([1.48], [AX_BOOST_REGEX])
 # libicu (libicu-dev on Ubuntu, icu on Mac OS X + MacPorts)
-PKG_CHECK_MODULES([libicu], [icu-uc >= 52.1])
+AS_IF([test "x$with_icu" != "xno"], [
+  PKG_CHECK_MODULES([libicu], [icu-uc >= 52.1],
+    [AC_DEFINE([HAVE_ICU], [1], [Define to 1 if you have ICU4C.])])
+])
+AM_CONDITIONAL([HAVE_ICU], [test "x$libicu_LIBS" != "x"])
 
 dnl Check for header files:
 
