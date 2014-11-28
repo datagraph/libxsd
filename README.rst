@@ -83,19 +83,23 @@ Build Prerequisites
 * Autoconf_ (>= 2.68)
 * Automake_ (>= 1.11)
 * Libtool_ (>= 2.2)
+* pkg-config_ (>= 0.24)
 
-.. _Clang:    http://clang.llvm.org/
-.. _GCC:      http://gcc.gnu.org/
-.. _Autoconf: http://www.gnu.org/software/autoconf/
-.. _Automake: http://www.gnu.org/software/automake/
-.. _Libtool:  http://www.gnu.org/software/libtool/
+.. _Clang:      http://clang.llvm.org/
+.. _GCC:        http://gcc.gnu.org/
+.. _Autoconf:   http://www.gnu.org/software/autoconf/
+.. _Automake:   http://www.gnu.org/software/automake/
+.. _Libtool:    http://www.gnu.org/software/libtool/
+.. _pkg-config: http://www.freedesktop.org/wiki/Software/pkg-config/
 
 Build Dependencies
 ==================
 
 * Boost.Regex_ (>= 1.48)
+* ICU4C (>= 52.1)
 
 .. _Boost.Regex: http://www.boost.org/libs/regex/
+.. _ICU4C:       http://site.icu-project.org/
 
 Installation
 ============

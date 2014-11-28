@@ -41,6 +41,7 @@ AC_PROG_CXXCPP
 AC_USE_SYSTEM_EXTENSIONS
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 LT_INIT
+PKG_PROG_PKG_CONFIG([0.24])
 AC_LANG([C++])
 AX_CXX_COMPILE_STDCXX_11([noext])
 
@@ -69,6 +70,8 @@ AS_IF([test "x$enable_unicode" == "xno"],
 dnl Check for libraries:
 # libboost (libboost-dev on Ubuntu, boost on Mac OS X + MacPorts)
 AX_BOOST_BASE([1.48], [AX_BOOST_REGEX])
+# libicu (libicu-dev on Ubuntu, icu on Mac OS X + MacPorts)
+PKG_CHECK_MODULES([libicu], [icu-uc >= 52.1])
 
 dnl Check for header files:
 
