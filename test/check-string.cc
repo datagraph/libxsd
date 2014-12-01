@@ -8,6 +8,18 @@
 
 #include <xsd++/string.h> /* for xsd::string */
 
-TEST_CASE("test_string") {
-  // TODO
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("parsing empty literals") {
+  GIVEN("the empty string") {
+    // TODO
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("parsing non-empty literals") {
+  GIVEN("a non-empty string") {
+    // TODO
+  }
 }

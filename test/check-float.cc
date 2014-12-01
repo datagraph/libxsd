@@ -8,6 +8,18 @@
 
 #include <xsd++/float.h> /* for xsd::float */
 
-TEST_CASE("test_float") {
-  // TODO
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("negative values") {
+  GIVEN("negative zero") {
+    // TODO
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("positive values") {
+  GIVEN("positive zero") {
+    // TODO
+  }
 }

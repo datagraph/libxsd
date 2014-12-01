@@ -8,6 +8,18 @@
 
 #include <xsd++/base64.h> /* for xsd::base64 */
 
-TEST_CASE("test_base64") {
-  // TODO
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("empty literals") {
+  GIVEN("the empty string") {
+    // TODO
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("non-empty literals") {
+  GIVEN("a non-empty string") {
+    // TODO
+  }
 }

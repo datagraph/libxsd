@@ -8,10 +8,29 @@
 
 #include <xsd++/time.h> /* for xsd::time */
 
-TEST_CASE("without_tz") {
-  REQUIRE(xsd::time::parse("00:00:00").value() == 0);
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("parsing times without a timezone") {
+  GIVEN("the smallest value") {
+    REQUIRE(xsd::time::parse("00:00:00").value() == 0);
+  }
+  GIVEN("the largest whole value") {
+    REQUIRE(xsd::time::parse("23:59:59").value() == 86399*1000000L);
+  }
 }
 
-TEST_CASE("with_tz") {
-  REQUIRE(xsd::time::parse("00:00:00Z").value() == 0);
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("parsing times with a timezone") {
+  GIVEN("the smallest value with a Zulu timezone") {
+    REQUIRE(xsd::time::parse("00:00:00Z").value() == 0);
+    REQUIRE(xsd::time::parse("00:00:00+00:00").value() == 0);
+  }
+  GIVEN("the smallest value with a non-Zulu timezone") {
+    REQUIRE(xsd::time::parse("06:00:00+06:00").value() == 0);
+    REQUIRE(xsd::time::parse("18:00:00-06:00").value() == 0);
+  }
+  GIVEN("the largest whole value with a Zulu timezone") {
+    REQUIRE(xsd::time::parse("23:59:59Z").value() == 86399*1000000L);
+  }
 }

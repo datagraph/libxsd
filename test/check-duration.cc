@@ -8,6 +8,18 @@
 
 #include <xsd++/duration.h> /* for xsd::duration */
 
-TEST_CASE("test_duration") {
-  // TODO
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("negative values") {
+  GIVEN("negative zero") {
+    // TODO
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("positive values") {
+  GIVEN("positive zero") {
+    // TODO
+  }
 }
