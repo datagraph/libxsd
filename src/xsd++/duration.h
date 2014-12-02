@@ -23,8 +23,8 @@ protected:
 
 public:
   static constexpr char name[]    = "duration";
-  static constexpr char pattern[] = ".*$"; // TODO
-  static constexpr bool captures  = 0;
+  static constexpr char pattern[] = "(.+)$"; // TODO
+  static constexpr bool captures  = 1;       // TODO
 
   /**
    * @copydoc xsd::value::validate(std::string&)

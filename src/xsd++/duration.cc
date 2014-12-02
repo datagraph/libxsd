@@ -7,6 +7,9 @@
 #include "duration.h"
 #include "regex.h"    /* for std::regex, std::regex_match() */
 
+#include <array>      /* for std::array */
+#include <cassert>    /* for assert() */
+
 using namespace std::regex_constants;
 using namespace xsd;
 
@@ -17,6 +20,27 @@ constexpr char duration::name[];
 constexpr char duration::pattern[];
 
 static const std::regex duration_regex{duration::pattern};
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @see http://www.w3.org/TR/xmlschema11-2/#nt-timeRep
+ */
+static bool
+parse_literal(const char* literal,
+              xsd::duration::model_type& value) {
+
+  std::cmatch matches;
+  if (!std::regex_match(literal, matches, duration_regex, match_not_null)) {
+    return false; /* invalid literal */
+  }
+
+  assert(matches.size() == xsd::duration::captures);
+
+  // TODO
+
+  return true;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,19 +56,55 @@ duration::match(const char* literal) noexcept {
 
 bool
 duration::canonicalize(std::string& literal) {
-  return false; // TODO
+  model_type value{};
+
+  if (!parse_literal(literal.c_str(), value)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
+  }
+
+  std::array<char, 256> buffer;
+  char* output = buffer.data();
+
+  // TODO
+
+  *output++ = '\0';
+
+  if (literal.compare(buffer.data()) != 0) {
+    literal.assign(buffer.data());
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
 }
 
 duration
 duration::parse(const char* literal) {
-  return duration{}; // TODO
+  std::error_condition error;
+  const auto value = parse(literal, error);
+
+  if (error) {
+    if (error == std::errc::invalid_argument) {
+      throw std::invalid_argument{literal};
+    }
+    if (error == std::errc::result_out_of_range) {
+      throw std::overflow_error{literal};
+    }
+  }
+
+  return value;
 }
 
 duration
 duration::parse(const char* literal,
                 std::error_condition& error) noexcept {
-  static_cast<void>(error);
-  return duration{}; // TODO
+  model_type value{};
+
+  if (!parse_literal(literal, value)) {
+    error = std::errc::invalid_argument;
+    return {};
+  }
+
+  return value;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
