@@ -10,6 +10,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+SCENARIO("parsing empty literals") {
+  GIVEN("the empty string") {
+    REQUIRE_THROWS_AS(xsd::boolean::parse(""), std::invalid_argument);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 SCENARIO("negative values") {
   GIVEN("negative zero") {
     // TODO

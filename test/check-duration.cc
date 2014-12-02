@@ -10,16 +10,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("negative values") {
-  GIVEN("negative zero") {
-    // TODO
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-SCENARIO("positive values") {
-  GIVEN("positive zero") {
-    // TODO
+SCENARIO("parsing empty literals") {
+  GIVEN("the empty string") {
+    REQUIRE_THROWS_AS(xsd::duration::parse(""), std::invalid_argument);
   }
 }

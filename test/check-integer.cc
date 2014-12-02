@@ -10,7 +10,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("parsing zero values") {
+SCENARIO("parsing empty literals") {
+  GIVEN("the empty string") {
+    REQUIRE_THROWS_AS(xsd::integer::parse(""), std::invalid_argument);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("parsing the zero literal") {
   GIVEN("the zero value") {
     REQUIRE(xsd::integer::parse("0").value() == 0);
   }

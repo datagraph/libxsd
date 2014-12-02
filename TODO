@@ -1,3 +1,8 @@
+Near-Term Tasks
+===============
+
+- xsd:date's value type must preserve the timezone, if one was given.
+
 Nice to Have
 ============
 

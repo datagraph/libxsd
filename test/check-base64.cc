@@ -10,16 +10,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("empty literals") {
+SCENARIO("parsing empty literals") {
   GIVEN("the empty string") {
-    // TODO
+    REQUIRE(xsd::base64::parse("").value() == "");
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("non-empty literals") {
+SCENARIO("parsing non-empty literals") {
   GIVEN("a non-empty string") {
-    // TODO
+    REQUIRE(xsd::base64::parse("Zm9vYmFyCg==").value() == "Zm9vYmFyCg==");
   }
 }

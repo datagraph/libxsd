@@ -10,7 +10,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("parsing times without a timezone") {
+SCENARIO("parsing empty literals") {
+  GIVEN("the empty string") {
+    REQUIRE_THROWS_AS(xsd::time::parse(""), std::invalid_argument);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("parsing literals without a timezone") {
   GIVEN("the smallest value") {
     REQUIRE(xsd::time::parse("00:00:00").value() == 0);
   }
@@ -21,7 +29,7 @@ SCENARIO("parsing times without a timezone") {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("parsing times with a timezone") {
+SCENARIO("parsing literals with a timezone") {
   GIVEN("the smallest value with a Zulu timezone") {
     REQUIRE(xsd::time::parse("00:00:00Z").value() == 0);
     REQUIRE(xsd::time::parse("00:00:00+00:00").value() == 0);

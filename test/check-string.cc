@@ -12,7 +12,7 @@
 
 SCENARIO("parsing empty literals") {
   GIVEN("the empty string") {
-    // TODO
+    REQUIRE(xsd::string::parse("").value() == "");
   }
 }
 
@@ -20,6 +20,6 @@ SCENARIO("parsing empty literals") {
 
 SCENARIO("parsing non-empty literals") {
   GIVEN("a non-empty string") {
-    // TODO
+    REQUIRE(xsd::string::parse("foobar").value() == "foobar");
   }
 }
