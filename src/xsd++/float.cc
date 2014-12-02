@@ -4,12 +4,14 @@
 #include <config.h>
 #endif
 
-#include "const.h" /* for XSD_FLOAT_CAPTURES */
+#include "const.h"   /* for XSD_FLOAT_CAPTURES */
 #include "float.h"
-#include "regex.h" /* for std::regex, std::regex_match() */
+#include "regex.h"   /* for std::regex, std::regex_match() */
 
-#include <cerrno>  /* for ERANGE, errno */
-#include <cstdlib> /* for std::strtof() */
+#include <array>     /* for std::array */
+#include <cassert>   /* for assert() */
+#include <cerrno>    /* for ERANGE, errno */
+#include <cstdlib>   /* for std::strtof() */
 
 using namespace std::regex_constants;
 using namespace xsd;
@@ -21,6 +23,33 @@ constexpr char float_::name[];
 constexpr char float_::pattern[];
 
 static const std::regex float_regex{float_::pattern};
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @see http://www.w3.org/TR/xmlschema11-2/#float
+ */
+static bool
+parse_literal(const char* literal,
+              float& value) {
+
+  if (*literal == '\0' || !std::regex_match(literal, float_regex, match_not_null)) {
+    return false; /* invalid literal */
+  }
+
+  const char* endptr = nullptr;
+  errno = 0;
+  value = std::strtof(literal, (char**)&endptr);
+
+#if 0
+  if (errno == ERANGE) {
+    error = std::errc::result_out_of_range;
+    return value;
+  }
+#endif
+
+  return true;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +65,25 @@ float_::match(const char* literal) noexcept {
 
 bool
 float_::canonicalize(std::string& literal) {
-  return false; // TODO
+  model_type value{};
+
+  if (!parse_literal(literal.c_str(), value)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
+  }
+
+  std::array<char, 256> buffer;
+  char* output = buffer.data();
+
+  // TODO
+
+  *output++ = '\0';
+
+  if (literal.compare(buffer.data()) != 0) {
+    literal.assign(buffer.data());
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
 }
 
 float_
@@ -64,18 +111,11 @@ float_::parse(const char* literal) {
 float_
 float_::parse(const char* literal,
               std::error_condition& error) noexcept {
-  if (!match(literal)) {
+  model_type value{};
+
+  if (!parse_literal(literal, value)) {
     error = std::errc::invalid_argument;
-    return 0.0f;
-  }
-
-  const char* endptr = nullptr;
-  errno = 0;
-  const float value = std::strtof(literal, (char**)&endptr);
-
-  if (errno == ERANGE) {
-    error = std::errc::result_out_of_range;
-    return value;
+    return {};
   }
 
   return value;

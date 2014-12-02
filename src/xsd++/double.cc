@@ -4,12 +4,14 @@
 #include <config.h>
 #endif
 
-#include "const.h" /* for XSD_DOUBLE_CAPTURES */
+#include "const.h"   /* for XSD_DOUBLE_CAPTURES */
 #include "double.h"
-#include "regex.h" /* for std::regex, std::regex_match() */
+#include "regex.h"   /* for std::regex, std::regex_match() */
 
-#include <cerrno>  /* for ERANGE, errno */
-#include <cstdlib> /* for std::strtod() */
+#include <array>     /* for std::array */
+#include <cassert>   /* for assert() */
+#include <cerrno>    /* for ERANGE, errno */
+#include <cstdlib>   /* for std::strtod() */
 
 using namespace std::regex_constants;
 using namespace xsd;
@@ -21,6 +23,33 @@ constexpr char double_::name[];
 constexpr char double_::pattern[];
 
 static const std::regex double_regex{double_::pattern};
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @see http://www.w3.org/TR/xmlschema11-2/#double
+ */
+static bool
+parse_literal(const char* literal,
+              double& value) {
+
+  if (*literal == '\0' || !std::regex_match(literal, double_regex, match_not_null)) {
+    return false; /* invalid literal */
+  }
+
+  const char* endptr = nullptr;
+  errno = 0;
+  value = std::strtod(literal, (char**)&endptr);
+
+#if 0
+  if (errno == ERANGE) {
+    error = std::errc::result_out_of_range;
+    return value;
+  }
+#endif
+
+  return true;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +65,25 @@ double_::match(const char* literal) noexcept {
 
 bool
 double_::canonicalize(std::string& literal) {
-  return false; // TODO
+  model_type value{};
+
+  if (!parse_literal(literal.c_str(), value)) {
+    throw std::invalid_argument{literal}; /* invalid literal */
+  }
+
+  std::array<char, 256> buffer;
+  char* output = buffer.data();
+
+  // TODO
+
+  *output++ = '\0';
+
+  if (literal.compare(buffer.data()) != 0) {
+    literal.assign(buffer.data());
+    return true; /* now in canonical form */
+  }
+
+  return false; /* already in canonical form */
 }
 
 double_
@@ -64,18 +111,11 @@ double_::parse(const char* literal) {
 double_
 double_::parse(const char* literal,
                std::error_condition& error) noexcept {
-  if (!match(literal)) {
+  model_type value{};
+
+  if (!parse_literal(literal, value)) {
     error = std::errc::invalid_argument;
-    return 0.0;
-  }
-
-  const char* endptr = nullptr;
-  errno = 0;
-  const double value = std::strtod(literal, (char**)&endptr);
-
-  if (errno == ERANGE) {
-    error = std::errc::result_out_of_range;
-    return value;
+    return {};
   }
 
   return value;
