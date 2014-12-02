@@ -13,7 +13,7 @@
 #include <algorithm> /* for std::copy() */
 #include <array>     /* for std::array */
 #include <cassert>   /* for assert() */
-#include <cstdio>    /* for std::snprintf(), td::sprintf() */
+#include <cstdio>    /* for std::snprintf(), std::sprintf() */
 #include <cstdlib>   /* for std::abs(), std::atol() */
 #include <cstring>   /* for std::strchr() */
 
