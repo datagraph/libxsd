@@ -8,6 +8,8 @@
 
 #include <xsd++/double.h> /* for xsd::double */
 
+#include <cmath>          /* for std::isinf(), std::isnan() */
+
 ////////////////////////////////////////////////////////////////////////////////
 
 SCENARIO("parsing empty literals") {
@@ -18,16 +20,22 @@ SCENARIO("parsing empty literals") {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("negative values") {
-  GIVEN("negative zero") {
-    // TODO
+SCENARIO("parsing literals representing special values") {
+  GIVEN("positive zero (+0.0)") {
+    REQUIRE(xsd::double_::parse("0.0").value() == 0.0f);
+    REQUIRE(xsd::double_::parse("+0.0").value() == 0.0f);
   }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-SCENARIO("positive values") {
-  GIVEN("positive zero") {
-    // TODO
+  GIVEN("negative zero (-0.0)") {
+    REQUIRE(xsd::double_::parse("-0.0").value() == -0.0f);
+  }
+  GIVEN("positive infinity (+INF)") {
+    REQUIRE(std::isinf(xsd::double_::parse("INF").value()));
+    REQUIRE(std::isinf(xsd::double_::parse("+INF").value()));
+  }
+  GIVEN("negative infinity (-INF)") {
+    REQUIRE(std::isinf(xsd::double_::parse("-INF").value()));
+  }
+  GIVEN("not a number (NaN)") {
+    REQUIRE(std::isnan(xsd::double_::parse("NaN").value()));
   }
 }
