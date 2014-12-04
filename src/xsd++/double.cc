@@ -8,9 +8,12 @@
 #include "double.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
+#include "utility/double.h"
+
 #include <array>     /* for std::array */
 #include <cassert>   /* for assert() */
 #include <cerrno>    /* for ERANGE, errno */
+#include <cfloat>    /* for DBL_DIG */
 #include <cstdlib>   /* for std::strtod() */
 #include <cmath>     /* for INFINITY, NAN */
 
@@ -92,10 +95,10 @@ double_::canonicalize(std::string& literal) {
     throw std::invalid_argument{literal}; /* invalid literal */
   }
 
-  std::array<char, 256> buffer;
+  std::array<char, 32> buffer;
   char* output = buffer.data();
 
-  // TODO
+  output += format_double(value, DBL_DIG, output);
 
   *output++ = '\0';
 

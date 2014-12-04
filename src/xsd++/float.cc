@@ -8,9 +8,12 @@
 #include "float.h"
 #include "regex.h"   /* for std::regex, std::regex_match() */
 
+#include "utility/double.h"
+
 #include <array>     /* for std::array */
 #include <cassert>   /* for assert() */
 #include <cerrno>    /* for ERANGE, errno */
+#include <cfloat>    /* for FLT_DIG */
 #include <cstdlib>   /* for std::strtof() */
 #include <cmath>     /* for INFINITY, NAN */
 
@@ -92,21 +95,10 @@ float_::canonicalize(std::string& literal) {
     throw std::invalid_argument{literal}; /* invalid literal */
   }
 
-  std::array<char, 256> buffer;
+  std::array<char, 32> buffer;
   char* output = buffer.data();
 
-  if (std::isinf(value)) {
-    output += std::sprintf(output, (value < 0) ? "-INF" : "INF");
-  }
-  else if (std::isnan(value)) {
-    output += std::sprintf(output, "NaN");
-  }
-  else if (value == 0.0f) {
-    output += std::sprintf(output, "0.0E0");
-  }
-  else {
-    // TODO
-  }
+  output += format_double(static_cast<double>(value), FLT_DIG, output);
 
   *output++ = '\0';
 
