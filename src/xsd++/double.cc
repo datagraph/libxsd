@@ -12,6 +12,7 @@
 #include <cassert>   /* for assert() */
 #include <cerrno>    /* for ERANGE, errno */
 #include <cstdlib>   /* for std::strtod() */
+#include <cmath>     /* for INFINITY, NAN */
 
 using namespace std::regex_constants;
 using namespace xsd;
@@ -33,7 +34,27 @@ static bool
 parse_literal(const char* literal,
               double& value) {
 
-  if (*literal == '\0' || !std::regex_match(literal, double_regex, match_not_null)) {
+  if (*literal == '\0') {
+    return false; /* invalid literal */
+  }
+
+  if (std::strcmp(literal, "INF") == 0 ||
+      std::strcmp(literal, "+INF") == 0) {
+    value = INFINITY;
+    return true;
+  }
+
+  if (std::strcmp(literal, "-INF") == 0) {
+    value = -INFINITY;
+    return true;
+  }
+
+  if (std::strcmp(literal, "NaN") == 0) {
+    value = NAN;
+    return true;
+  }
+
+  if (!std::regex_match(literal, double_regex, match_not_null)) {
     return false; /* invalid literal */
   }
 
