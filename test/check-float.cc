@@ -39,3 +39,33 @@ SCENARIO("parsing literals representing special values") {
     REQUIRE(std::isnan(xsd::float_::parse("NaN").value()));
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("canonicalizing literals representing special values") {
+  std::string literal;
+  GIVEN("positive zero (+0.0)") {
+    REQUIRE(xsd::float_::canonicalize(literal = "0.0") == true);
+    REQUIRE(literal == "0.0E0");
+    REQUIRE(xsd::float_::canonicalize(literal = "+0.0") == true);
+    REQUIRE(literal == "0.0E0");
+  }
+  GIVEN("negative zero (-0.0)") {
+    REQUIRE(xsd::float_::canonicalize(literal = "-0.0") == true);
+    REQUIRE(literal == "0.0E0");
+  }
+  GIVEN("positive infinity (+INF)") {
+    REQUIRE(xsd::float_::canonicalize(literal = "INF") == false);
+    REQUIRE(literal == "INF");
+    REQUIRE(xsd::float_::canonicalize(literal = "+INF") == true);
+    REQUIRE(literal == "INF");
+  }
+  GIVEN("negative infinity (-INF)") {
+    REQUIRE(xsd::float_::canonicalize(literal = "-INF") == false);
+    REQUIRE(literal == "-INF");
+  }
+  GIVEN("not a number (NaN)") {
+    REQUIRE(xsd::float_::canonicalize(literal = "NaN") == false);
+    REQUIRE(literal == "NaN");
+  }
+}

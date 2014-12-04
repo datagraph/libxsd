@@ -95,7 +95,18 @@ float_::canonicalize(std::string& literal) {
   std::array<char, 256> buffer;
   char* output = buffer.data();
 
-  // TODO
+  if (std::isinf(value)) {
+    output += std::sprintf(output, (value < 0) ? "-INF" : "INF");
+  }
+  else if (std::isnan(value)) {
+    output += std::sprintf(output, "NaN");
+  }
+  else if (value == 0.0f) {
+    output += std::sprintf(output, "0.0E0");
+  }
+  else {
+    // TODO
+  }
 
   *output++ = '\0';
 
