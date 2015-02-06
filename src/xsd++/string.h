@@ -58,7 +58,7 @@ public:
 
   static string parse(const char* literal, std::error_condition& error) noexcept;
 
-  string() noexcept = default;
+  string() = default;
 
   string(const std::string& value)
     : _value{value} {}

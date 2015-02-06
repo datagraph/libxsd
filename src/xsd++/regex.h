@@ -17,6 +17,7 @@
 
 namespace std {
   using ::boost::cmatch;
+  using ::boost::csub_match;
   using ::boost::regex;
   using ::boost::regex_match;
   namespace regex_constants {

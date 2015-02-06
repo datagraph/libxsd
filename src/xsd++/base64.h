@@ -58,7 +58,7 @@ public:
 
   static base64 parse(const char* literal, std::error_condition& error) noexcept;
 
-  base64() noexcept = default;
+  base64() = default;
 
   base64(const std::string& value) noexcept
     : _value{value} {}
