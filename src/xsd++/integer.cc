@@ -94,7 +94,7 @@ integer::canonicalize(std::string& literal) {
 integer
 integer::parse(const char* literal) {
   std::error_condition error;
-  const auto result = parse(literal, error);
+  const auto result = parse(literal, INTMAX_MIN, INTMAX_MAX, error);
 
   if (error) {
     if (error == std::errc::invalid_argument) {
@@ -143,11 +143,11 @@ integer::parse(const char* literal,
   }
   else if (value < min_value) {
     error = std::errc::result_out_of_range;
-    value = INTMAX_MIN;
+    value = min_value;
   }
   else if (value > max_value) {
     error = std::errc::result_out_of_range;
-    value = INTMAX_MAX;
+    value = max_value;
   }
 
   return value;
