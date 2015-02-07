@@ -213,6 +213,10 @@ time::normalize() noexcept {
   return false; /* already in normal form */
 }
 
+time::operator value_type() const {
+  return _value;
+}
+
 std::string
 time::literal() const {
   return ""; // TODO

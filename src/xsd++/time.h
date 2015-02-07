@@ -79,6 +79,8 @@ public:
 
   virtual bool normalize() noexcept override;
 
+  virtual explicit operator value_type() const override;
+
   virtual std::string literal() const override;
 
   value_type value() const noexcept {
