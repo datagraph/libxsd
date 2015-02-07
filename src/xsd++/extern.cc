@@ -38,10 +38,13 @@ canonicalize(char** literal) {
     }
   }
   catch (const std::bad_alloc& error) {
-    errno = ENOMEM; /* Out of memory */
+    errno = ENOMEM; /* Out of memory (POSIX.1) */
   }
   catch (const std::invalid_argument& error) {
-    errno = EINVAL; /* Invalid argument */
+    errno = EINVAL; /* Invalid argument (POSIX.1) */
+  }
+  catch (...) {
+    errno = ECANCELED; /* Operation canceled (POSIX.1) */
   }
   return false;
 }
@@ -50,12 +53,22 @@ template<typename T, typename U>
 static T
 safe_cast(const char* literal) {
   try {
-    return static_cast<T>(U::parse(literal));
+    std::error_condition error;
+    const auto value = static_cast<T>(U::parse(literal, error));
+    if (error) {
+      if (error == std::errc::invalid_argument) {
+        errno = EINVAL; /* Invalid argument (POSIX.1) */
+      }
+      else if (error == std::errc::result_out_of_range) {
+        errno = ERANGE; /* Numerical result out of range (POSIX.1, C99) */
+      }
+    }
+    return value;
   }
-  catch (const std::bad_cast& error) {
-    errno = EINVAL; /* Invalid argument */
-    return static_cast<T>(0);
+  catch (...) {
+    errno = ECANCELED; /* Operation canceled (POSIX.1) */
   }
+  return static_cast<T>(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
