@@ -12,6 +12,7 @@ check_PROGRAMS = \
   check-decimal  \
   check-double   \
   check-duration \
+  check-extern   \
   check-feature  \
   check-float    \
   check-integer  \
