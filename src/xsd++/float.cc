@@ -84,7 +84,7 @@ float_::validate(const char* literal) noexcept {
 
 bool
 float_::match(const char* literal) noexcept {
-  return std::regex_match(literal, float_regex, match_not_null);
+  return *literal != '\0' && std::regex_match(literal, float_regex, match_not_null);
 }
 
 bool

@@ -84,7 +84,7 @@ double_::validate(const char* literal) noexcept {
 
 bool
 double_::match(const char* literal) noexcept {
-  return std::regex_match(literal, double_regex, match_not_null);
+  return *literal != '\0' && std::regex_match(literal, double_regex, match_not_null);
 }
 
 bool

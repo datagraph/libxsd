@@ -8,6 +8,7 @@
 
 #include <xsd++/extern.h> /* for xsd_*_*() */
 
+#include <cerrno>         /* for E*, errno */
 #include <cmath>          /* for std::isinf(), std::isnan() */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +24,7 @@ TEST_CASE("xsd_base64_canonicalize()") {
 }
 
 TEST_CASE("xsd_base64_value()") {
+  errno = 0;
   //REQUIRE(std::strcmp(xsd_base64_value(""), "") == 0); // TODO
 }
 
@@ -43,6 +45,7 @@ TEST_CASE("xsd_boolean_canonicalize()") {
 }
 
 TEST_CASE("xsd_boolean_value()") {
+  errno = 0;
   REQUIRE(xsd_boolean_value("true") == true);
   REQUIRE(xsd_boolean_value("false") == false);
   REQUIRE(xsd_boolean_value("1") == true);
@@ -64,6 +67,7 @@ TEST_CASE("xsd_date_canonicalize()") {
 }
 
 TEST_CASE("xsd_date_value()") {
+  errno = 0;
   REQUIRE(xsd_date_value("1970-01-01") == 0);
   // TODO
 }
@@ -82,6 +86,7 @@ TEST_CASE("xsd_datetime_canonicalize()") {
 }
 
 TEST_CASE("xsd_datetime_value()") {
+  errno = 0;
   REQUIRE(xsd_datetime_value("1970-01-01T00:00:00") == 0);
   // TODO
 }
@@ -101,6 +106,7 @@ TEST_CASE("xsd_decimal_canonicalize()") {
 }
 
 TEST_CASE("xsd_decimal_value()") {
+  errno = 0;
   REQUIRE(xsd_decimal_value("0") == 0.0);
   //REQUIRE(xsd_decimal_value("0.5") == 0.5); // FIXME
   // TODO
@@ -110,7 +116,7 @@ TEST_CASE("xsd_decimal_value()") {
 /* xsd:double */
 
 TEST_CASE("xsd_double_validate()") {
-  //REQUIRE(xsd_double_validate("") == false); // FIXME
+  REQUIRE(xsd_double_validate("") == false);
   REQUIRE(xsd_double_validate("0") == true);
   REQUIRE(xsd_double_validate("0.0") == true);
   // TODO
@@ -121,6 +127,7 @@ TEST_CASE("xsd_double_canonicalize()") {
 }
 
 TEST_CASE("xsd_double_value()") {
+  errno = 0;
   REQUIRE(xsd_double_value("3.1415") == 3.1415);
   // TODO
 }
@@ -138,6 +145,7 @@ TEST_CASE("xsd_duration_canonicalize()") {
 }
 
 TEST_CASE("xsd_duration_value()") {
+  errno = 0;
   // TODO
 }
 
@@ -145,7 +153,7 @@ TEST_CASE("xsd_duration_value()") {
 /* xsd:float */
 
 TEST_CASE("xsd_float_validate()") {
-  //REQUIRE(xsd_float_validate("") == false); // FIXME
+  REQUIRE(xsd_float_validate("") == false);
   REQUIRE(xsd_float_validate("0") == true);
   REQUIRE(xsd_float_validate("0.0") == true);
   // TODO
@@ -156,6 +164,7 @@ TEST_CASE("xsd_float_canonicalize()") {
 }
 
 TEST_CASE("xsd_float_value()") {
+  errno = 0;
   REQUIRE(xsd_float_value("3.1415") == 3.1415f);
   // TODO
 }
@@ -175,10 +184,12 @@ TEST_CASE("xsd_integer_canonicalize()") {
 }
 
 TEST_CASE("xsd_integer_value()") {
+  errno = 0;
   // TODO
 }
 
 TEST_CASE("xsd_int8_value()") {
+  errno = 0;
   REQUIRE(xsd_int8_value("-129") == INT8_MIN);
   REQUIRE(xsd_int8_value("-128") == -128);
   REQUIRE(xsd_int8_value("0") == 0);
@@ -187,6 +198,7 @@ TEST_CASE("xsd_int8_value()") {
 }
 
 TEST_CASE("xsd_int16_value()") {
+  errno = 0;
   REQUIRE(xsd_int16_value("-32769") == INT16_MIN);
   REQUIRE(xsd_int16_value("-32768") == -32768);
   REQUIRE(xsd_int16_value("0") == 0);
@@ -195,6 +207,7 @@ TEST_CASE("xsd_int16_value()") {
 }
 
 TEST_CASE("xsd_int32_value()") {
+  errno = 0;
   REQUIRE(xsd_int32_value("-2147483649") == INT32_MIN);
   REQUIRE(xsd_int32_value("-2147483648") == -2147483648);
   REQUIRE(xsd_int32_value("0") == 0);
@@ -203,6 +216,7 @@ TEST_CASE("xsd_int32_value()") {
 }
 
 TEST_CASE("xsd_int64_value()") {
+  errno = 0;
   //REQUIRE(xsd_int64_value("-9223372036854775809") == INT64_MIN); // FIXME
   //REQUIRE(xsd_int64_value("-9223372036854775808") == -9223372036854775807LL-1); // FIXME
   REQUIRE(xsd_int64_value("0") == 0);
@@ -211,26 +225,32 @@ TEST_CASE("xsd_int64_value()") {
 }
 
 TEST_CASE("xsd_intmax_value()") {
+  errno = 0;
   // TODO
 }
 
 TEST_CASE("xsd_uint8_value()") {
+  errno = 0;
   // TODO
 }
 
 TEST_CASE("xsd_uint16_value()") {
+  errno = 0;
   // TODO
 }
 
 TEST_CASE("xsd_uint32_value()") {
+  errno = 0;
   // TODO
 }
 
 TEST_CASE("xsd_uint64_value()") {
+  errno = 0;
   // TODO
 }
 
 TEST_CASE("xsd_uintmax_value()") {
+  errno = 0;
   // TODO
 }
 
@@ -247,6 +267,7 @@ TEST_CASE("xsd_string_canonicalize()") {
 }
 
 TEST_CASE("xsd_string_value()") {
+  errno = 0;
   REQUIRE(std::strcmp(xsd_string_value(""), "") == 0);
   REQUIRE(std::strcmp(xsd_string_value(""), " ") != 0);
   REQUIRE(std::strcmp(xsd_string_value("foobar"), "foobar") == 0);
@@ -267,6 +288,30 @@ TEST_CASE("xsd_time_canonicalize()") {
 }
 
 TEST_CASE("xsd_time_value()") {
-  REQUIRE(xsd_time_value("00:00:00") == 0);
-  // TODO
+  errno = 0;
+  SECTION("parsing invalid literals") {
+    REQUIRE(xsd_time_value("T00:00:00") == 0);
+    REQUIRE(errno == EINVAL);
+  }
+  SECTION("parsing literals without a timezone") {
+    SECTION("the smallest value") {
+      REQUIRE(xsd_time_value("00:00:00") == 0);
+    }
+    SECTION("the largest whole value") {
+      REQUIRE(xsd_time_value("23:59:59") == 86399*1000000L);
+    }
+  }
+  SECTION("parsing literals with a timezone") {
+    SECTION("the smallest value with a Zulu timezone") {
+      REQUIRE(xsd_time_value("00:00:00Z") == 0);
+      REQUIRE(xsd_time_value("00:00:00+00:00") == 0);
+    }
+    SECTION("the smallest value with a non-Zulu timezone") {
+      REQUIRE(xsd_time_value("06:00:00+06:00") == 0);
+      REQUIRE(xsd_time_value("18:00:00-06:00") == 0);
+    }
+    SECTION("the largest whole value with a Zulu timezone") {
+      REQUIRE(xsd_time_value("23:59:59Z") == 86399*1000000L);
+    }
+  }
 }
