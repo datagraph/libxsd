@@ -19,7 +19,7 @@ class xsd::decimal : public xsd::value {
 public:
   struct model_type final {
     std::intmax_t integer;
-    std::intmax_t fraction;
+    std::intmax_t scale;   /** The number of fractional digits. */
   };
   using value_type = model_type;
 
@@ -68,7 +68,7 @@ public:
   decimal() noexcept = default;
 
   decimal(const value_type value) noexcept
-    : _value{value.integer, value.fraction} {}
+    : _value{value.integer, value.scale} {}
 
   virtual bool normalize() noexcept override;
 

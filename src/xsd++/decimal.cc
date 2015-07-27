@@ -149,15 +149,16 @@ decimal::parse(const char* literal,
 
   decimal::value_type result;
 
-  errno = 0;
-  result.integer = std::strtoimax(integer.c_str(), nullptr, 10);
-  if (errno) {
-    error.assign(errno, std::generic_category());
-    return {};
+  if (fraction.compare("0") == 0) {
+    result.scale = 0;
+  }
+  else {
+    result.scale = fraction.size();
+    integer.append(fraction);
   }
 
   errno = 0;
-  result.fraction = std::strtoimax(fraction.c_str(), nullptr, 10);
+  result.integer = std::strtoimax(integer.c_str(), nullptr, 10);
   if (errno) {
     error.assign(errno, std::generic_category());
     return {};
