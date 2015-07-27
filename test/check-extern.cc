@@ -10,6 +10,7 @@
 
 #include <cerrno>         /* for E*, errno */
 #include <cmath>          /* for std::isinf(), std::isnan() */
+#include <cstring>        /* for std::strcmp() */
 
 ////////////////////////////////////////////////////////////////////////////////
 /* xsd:base64Binary */
