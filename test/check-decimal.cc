@@ -38,7 +38,30 @@ SCENARIO("parsing literals representing special values") {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SCENARIO("parsing literals with leading zeroes in the scale") {
+SCENARIO("parsing literals having only fractional digits") {
+  GIVEN("0.1") {
+    const auto value = xsd::decimal::parse("0.1").value();
+    REQUIRE(value.integer == 1);
+    REQUIRE(value.scale   == 1);
+  }
+  GIVEN("0.01") {
+    const auto value = xsd::decimal::parse("0.01").value();
+    REQUIRE(value.integer == 1);
+    REQUIRE(value.scale   == 2);
+  }
+  GIVEN("0.001") {
+    const auto value = xsd::decimal::parse("0.001").value();
+    REQUIRE(value.integer == 1);
+    REQUIRE(value.scale   == 3);
+  }
+  GIVEN("0.0001") {
+    const auto value = xsd::decimal::parse("0.0001").value();
+    REQUIRE(value.integer == 1);
+    REQUIRE(value.scale   == 4);
+  }
+}
+
+SCENARIO("parsing literals having leading zeroes in the fraction") {
   GIVEN("1.0") {
     const auto value = xsd::decimal::parse("1.0").value();
     REQUIRE(value.integer == 1);
@@ -58,5 +81,30 @@ SCENARIO("parsing literals with leading zeroes in the scale") {
     const auto value = xsd::decimal::parse("1.002").value();
     REQUIRE(value.integer == 1002);
     REQUIRE(value.scale   == 3);
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SCENARIO("decimal comparisons") {
+  GIVEN("0.0 <=> 0.0") {
+    const xsd::decimal decimal1{{0, 0}}, decimal2{{0, 0}};
+    REQUIRE(decimal1.compare(decimal2) == 0);
+    REQUIRE(decimal2.compare(decimal1) == 0);
+  }
+  GIVEN("0.0 <=> 1.0") {
+    const xsd::decimal decimal1{{0, 0}}, decimal2{{1, 0}};
+    REQUIRE(decimal1.compare(decimal2) == -1);
+    REQUIRE(decimal2.compare(decimal1) == 1);
+  }
+  GIVEN("0.1 <=> 1.0") {
+    const xsd::decimal decimal1{{1, 1}}, decimal2{{1, 0}};
+    REQUIRE(decimal1.compare(decimal2) == -1);
+    REQUIRE(decimal2.compare(decimal1) == 1);
+  }
+  GIVEN("0.1 <=> 0.22") {
+    const xsd::decimal decimal1{{1, 1}}, decimal2{{22, 2}};
+    REQUIRE(decimal1.compare(decimal2) == -1);
+    REQUIRE(decimal2.compare(decimal1) == 1);
   }
 }

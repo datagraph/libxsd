@@ -5,7 +5,9 @@
 
 #include "value.h"
 
-#include <cstdint> /* for std::intmax_t */
+#include <cstddef> /* for std::size_t */
+#include <cstdint> /* for std::intmax_t, std::uint8_t */
+#include <limits>  /* for std::numeric_limits */
 #include <string>  /* for std::to_string() */
 #include <utility> /* for std::pair */
 
@@ -17,9 +19,11 @@ namespace xsd {
 
 class xsd::decimal : public xsd::value {
 public:
+  static constexpr std::size_t max_scale = 18;
+
   struct model_type final {
     std::intmax_t integer;
-    std::intmax_t scale;   /** The number of fractional digits. */
+    std::uint8_t scale;     /** The number of fractional digits. */
   };
   using value_type = model_type;
 
@@ -89,6 +93,8 @@ public:
   const model_type& model() const noexcept {
     return _value;
   }
+
+  int compare(const decimal& other) const noexcept;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

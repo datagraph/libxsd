@@ -12,6 +12,7 @@
 #include <cassert>   /* for assert() */
 #include <cerrno>    /* for errno */
 #include <cinttypes> /* for std::strtoimax() */
+#include <cstdint>   /* for std::intmax_t */
 
 using namespace std::regex_constants;
 using namespace xsd;
@@ -181,4 +182,24 @@ decimal::normalize() noexcept {
 std::string
 decimal::literal() const {
   return ""; // TODO
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int
+decimal::compare(const decimal& other) const noexcept {
+  std::intmax_t value1{value().integer};
+  for (auto i = 0U; i < (max_scale - value().scale); i++) {
+    value1 *= 10;
+  }
+
+  std::intmax_t value2{other.value().integer};
+  for (auto i = 0U; i < (max_scale - other.value().scale); i++) {
+    value2 *= 10;
+  }
+
+  if (value1 != value2) {
+    return (value1 < value2) ? -1 : 1;
+  }
+  return 0; /* the values are equal */
 }
