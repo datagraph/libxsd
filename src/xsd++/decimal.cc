@@ -19,9 +19,10 @@ using namespace xsd;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-constexpr char decimal::name[];
-
-constexpr char decimal::pattern[];
+constexpr decimal::digits_type decimal::max_integer;
+constexpr decimal::scale_type  decimal::max_scale;
+constexpr char                 decimal::name[];
+constexpr char                 decimal::pattern[];
 
 static const std::regex decimal_regex{decimal::pattern};
 
@@ -150,6 +151,8 @@ decimal::parse(const char* literal,
 
   decimal::value_type result;
 
+  result.sign = sign;
+
   if (fraction.compare("0") == 0) {
     result.scale = 0;
   }
@@ -158,15 +161,21 @@ decimal::parse(const char* literal,
     integer.append(fraction);
   }
 
+  if (result.scale > max_scale) {
+    error = std::errc::result_out_of_range;
+    return {};
+  }
+
   errno = 0;
-  result.integer = std::strtoimax(integer.c_str(), nullptr, 10);
+  result.digits = std::strtoimax(integer.c_str(), nullptr, 10); /* always nonnegative */
   if (errno) {
     error.assign(errno, std::generic_category());
     return {};
   }
 
-  if (sign == false) {
-    result.integer = -result.integer;
+  if (result.digits > max_integer) {
+    error = std::errc::result_out_of_range;
+    return {};
   }
 
   return result;
@@ -188,18 +197,24 @@ decimal::literal() const {
 
 int
 decimal::compare(const decimal& other) const noexcept {
-  std::intmax_t value1{value().integer};
-  for (auto i = 0U; i < (max_scale - value().scale); i++) {
+  if (value().sign != other.value().sign) {
+    return !value().sign ? -1 : 1; /* negative always less than nonnegative */
+  }
+
+  auto scale = std::min(max_scale, std::max(value().scale, other.value().scale));
+
+  digits_type value1{value().digits};
+  for (auto i = 0U; i < (scale - value().scale); i++) {
     value1 *= 10;
   }
 
-  std::intmax_t value2{other.value().integer};
-  for (auto i = 0U; i < (max_scale - other.value().scale); i++) {
+  digits_type value2{other.value().digits};
+  for (auto i = 0U; i < (scale - other.value().scale); i++) {
     value2 *= 10;
   }
 
   if (value1 != value2) {
-    return (value1 < value2) ? -1 : 1;
+    return ((value1 < value2) ? -1 : 1) * (value().sign ? 1 : -1);
   }
   return 0; /* the values are equal */
 }

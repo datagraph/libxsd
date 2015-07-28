@@ -19,17 +19,18 @@ namespace xsd {
 
 class xsd::decimal : public xsd::value {
 public:
-  static constexpr std::size_t max_scale = 20; /* 2^64 */
+  using digits_type = std::uintmax_t;
+  using scale_type  = std::uint8_t;
+
+  static constexpr digits_type max_integer = std::numeric_limits<digits_type>::max();
+  static constexpr scale_type  max_scale   = 19; /* safe limit for 2^64 representation */
 
   struct model_type final {
-    std::intmax_t integer;
-    std::uint8_t scale;     /** The number of fractional digits. */
+    digits_type digits;         /** The unsigned integer digits */
+    scale_type scale;           /** The number of fractional digits (0..max_scale) */
+    bool sign;                  /** The sign of the decimal, negative or positive */
   };
   using value_type = model_type;
-
-  bool sign() const noexcept {
-    return (value().integer >= 0);
-  }
 
 protected:
   value_type _value{};
@@ -76,7 +77,7 @@ public:
   decimal() noexcept = default;
 
   decimal(const value_type value) noexcept
-    : _value{value.integer, value.scale} {}
+    : _value{value.digits, value.scale, value.sign} {}
 
   virtual bool normalize() noexcept override;
 
