@@ -19,7 +19,7 @@ namespace xsd {
 
 class xsd::decimal : public xsd::value {
 public:
-  static constexpr std::size_t max_scale = 18;
+  static constexpr std::size_t max_scale = 20; /* 2^64 */
 
   struct model_type final {
     std::intmax_t integer;
