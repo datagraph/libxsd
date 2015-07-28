@@ -27,6 +27,10 @@ public:
   };
   using value_type = model_type;
 
+  bool sign() const noexcept {
+    return (value().integer >= 0);
+  }
+
 protected:
   value_type _value{};
 
