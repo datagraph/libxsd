@@ -23,16 +23,19 @@ SCENARIO("parsing literals representing special values") {
     const auto value = xsd::decimal::parse("0.0").value();
     REQUIRE(value.digits  == 0);
     REQUIRE(value.scale   == 0);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("positive zero (+0.0)") {
     const auto value = xsd::decimal::parse("+0.0").value();
     REQUIRE(value.digits  == 0);
     REQUIRE(value.scale   == 0);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("negative zero (-0.0)") {
     const auto value = xsd::decimal::parse("-0.0").value();
     REQUIRE(value.digits  == 0);
     REQUIRE(value.scale   == 0);
+    REQUIRE(value.sign    == true); // FIXME
   }
 }
 
@@ -43,21 +46,25 @@ SCENARIO("parsing literals having only fractional digits") {
     const auto value = xsd::decimal::parse("0.1").value();
     REQUIRE(value.digits  == 1);
     REQUIRE(value.scale   == 1);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("0.01") {
     const auto value = xsd::decimal::parse("0.01").value();
     REQUIRE(value.digits  == 1);
     REQUIRE(value.scale   == 2);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("0.001") {
     const auto value = xsd::decimal::parse("0.001").value();
     REQUIRE(value.digits  == 1);
     REQUIRE(value.scale   == 3);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("0.0001") {
     const auto value = xsd::decimal::parse("0.0001").value();
     REQUIRE(value.digits  == 1);
     REQUIRE(value.scale   == 4);
+    REQUIRE(value.sign    == true);
   }
 }
 
@@ -66,21 +73,25 @@ SCENARIO("parsing literals having leading zeroes in the fraction") {
     const auto value = xsd::decimal::parse("1.0").value();
     REQUIRE(value.digits  == 1);
     REQUIRE(value.scale   == 0);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("1.2") {
     const auto value = xsd::decimal::parse("1.2").value();
     REQUIRE(value.digits  == 12);
     REQUIRE(value.scale   == 1);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("1.02") {
     const auto value = xsd::decimal::parse("1.02").value();
     REQUIRE(value.digits  == 102);
     REQUIRE(value.scale   == 2);
+    REQUIRE(value.sign    == true);
   }
   GIVEN("1.002") {
     const auto value = xsd::decimal::parse("1.002").value();
     REQUIRE(value.digits  == 1002);
     REQUIRE(value.scale   == 3);
+    REQUIRE(value.sign    == true);
   }
 }
 

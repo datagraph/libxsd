@@ -178,6 +178,10 @@ decimal::parse(const char* literal,
     return {};
   }
 
+  if (result.digits == 0) {
+    result.sign = true; /* zero is always nonnegative */
+  }
+
   return result;
 }
 
