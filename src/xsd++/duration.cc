@@ -28,7 +28,7 @@ static const std::regex duration_regex{duration::pattern};
  */
 static bool
 parse_literal(const char* literal,
-              xsd::duration::model_type& value) {
+              xsd::duration::model_type& /*value*/) {
 
   std::cmatch matches;
   if (!std::regex_match(literal, matches, duration_regex, match_not_null)) {

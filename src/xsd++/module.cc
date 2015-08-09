@@ -8,6 +8,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
 static const char* const module_names[] = {
   "base64",
   "boolean",
@@ -22,3 +23,4 @@ static const char* const module_names[] = {
   "time",
   nullptr
 };
+*/

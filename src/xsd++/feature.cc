@@ -8,6 +8,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
 static const char* const feature_names[] = {
   "ascii",
 #ifndef NDEBUG
@@ -18,3 +19,4 @@ static const char* const feature_names[] = {
 #endif
   nullptr
 };
+*/
