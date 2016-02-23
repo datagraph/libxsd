@@ -207,14 +207,13 @@ datetime::parse(const char* literal,
   time.hour = (time.hour - time.tz_hour) % 24;
   time.minute = (time.minute - time.tz_minute) % 60;
 
-  struct tm tm = {
-    .tm_year = time.year - 1900,
-    .tm_mon  = time.month - 1,
-    .tm_mday = time.day,
-    .tm_hour = time.hour,
-    .tm_min  = time.minute,
-    .tm_sec  = time.second,
-  };
+  struct tm tm{};
+  tm.tm_year = time.year - 1900;
+  tm.tm_mon  = time.month - 1;
+  tm.tm_mday = time.day;
+  tm.tm_hour = time.hour;
+  tm.tm_min  = time.minute;
+  tm.tm_sec  = time.second;
 
   const auto epoch_time = timegm(&tm);
   if (epoch_time == static_cast<time_t>(-1)) {

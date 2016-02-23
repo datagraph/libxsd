@@ -188,14 +188,13 @@ time::parse(const char* literal,
   time.hour = (time.hour - time.tz_hour) % 24;
   time.minute = (time.minute - time.tz_minute) % 60;
 
-  struct tm tm = {
-    .tm_year = 70,
-    .tm_mon  = 0,
-    .tm_mday = 1,
-    .tm_hour = time.hour,
-    .tm_min  = time.minute,
-    .tm_sec  = time.second,
-  };
+  struct tm tm{};
+  tm.tm_year = 70;
+  tm.tm_mon  = 0;
+  tm.tm_mday = 1;
+  tm.tm_hour = time.hour;
+  tm.tm_min  = time.minute;
+  tm.tm_sec  = time.second;
 
   const auto epoch_time = timegm(&tm);
   if (epoch_time == static_cast<time_t>(-1)) {

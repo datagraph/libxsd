@@ -165,11 +165,10 @@ date::parse(const char* literal,
     return {};
   }
 
-  struct tm tm = {
-    .tm_year = time.year - 1900,
-    .tm_mon  = time.month - 1,
-    .tm_mday = time.day,
-  };
+  struct tm tm{};
+  tm.tm_year = time.year - 1900;
+  tm.tm_mon  = time.month - 1;
+  tm.tm_mday = time.day;
 
   const auto epoch_time = timegm(&tm);
   if (epoch_time == static_cast<time_t>(-1)) {
