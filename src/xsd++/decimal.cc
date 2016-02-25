@@ -205,7 +205,7 @@ decimal::compare(const decimal& other) const noexcept {
     return !value().sign ? -1 : 1; /* negative always less than nonnegative */
   }
 
-  auto scale = std::min(max_scale, std::max(value().scale, other.value().scale));
+  const scale_type scale = std::min(max_scale, std::max(value().scale, other.value().scale));
 
   digits_type value1{value().digits};
   for (auto i = 0U; i < (scale - value().scale); i++) {
