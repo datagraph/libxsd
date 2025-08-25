@@ -4,6 +4,7 @@
 #define XSDXX_DATE_H
 
 #include "value.h"
+#include "const.h"
 
 #include <cstdint> /* for std::int64_t */
 
@@ -34,7 +35,7 @@ protected:
 
 public:
   static constexpr char name[]    = "date";
-  static constexpr char pattern[] = "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$";
+  static constexpr char pattern[] = XSD_DATE_PATTERN;
   static constexpr bool captures  = 6;
 
   /**

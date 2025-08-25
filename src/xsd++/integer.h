@@ -4,6 +4,7 @@
 #define XSDXX_INTEGER_H
 
 #include "value.h"
+#include "const.h"
 
 #include <cstdint> /* for std::intmax_t */
 #include <string>  /* for std::to_string() */
@@ -24,7 +25,7 @@ protected:
 
 public:
   static constexpr char name[]    = "integer";
-  static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
+  static constexpr char pattern[] = XSD_INTEGER_PATTERN;
   static constexpr bool captures  = 3;
 
   /**

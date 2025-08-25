@@ -4,6 +4,7 @@
 #define XSDXX_DURATION_H
 
 #include "value.h"
+#include "const.h"
 
 #include <cstdint> /* for std::int64_t */
 
@@ -23,7 +24,7 @@ protected:
 
 public:
   static constexpr char name[]    = "duration";
-  static constexpr char pattern[] = "(.+)$"; // TODO
+  static constexpr char pattern[] = XSD_DURATION_PATTERN;
   static constexpr bool captures  = 1;       // TODO
 
   /**

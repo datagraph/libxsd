@@ -4,6 +4,7 @@
 #define XSDXX_BOOLEAN_H
 
 #include "value.h"
+#include "const.h"
 
 namespace xsd {
   class boolean;
@@ -21,7 +22,7 @@ protected:
 
 public:
   static constexpr char name[]    = "boolean";
-  static constexpr char pattern[] = "^(true|false|1|0)$";
+  static constexpr char pattern[] = XSD_BOOLEAN_PATTERN;
   static constexpr bool captures  = 1;
 
   /**

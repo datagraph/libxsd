@@ -4,6 +4,7 @@
 #define XSDXX_DECIMAL_H
 
 #include "value.h"
+#include "const.h"
 
 #include <cstddef> /* for std::size_t */
 #include <cstdint> /* for std::intmax_t, std::uint8_t */
@@ -37,7 +38,7 @@ protected:
 
 public:
   static constexpr char name[]    = "decimal";
-  static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$";
+  static constexpr char pattern[] = XSD_DECIMAL_PATTERN;
   static constexpr bool captures  = 4;
 
   /**

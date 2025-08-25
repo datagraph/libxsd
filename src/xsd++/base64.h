@@ -4,6 +4,7 @@
 #define XSDXX_BASE64_H
 
 #include "value.h"
+#include "const.h"
 
 namespace xsd {
   class base64;

@@ -4,6 +4,7 @@
 #define XSDXX_STRING_H
 
 #include "value.h"
+#include "const.h"
 
 namespace xsd {
   class string;
@@ -21,7 +22,7 @@ protected:
 
 public:
   static constexpr char name[]    = "string";
-  static constexpr char pattern[] = "^(.*)$";
+  static constexpr char pattern[] = XSD_STRING_PATTERN;
   static constexpr bool captures  = 1;
 
   /**

@@ -4,6 +4,7 @@
 #define XSDXX_FLOAT_H
 
 #include "value.h"
+#include "const.h"
 
 #include <string> /* for std::to_string() */
 
@@ -23,7 +24,7 @@ protected:
 
 public:
   static constexpr char name[]    = "float";
-  static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
+  static constexpr char pattern[] = XSD_FLOAT_PATTERN;
   static constexpr bool captures  = 6;
 
   /**

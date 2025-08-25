@@ -55,7 +55,7 @@
 #define XSD_TIME_PATTERN        "([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$"
 #define XSD_DATE_PATTERN        "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$"
 #define XSD_DATETIME_PATTERN    "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$"
-#define XSD_DURATION_PATTERN    "^(.*)$" // TODO
+#define XSD_DURATION_PATTERN    "^(.+)$" // TODO
 
 #define XSD_STRING_CAPTURES     1
 #define XSD_BOOLEAN_CAPTURES    1
