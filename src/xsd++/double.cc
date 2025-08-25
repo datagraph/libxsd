@@ -78,12 +78,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-double_::validate(const char* literal) noexcept {
+double_::validate(const char* literal) {
   return double_::match(literal);
 }
 
 bool
-double_::match(const char* literal) noexcept {
+double_::match(const char* literal) {
   return *literal != '\0' && std::regex_match(literal, double_regex, match_not_null);
 }
 
@@ -134,7 +134,7 @@ double_::parse(const char* literal) {
 
 double_
 double_::parse(const char* literal,
-               std::error_condition& error) noexcept {
+               std::error_condition& error) {
   model_type value{};
 
   if (!parse_literal(literal, value)) {

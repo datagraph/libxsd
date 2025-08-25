@@ -40,26 +40,26 @@ public:
   /**
    * @copydoc xsd::value::validate(std::string&)
    */
-  static bool validate(const std::string& literal) noexcept {
+  static bool validate(const std::string& literal) {
     return validate(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::validate(const char*)
    */
-  static bool validate(const char* literal) noexcept;
+  static bool validate(const char* literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const std::string& literal) noexcept {
+  static bool match(const std::string& literal) {
     return match(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::match(const char*)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
   static bool canonicalize(std::string& literal);
 
@@ -69,7 +69,7 @@ public:
 
   static date parse(const char* literal);
 
-  static date parse(const char* literal, std::error_condition& error) noexcept;
+  static date parse(const char* literal, std::error_condition& error);
 
   date() noexcept = default;
 

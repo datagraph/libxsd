@@ -54,12 +54,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-integer::validate(const char* literal) noexcept {
+integer::validate(const char* literal) {
   return integer::match(literal);
 }
 
 bool
-integer::match(const char* literal) noexcept {
+integer::match(const char* literal) {
   return std::regex_match(literal, integer_regex, match_not_null);
 }
 
@@ -115,7 +115,7 @@ integer::parse(const char* literal) {
 
 integer
 integer::parse(const char* literal,
-               std::error_condition& error) noexcept {
+               std::error_condition& error) {
   return parse(literal, INTMAX_MIN, INTMAX_MAX, error);
 }
 
@@ -123,7 +123,7 @@ integer
 integer::parse(const char* literal,
                const integer::value_type min_value,
                const integer::value_type max_value,
-               std::error_condition& error) noexcept {
+               std::error_condition& error) {
   bool sign{true};
   std::string integer;
 
