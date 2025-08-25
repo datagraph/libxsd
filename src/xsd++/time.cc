@@ -107,12 +107,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-time::validate(const char* literal) noexcept {
+time::validate(const char* literal) {
   return time::match(literal);
 }
 
 bool
-time::match(const char* literal) noexcept {
+time::match(const char* literal) {
   return std::regex_match(literal, time_regex, match_not_null);
 }
 
@@ -177,7 +177,7 @@ time::parse(const char* literal) {
 
 class time
 time::parse(const char* literal,
-            std::error_condition& error) noexcept {
+            std::error_condition& error) {
   model_type time{};
 
   if (!parse_literal(literal, time)) {

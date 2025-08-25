@@ -21,12 +21,12 @@ static const std::regex base64_regex{base64::pattern};
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-base64::validate(const char* literal) noexcept {
+base64::validate(const char* literal) {
   return base64::match(literal); // TODO: validate ASCII encoding
 }
 
 bool
-base64::match(const char* literal) noexcept {
+base64::match(const char* literal) {
   return std::regex_match(literal, base64_regex, match_not_null);
 }
 
@@ -43,7 +43,7 @@ base64::parse(const char* literal) {
 
 base64
 base64::parse(const char* literal,
-              std::error_condition& error) noexcept {
+              std::error_condition& error) {
   static_cast<void>(error);
   return base64{literal};
 }

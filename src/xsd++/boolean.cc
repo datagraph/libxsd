@@ -23,12 +23,12 @@ static const std::regex boolean_regex{boolean::pattern};
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-boolean::validate(const char* literal) noexcept {
+boolean::validate(const char* literal) {
   return boolean::match(literal);
 }
 
 bool
-boolean::match(const char* literal) noexcept {
+boolean::match(const char* literal) {
   return std::regex_match(literal, boolean_regex, match_not_null);
 }
 
@@ -71,7 +71,7 @@ boolean::parse(const char* literal) {
 
 boolean
 boolean::parse(const char* literal,
-               std::error_condition& error) noexcept {
+               std::error_condition& error) {
   if (!match(literal)) {
     error = std::errc::invalid_argument;
     return boolean{false};

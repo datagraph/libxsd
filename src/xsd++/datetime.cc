@@ -126,12 +126,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-datetime::validate(const char* literal) noexcept {
+datetime::validate(const char* literal) {
   return datetime::match(literal);
 }
 
 bool
-datetime::match(const char* literal) noexcept {
+datetime::match(const char* literal) {
   return std::regex_match(literal, datetime_regex, match_not_null);
 }
 
@@ -196,7 +196,7 @@ datetime::parse(const char* literal) {
 
 datetime
 datetime::parse(const char* literal,
-               std::error_condition& error) noexcept {
+                std::error_condition& error) {
   model_type time{};
 
   if (!parse_literal(literal, time)) {

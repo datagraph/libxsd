@@ -43,19 +43,19 @@ public:
   /**
    * @copydoc xsd::value::validate(std::string&)
    */
-  static bool validate(const std::string& literal) noexcept {
+  static bool validate(const std::string& literal) {
     return validate(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::validate(const char*)
    */
-  static bool validate(const char* literal) noexcept;
+  static bool validate(const char* literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const std::string& literal) noexcept {
+  static bool match(const std::string& literal) {
     return match(literal.c_str());
   }
 
@@ -67,16 +67,16 @@ public:
 
   static decimal parse(const char* literal);
 
-  static decimal parse(const char* literal, std::error_condition& error) noexcept;
+  static decimal parse(const char* literal, std::error_condition& error);
 
   /**
    * @copydoc xsd::value::match(const char*)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
-  decimal() noexcept = default;
+  decimal() = default;
 
-  decimal(const value_type value) noexcept
+  decimal(const value_type value)
     : _value{value.digits, value.scale, value.sign} {}
 
   virtual bool normalize() noexcept override;
