@@ -68,4 +68,14 @@
 #define XSD_DATETIME_CAPTURES   10 // wrong and used
 #define XSD_DURATION_CAPTURES   1 // wrong and used
 
+/*
+ * dydrad's term_record::construct() only uses:
+ *   - xsd_boolean_validate(),
+ *   - xsd_int64_value(),
+ *   - xsd::decimal::parse(),
+ *   - xsd_float_value(),
+ *   - xsd_double_value()
+ * so for now we do not care about the others... (20250826 mgr)
+ */
+
 #endif /* XSDXX_CONST_H */
