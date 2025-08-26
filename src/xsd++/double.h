@@ -25,7 +25,7 @@ protected:
 public:
   static constexpr char name[]    = "double";
   static constexpr char pattern[] = XSD_DOUBLE_PATTERN;
-  static constexpr bool captures  = 6;
+  static constexpr bool captures  = XSD_DOUBLE_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)

@@ -25,7 +25,7 @@ protected:
 public:
   static constexpr char name[]    = "duration";
   static constexpr char pattern[] = XSD_DURATION_PATTERN;
-  static constexpr bool captures  = 1;       // TODO
+  static constexpr bool captures  = XSD_DURATION_CAPTURES;       // TODO
 
   /**
    * @copydoc xsd::value::validate(std::string&)

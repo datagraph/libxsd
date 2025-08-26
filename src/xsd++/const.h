@@ -66,6 +66,6 @@
 #define XSD_TIME_CAPTURES       6
 #define XSD_DATE_CAPTURES       6
 #define XSD_DATETIME_CAPTURES   10
-#define XSD_DURATION_CAPTURES   0
+#define XSD_DURATION_CAPTURES   1
 
 #endif /* XSDXX_CONST_H */

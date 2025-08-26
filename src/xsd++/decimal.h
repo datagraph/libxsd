@@ -39,7 +39,7 @@ protected:
 public:
   static constexpr char name[]    = "decimal";
   static constexpr char pattern[] = XSD_DECIMAL_PATTERN;
-  static constexpr bool captures  = 4;
+  static constexpr bool captures  = XSD_DECIMAL_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)

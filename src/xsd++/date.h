@@ -36,7 +36,7 @@ protected:
 public:
   static constexpr char name[]    = "date";
   static constexpr char pattern[] = XSD_DATE_PATTERN;
-  static constexpr bool captures  = 6;
+  static constexpr bool captures  = XSD_DATE_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)

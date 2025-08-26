@@ -23,7 +23,7 @@ protected:
 public:
   static constexpr char name[]    = "boolean";
   static constexpr char pattern[] = XSD_BOOLEAN_PATTERN;
-  static constexpr bool captures  = 1;
+  static constexpr bool captures  = XSD_BOOLEAN_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)

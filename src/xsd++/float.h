@@ -25,7 +25,7 @@ protected:
 public:
   static constexpr char name[]    = "float";
   static constexpr char pattern[] = XSD_FLOAT_PATTERN;
-  static constexpr bool captures  = 6;
+  static constexpr bool captures  = XSD_FLOAT_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)
