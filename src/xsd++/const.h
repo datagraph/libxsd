@@ -46,26 +46,26 @@
 #define XSD_DATETIME_URI        XSD_BASE_URI XSD_DATETIME
 #define XSD_DURATION_URI        XSD_BASE_URI XSD_DURATION
 
-#define XSD_STRING_PATTERN      "^(.*)$"
-#define XSD_BOOLEAN_PATTERN     "^(true|false|1|0)$"
-#define XSD_DECIMAL_PATTERN     "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$"
-#define XSD_INTEGER_PATTERN     "^([-+])?0*([0-9]+)$"
-#define XSD_FLOAT_PATTERN       "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$"
+#define XSD_STRING_PATTERN      "^(.*)$" // 1 group -> 2 captures
+#define XSD_BOOLEAN_PATTERN     "^(true|false|1|0)$" // 1 group -> 2 captures
+#define XSD_DECIMAL_PATTERN     "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$" // 3 groups -> 4 captures
+#define XSD_INTEGER_PATTERN     "^([-+])?0*([0-9]+)$" // 2 groups -> 3 captures
+#define XSD_FLOAT_PATTERN       "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$" // 5  groups -> 6 captures
 #define XSD_DOUBLE_PATTERN      XSD_FLOAT_PATTERN
-#define XSD_TIME_PATTERN        "([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$"
-#define XSD_DATE_PATTERN        "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$"
-#define XSD_DATETIME_PATTERN    "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$"
-#define XSD_DURATION_PATTERN    "^(.+)$" // TODO
+#define XSD_TIME_PATTERN        "([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 6 groups -> 7 captures
+#define XSD_DATE_PATTERN        "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 6 groups -> 7 captures
+#define XSD_DATETIME_PATTERN    "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 10 groups -> 11 captures
+#define XSD_DURATION_PATTERN    "^(.+)$" // TODO // 1 group -> 2 captures
 
-#define XSD_STRING_CAPTURES     1
-#define XSD_BOOLEAN_CAPTURES    1
-#define XSD_DECIMAL_CAPTURES    4
-#define XSD_INTEGER_CAPTURES    3
-#define XSD_FLOAT_CAPTURES      6
-#define XSD_DOUBLE_CAPTURES     XSD_FLOAT_CAPTURES
-#define XSD_TIME_CAPTURES       6
-#define XSD_DATE_CAPTURES       6
-#define XSD_DATETIME_CAPTURES   10
-#define XSD_DURATION_CAPTURES   1
+#define XSD_STRING_CAPTURES     1 // wrong but not used
+#define XSD_BOOLEAN_CAPTURES    1 // wrong but not used
+#define XSD_DECIMAL_CAPTURES    4 // correct and used
+#define XSD_INTEGER_CAPTURES    3 // correct and used
+#define XSD_FLOAT_CAPTURES      6 // correct and not used
+#define XSD_DOUBLE_CAPTURES     XSD_FLOAT_CAPTURES // correct and not used
+#define XSD_TIME_CAPTURES       6 // wrong and used
+#define XSD_DATE_CAPTURES       6 // wrong and used
+#define XSD_DATETIME_CAPTURES   10 // wrong and used
+#define XSD_DURATION_CAPTURES   1 // wrong and used
 
 #endif /* XSDXX_CONST_H */
