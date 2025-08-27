@@ -46,13 +46,21 @@
 #define XSD_DATETIME_URI        XSD_BASE_URI XSD_DATETIME
 #define XSD_DURATION_URI        XSD_BASE_URI XSD_DURATION
 
+/* regular expressions from:
+   W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes
+   W3C Recommendation 5 April 2012
+   decimal: (\+|-)?([0-9]+(\.[0-9]*)?|\.[0-9]+)
+   float:   (\+|-)?([0-9]+(\.[0-9]*)?|\.[0-9]+)([Ee](\+|-)?[0-9]+)?|(\+|-)?INF|NaN
+   decimal: identical to float
+*/
+
 #define XSD_STRING_PATTERN      "^(.*)$" // 1 group -> 2 captures
 #define XSD_BOOLEAN_PATTERN     "^(true|false|1|0)$" // 1 group -> 2 captures
 //#define XSD_DECIMAL_PATTERN   "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$" // 3 groups -> 4 captures
-#define XSD_DECIMAL_PATTERN     "^([-+])?0*([0-9]*)(?:\\.([0-9]+)0*)?$" // 3 groups -> 4 captures
+#define XSD_DECIMAL_PATTERN     "^([-+])?0*([0-9]*)(?:\\.([0-9]*)0*)?$" // 3 groups -> 4 captures
 #define XSD_INTEGER_PATTERN     "^([-+])?0*([0-9]+)$" // 2 groups -> 3 captures
 //#define XSD_FLOAT_PATTERN     "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$" // 5  groups -> 6 captures
-#define XSD_FLOAT_PATTERN       "^([-+])?0*([0-9]*)(?:\\.([0-9]+)0*)?(?:[Ee]([-+])?0*([0-9]+)0*)?$" // 5  groups -> 6 captures
+#define XSD_FLOAT_PATTERN       "^([-+])?0*([0-9]*)(?:\\.([0-9]*)0*)?(?:[Ee]([-+])?0*([0-9]+)0*)?$" // 5  groups -> 6 captures
 #define XSD_DOUBLE_PATTERN      XSD_FLOAT_PATTERN
 #define XSD_TIME_PATTERN        "([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 6 groups -> 7 captures
 #define XSD_DATE_PATTERN        "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 6 groups -> 7 captures
