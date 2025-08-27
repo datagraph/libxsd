@@ -57,10 +57,10 @@
 #define XSD_STRING_PATTERN      "^(.*)$" // 1 group -> 2 captures
 #define XSD_BOOLEAN_PATTERN     "^(true|false|1|0)$" // 1 group -> 2 captures
 //#define XSD_DECIMAL_PATTERN   "^([-+])?0*([0-9]*)\\.?(0*[1-9]*)0*$" // 3 groups -> 4 captures
-#define XSD_DECIMAL_PATTERN     "^([-+])?0*([0-9]*)(?:\\.([0-9]*)0*)?$" // 3 groups -> 4 captures
+#define XSD_DECIMAL_PATTERN     "^([-+])?(?|0*([0-9]+)(?:\\.([0-9]*)0*)?|0*([0-9]*)\\.([0-9]+0*))$" // 3 groups -> 4 captures
 #define XSD_INTEGER_PATTERN     "^([-+])?0*([0-9]+)$" // 2 groups -> 3 captures
 //#define XSD_FLOAT_PATTERN     "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$" // 5  groups -> 6 captures
-#define XSD_FLOAT_PATTERN       "^([-+])?0*([0-9]*)(?:\\.([0-9]*)0*)?(?:[Ee]([-+])?0*([0-9]+)0*)?$" // 5  groups -> 6 captures
+#define XSD_FLOAT_PATTERN       "^([-+])?(?|0*([0-9]+)(?:\\.([0-9]*)0*)?|0*([0-9]*)\\.([0-9]+0*))(?:[Ee]([-+])?0*([0-9]+)0*)?$" // 5  groups -> 6 captures
 #define XSD_DOUBLE_PATTERN      XSD_FLOAT_PATTERN
 #define XSD_TIME_PATTERN        "([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 6 groups -> 7 captures
 #define XSD_DATE_PATTERN        "^(-)?([0-9]{4})-([0-9]{2})-([0-9]{2})(Z|([-+][0-9]{2}:[0-9]{2}))?$" // 6 groups -> 7 captures
