@@ -45,12 +45,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-duration::validate(const char* literal) noexcept {
+duration::validate(const char* literal) {
   return duration::match(literal);
 }
 
 bool
-duration::match(const char* literal) noexcept {
+duration::match(const char* literal) {
   return std::regex_match(literal, duration_regex, match_not_null);
 }
 
@@ -96,7 +96,7 @@ duration::parse(const char* literal) {
 
 duration
 duration::parse(const char* literal,
-                std::error_condition& error) noexcept {
+                std::error_condition& error) {
   model_type value{};
 
   if (!parse_literal(literal, value)) {

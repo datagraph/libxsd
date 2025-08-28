@@ -4,6 +4,7 @@
 #define XSDXX_TIME_H
 
 #include "value.h"
+#include "const.h"
 
 #include <cstdint> /* for std::int64_t */
 
@@ -35,32 +36,32 @@ protected:
 
 public:
   static constexpr char name[]    = "time";
-  static constexpr char pattern[] = "([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.[0-9]+)?(Z|([-+][0-9]{2}:[0-9]{2}))?$";
-  static constexpr bool captures  = 6;
+  static constexpr char pattern[] = XSD_TIME_PATTERN;
+  static constexpr bool captures  = XSD_TIME_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)
    */
-  static bool validate(const std::string& literal) noexcept {
+  static bool validate(const std::string& literal) {
     return validate(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::validate(const char*)
    */
-  static bool validate(const char* literal) noexcept;
+  static bool validate(const char* literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const std::string& literal) noexcept {
+  static bool match(const std::string& literal) {
     return match(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::match(const char*)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
   static bool canonicalize(std::string& literal);
 
@@ -70,11 +71,11 @@ public:
 
   static time parse(const char* literal);
 
-  static time parse(const char* literal, std::error_condition& error) noexcept;
+  static time parse(const char* literal, std::error_condition& error);
 
-  time() noexcept = default;
+  time() = default;
 
-  time(const value_type value) noexcept
+  time(const value_type value)
     : _value{value} {}
 
   virtual bool normalize() noexcept override;

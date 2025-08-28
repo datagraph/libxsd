@@ -78,12 +78,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-float_::validate(const char* literal) noexcept {
+float_::validate(const char* literal) {
   return float_::match(literal);
 }
 
 bool
-float_::match(const char* literal) noexcept {
+float_::match(const char* literal) {
   return *literal != '\0' && std::regex_match(literal, float_regex, match_not_null);
 }
 
@@ -134,7 +134,7 @@ float_::parse(const char* literal) {
 
 float_
 float_::parse(const char* literal,
-              std::error_condition& error) noexcept {
+              std::error_condition& error) {
   model_type value{};
 
   if (!parse_literal(literal, value)) {

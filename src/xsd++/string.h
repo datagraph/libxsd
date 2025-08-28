@@ -4,6 +4,7 @@
 #define XSDXX_STRING_H
 
 #include "value.h"
+#include "const.h"
 
 namespace xsd {
   class string;
@@ -21,32 +22,32 @@ protected:
 
 public:
   static constexpr char name[]    = "string";
-  static constexpr char pattern[] = "^(.*)$";
-  static constexpr bool captures  = 1;
+  static constexpr char pattern[] = XSD_STRING_PATTERN;
+  static constexpr bool captures  = XSD_STRING_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)
    */
-  static bool validate(const std::string& literal) noexcept {
+  static bool validate(const std::string& literal) {
     return validate(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::validate(const char*)
    */
-  static bool validate(const char* literal) noexcept;
+  static bool validate(const char* literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const std::string& literal) noexcept {
+  static bool match(const std::string& literal) {
     return match(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::match(const char*)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
   static bool canonicalize(std::string& literal);
 
@@ -56,7 +57,7 @@ public:
 
   static string parse(const char* literal);
 
-  static string parse(const char* literal, std::error_condition& error) noexcept;
+  static string parse(const char* literal, std::error_condition& error);
 
   string() = default;
 
