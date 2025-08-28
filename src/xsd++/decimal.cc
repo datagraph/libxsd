@@ -74,12 +74,12 @@ parse_literal(const char* literal,
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-decimal::validate(const char* literal) noexcept {
+decimal::validate(const char* literal) {
   return decimal::match(literal);
 }
 
 bool
-decimal::match(const char* literal) noexcept {
+decimal::match(const char* literal) {
   return *literal != '\0' && std::regex_match(literal, decimal_regex, match_not_null);
 }
 
@@ -140,7 +140,7 @@ decimal::parse(const char* literal) {
 
 decimal
 decimal::parse(const char* literal,
-               std::error_condition& error) noexcept {
+               std::error_condition& error) {
   bool sign{true};
   std::string integer, fraction;
 

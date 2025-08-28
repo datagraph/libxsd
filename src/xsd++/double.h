@@ -4,6 +4,7 @@
 #define XSDXX_DOUBLE_H
 
 #include "value.h"
+#include "const.h"
 
 #include <string> /* for std::to_string() */
 
@@ -23,32 +24,32 @@ protected:
 
 public:
   static constexpr char name[]    = "double";
-  static constexpr char pattern[] = "^([-+])?0*([0-9]*)\\.?(0*[0-9]*)0*[Ee]?([-+])?0*([0-9]*)?$";
-  static constexpr bool captures  = 6;
+  static constexpr char pattern[] = XSD_DOUBLE_PATTERN;
+  static constexpr bool captures  = XSD_DOUBLE_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)
    */
-  static bool validate(const std::string& literal) noexcept {
+  static bool validate(const std::string& literal) {
     return validate(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::validate(const char*)
    */
-  static bool validate(const char* literal) noexcept;
+  static bool validate(const char* literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const std::string& literal) noexcept {
+  static bool match(const std::string& literal) {
     return match(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::match(const char*)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
   static bool canonicalize(std::string& literal);
 
@@ -58,17 +59,17 @@ public:
 
   static double_ parse(const char* literal);
 
-  static double_ parse(const char* literal, std::error_condition& error) noexcept;
+  static double_ parse(const char* literal, std::error_condition& error);
 
-  double_() noexcept = default;
+  double_() = default;
 
-  double_(const float value) noexcept
+  double_(const float value)
     : _value{value} {}
 
-  double_(const double value) noexcept
+  double_(const double value)
     : _value{value} {}
 
-  double_(const long double value) noexcept
+  double_(const long double value)
     : _value{static_cast<double>(value)} {}
 
   virtual bool normalize() noexcept override;

@@ -4,6 +4,7 @@
 #define XSDXX_INTEGER_H
 
 #include "value.h"
+#include "const.h"
 
 #include <cstdint> /* for std::intmax_t */
 #include <string>  /* for std::to_string() */
@@ -24,32 +25,32 @@ protected:
 
 public:
   static constexpr char name[]    = "integer";
-  static constexpr char pattern[] = "^([-+])?0*([0-9]+)$";
-  static constexpr bool captures  = 3;
+  static constexpr char pattern[] = XSD_INTEGER_PATTERN;
+  static constexpr bool captures  = XSD_INTEGER_CAPTURES;
 
   /**
    * @copydoc xsd::value::validate(std::string&)
    */
-  static bool validate(const std::string& literal) noexcept {
+  static bool validate(const std::string& literal) {
     return validate(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::validate(const char*)
    */
-  static bool validate(const char* literal) noexcept;
+  static bool validate(const char* literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const std::string& literal) noexcept {
+  static bool match(const std::string& literal) {
     return match(literal.c_str());
   }
 
   /**
    * @copydoc xsd::value::match(const char*)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
   static bool canonicalize(std::string& literal);
 
@@ -59,16 +60,16 @@ public:
 
   static integer parse(const char* literal);
 
-  static integer parse(const char* literal, std::error_condition& error) noexcept;
+  static integer parse(const char* literal, std::error_condition& error);
 
   static integer parse(const char* literal,
     value_type min_value,
     value_type max_value,
-    std::error_condition& error) noexcept;
+    std::error_condition& error);
 
-  integer() noexcept = default;
+  integer() = default;
 
-  integer(const value_type value) noexcept
+  integer(const value_type value)
     : _value{value} {}
 
   virtual bool normalize() noexcept override;

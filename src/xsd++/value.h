@@ -23,12 +23,12 @@ public:
   /**
    * @param literal
    */
-  static bool match(const std::string& literal) noexcept;
+  static bool match(const std::string& literal);
 
   /**
    * @copydoc xsd::value::match(std::string&)
    */
-  static bool match(const char* literal) noexcept;
+  static bool match(const char* literal);
 
   /**
    * ...

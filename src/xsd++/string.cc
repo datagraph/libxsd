@@ -21,12 +21,12 @@ static const std::regex string_regex{string::pattern};
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-string::validate(const char* literal) noexcept {
+string::validate(const char* literal) {
   return string::match(literal); // TODO: validate ASCII/UTF-8 encoding
 }
 
 bool
-string::match(const char* literal) noexcept {
+string::match(const char* literal) {
   return std::regex_match(literal, string_regex, match_default);
 }
 
@@ -43,7 +43,7 @@ string::parse(const char* literal) {
 
 string
 string::parse(const char* literal,
-              std::error_condition& error) noexcept {
+              std::error_condition& error) {
   static_cast<void>(error);
   return string{literal};
 }
